@@ -1,0 +1,17 @@
+﻿@using System
+@using TheGateService.Endpoints
+@using TheGateService.Extensions
+@using TheGateService.Types
+@inherits ViewPage<TheGateService.Types.HomePage>
+
+@{
+    ViewBag.Title = "The Gate";
+    Layout = "MainLayout";
+}
+
+<h3>Featured!</h3>
+<ul>
+    @foreach (var p in ProductService.SampleProducts.GetRandomRange(3)) {
+        <li>@p.Name | $@p.Price</li>
+    }
+</ul>

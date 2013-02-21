@@ -1,0 +1,14 @@
+using System;
+
+using TheGateService.Types;
+
+namespace TheGateService.Responses {
+    public class HomePageResponse : ResponseBase {
+        public HomePage HomePage { get; set; }
+        public HomePageResponse() { }
+
+        public HomePageResponse(HomePage page) {
+            HomePage = page;
+        }
+    }
+}

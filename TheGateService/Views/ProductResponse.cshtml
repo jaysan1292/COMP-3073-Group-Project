@@ -1,0 +1,12 @@
+﻿@inherits ViewPage<TheGateService.Responses.ProductResponse>
+
+@{
+    ViewBag.Title = @Model.Product.Name;
+    Layout = "MainLayout";
+}
+
+<h2>@Model.Product.Name</h2>
+
+<h3>$@Model.Product.Price</h3>
+
+<p>@Model.Product.Description</p>

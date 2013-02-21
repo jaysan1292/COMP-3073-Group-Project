@@ -1,0 +1,24 @@
+﻿@inherits ViewPage<TheGateService.Responses.ProductsResponse>
+
+@{
+    ViewBag.Title = "All Products";
+    Layout = "MainLayout";
+}
+<h1>@ViewBag.Title</h1>
+
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Price</th>
+        <th>Link</th>
+    </tr>
+    @foreach (var product in @Model.Results) {
+        <tr>
+            <td>@product.Name</td>
+            <td>@product.Description</td>
+            <td>$@product.Price</td>
+            <td><a href="/products/@product.Id">Link</a></td>
+        </tr>
+    }
+</table>
