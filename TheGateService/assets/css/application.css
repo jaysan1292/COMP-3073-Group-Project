@@ -6,14 +6,22 @@ footer {
     background-color: #eee;
     border-top: 1px solid #ccc;
     height: 250px;
+    margin-top: 25px;
     padding-top: 10px;
     text-align: center;
-    margin-top: 25px;
 }
 
-#all-products-row { margin-bottom: 10px; }
+.all-products-row {
+    border-bottom: 1px solid #eee;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+}
 
-#all-products-row img { padding-right: 10px; }
+.all-products-row:last-of-type {
+    border-bottom: none;
+}
+
+.all-products-row img { padding-right: 10px; }
 
 .product-name { margin-top: 0; }
 
