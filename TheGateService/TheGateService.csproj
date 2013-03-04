@@ -129,6 +129,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Endpoints\CssService.cs" />
     <Compile Include="Responses\HomePageResponse.cs" />
     <Compile Include="Endpoints\HomePageService.cs" />
     <Compile Include="Endpoints\ProductsService.cs" />

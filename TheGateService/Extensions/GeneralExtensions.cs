@@ -4,9 +4,12 @@
 // Author: Jason Recillo
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+
+using JetBrains.Annotations;
 
 namespace TheGateService.Extensions {
     public static class GeneralExtensions {
@@ -26,9 +29,13 @@ namespace TheGateService.Extensions {
             var items = enumerable.Shuffle().ToArray();
             var total = items.Length;
 
-            for (var i = 0; i < count && i < total; i++) {
+            for (var i = 0; i < count && i < total; i++) 
                 yield return items[i];
-            }
+        }
+
+        [DebuggerHidden, StringFormatMethod("str")]
+        public static string F(this string str, params object[] args) {
+            return string.Format(str, args);
         }
     }
 }
