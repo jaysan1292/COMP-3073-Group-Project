@@ -1,11 +1,26 @@
-﻿@inherits ViewPage<TheGateService.Responses.ProductsResponse>
+﻿@using TheGateService.Extensions
+@inherits ViewPage<TheGateService.Responses.ProductsResponse>
 
 @{
     ViewBag.Title = "All Products";
     Layout = "MainLayout";
 }
-<h1>@ViewBag.Title</h1>
+@*<h1>@ViewBag.Title</h1>*@
 
+@foreach (var product in @Model.Results) {
+    <div class="row-fluid" id="all-products-row">
+        <div class="span2">
+            <img src="http://placehold.it/100x100" alt="" width="100" height="100" class="pull-left"/>
+        </div>
+        <div class="span8">
+            <h4 class="product-name"><a href="@Url.Content("~/products/{0}".F(@product.Id))" class="product-link">@product.Name</a></h4>
+            <p>@product.Description</p>
+        </div>
+        <div class="span2 product-price"><h4>$@product.Price</h4></div>            
+    </div>
+}
+
+@*
 <table>
     <tr>
         <th>Name</th>
@@ -22,3 +37,4 @@
         </tr>
     }
 </table>
+*@

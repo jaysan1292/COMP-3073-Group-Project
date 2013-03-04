@@ -1,7 +1,9 @@
 ﻿@using System
+@using System.Collections
+@using System.Collections.Generic
+@using System.Linq
 @using TheGateService.Endpoints
 @using TheGateService.Extensions
-@using TheGateService.Types
 @inherits ViewPage<TheGateService.Types.HomePage>
 
 @{
@@ -9,9 +11,34 @@
     Layout = "MainLayout";
 }
 
-<h3>Featured!</h3>
-<ul>
-    @foreach (var p in ProductService.SampleProducts.GetRandomRange(3)) {
-        <li>@p.Name | $@p.Price</li>
-    }
-</ul>
+<h2>What's Hot</h2>
+<div id="featuredCarousel" class="carousel slide">
+    <ol class="carousel-indicators">
+        <li data-target="#featuredCarousel" data-slide-to="0" class="active"></li>
+        <li data-target="#featuredCarousel" data-slide-to="1"></li>
+        <li data-target="#featuredCarousel" data-slide-to="2"></li>
+    </ol>
+    @* Carousel items *@
+    <div class="carousel-inner">
+        @{ var products = ProductService.SampleProducts.GetRandomRange(3).ToList(); }
+        @foreach (var p in products) {
+            <div class="item @(products.IndexOf(p) == 0 ? "active" : "")">
+                <a href="@Url.Content("~/products/{0}".F(p.Id))"><img src="http://placehold.it/700x500" alt=""/></a>
+                <div class="carousel-caption">
+                    <h4>@p.Name</h4>
+                    <p>
+                        @p.Description
+                    </p>
+                </div>
+            </div>
+        }
+    </div>
+    @* Carousel navigation *@
+    <a class="carousel-control left" href="#featuredCarousel" data-slide="prev">&lsaquo;</a>
+    <a class="carousel-control right" href="#featuredCarousel" data-slide="next">&rsaquo;</a>
+</div>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#featuredCarousel').carousel('cycle');
+    })
+</script>

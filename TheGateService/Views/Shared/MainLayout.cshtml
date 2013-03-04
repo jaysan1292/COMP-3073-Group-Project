@@ -1,18 +1,36 @@
-﻿<!DOCTYPE html>
-<html lang="en-us">
+﻿@using System
+@using System.Collections
+@using System.Collections.Generic
+@using System.Linq
+<!DOCTYPE html>
+<html lang="en">
     <head>
         <title>@ViewBag.Title</title>
-        <link href="@Url.Content("~/css/GitHub2.css")" rel="stylesheet"></link>
-        <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+        <link href="@Url.Content("~/assets/css/minified.css")" rel="stylesheet"></link>
+        <script src="http://code.jquery.com/jquery-1.9.1.min.js"> </script>
+@*        <style type="text/css">*@
+@*            /* Debug border for bootstrap rows/spans */*@
+@*            .container, .container-fluid, .row, .row-fluid,*@
+@*            .span1, .span2, .span3, .span4,*@
+@*            .span5, .span6, .span7, .span8,*@
+@*            .span9, .span10, .span11, .span12 { box-shadow: inset 0 0 1px red; }*@
+@*        </style>*@
     </head>
     <body>
-        <div id="header">
-            @Html.Partial("Header")
-        </div>
-        <div id="body">
-            <div id="content">
-                @RenderBody()
+        <div class="container">
+            <div class="row">
+                @Html.Partial("Header")
+                <div id="sidebar" class="span3">
+                    @Html.Partial("Sidebar")
+                </div>
+                <div id="body" class="span9">
+                    <div id="content">
+                        @RenderBody()
+                    </div>
+                </div>
             </div>
         </div>
+        @Html.Partial("Footer")
+        <script src="@Url.Content("~/assets/js/bootstrap.min.js")"> </script>
     </body>
 </html>

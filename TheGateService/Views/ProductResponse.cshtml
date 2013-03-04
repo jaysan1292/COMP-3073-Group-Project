@@ -1,12 +1,20 @@
-﻿@inherits ViewPage<TheGateService.Responses.ProductResponse>
+﻿@using System
+@using System.Collections
+@using System.Collections.Generic
+@using System.Linq
+@inherits ViewPage<TheGateService.Responses.ProductResponse>
 
 @{
     ViewBag.Title = @Model.Product.Name;
     Layout = "MainLayout";
 }
-
 <h2>@Model.Product.Name</h2>
-
-<h3>$@Model.Product.Price</h3>
-
-<p>@Model.Product.Description</p>
+<div class="row-fluid">
+    <div class="span4">
+        <img src="http://placehold.it/400x400" alt=""/>
+    </div>
+    <div class="span8">
+        <h3>$@Model.Product.Price</h3>
+        <p>@Model.Product.Description</p>
+    </div>
+</div>
