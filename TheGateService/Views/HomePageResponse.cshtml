@@ -9,6 +9,7 @@
 @{
     ViewBag.Title = "The Gate";
     Layout = "MainLayout";
+    var products = ProductService.SampleProducts.Shuffle().ToList();
 }
 
 <h2>What's Hot</h2>
@@ -20,9 +21,9 @@
     </ol>
     @* Carousel items *@
     <div class="carousel-inner">
-        @{ var products = ProductService.SampleProducts.GetRandomRange(3).ToList(); }
-        @foreach (var p in products) {
-            <div class="item @(products.IndexOf(p) == 0 ? "active" : "")">
+        @{ var featuredProducts = products.GetRange(0, 3); }
+        @foreach (var p in featuredProducts) {
+            <div class="item @(featuredProducts.IndexOf(p) == 0 ? "active" : "")">
                 <a href="@Url.Content("~/products/{0}".F(p.Id))"><img src="http://placehold.it/700x500" alt=""/></a>
                 <div class="carousel-caption">
                     <h4>@p.Name</h4>
@@ -37,8 +38,14 @@
     <a class="carousel-control left" href="#featuredCarousel" data-slide="prev">&lsaquo;</a>
     <a class="carousel-control right" href="#featuredCarousel" data-slide="next">&rsaquo;</a>
 </div>
-<script type="text/javascript">
-    $(document).ready(function() {
-        $('#featuredCarousel').carousel('cycle');
-    })
-</script>
+@{ var moreProducts = products.GetRange(3, 6); }
+@foreach (var p in moreProducts) {
+    @* TODO: More products below carousel slideshow *@
+}
+@section ScriptFooter {
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#featuredCarousel').carousel('cycle');
+        })
+    </script>
+}

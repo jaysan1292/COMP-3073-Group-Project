@@ -31,6 +31,7 @@
             </div>
         </div>
         @Html.Partial("Footer")
+        @RenderSection("ScriptFooter", required: false)
         <script src="@Url.Content("~/assets/js/bootstrap.min.js")"> </script>
     </body>
 </html>
