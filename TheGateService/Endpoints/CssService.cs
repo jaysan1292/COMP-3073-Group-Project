@@ -18,14 +18,14 @@ using ServiceStack.ServiceInterface;
 using TheGateService.Extensions;
 
 namespace TheGateService.Endpoints {
-    [Route("/assets/css/minified.css")]
+    [Route("/assets/css/app.css")]
     public class Css { }
 
     /// <summary>
     /// Concatenates CSS files together and minifies/compresses them. The minified 
     /// output can be reached at ~/assets/css/minified.css. To return non-minified 
     /// output, append '?minify=0' to the end of the request URL. 
-    /// (i.e., http://localhost:3073/assets/css/minified.css?minify=0)
+    /// (i.e., http://localhost:3073/assets/css/app.css?minify=0)
     /// </summary>
     public class CssService : Service {
         // The base path where all of the CSS files are stored
