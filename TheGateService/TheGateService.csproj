@@ -123,15 +123,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="assets\css\application.css" />
+    <Content Include="assets\css\app.css.d\01-application.css" />
     <Content Include="assets\css\bootstrap-responsive.css" />
-    <Content Include="assets\css\bootstrap.css" />
+    <Content Include="assets\css\app.css.d\00-bootstrap.css" />
     <Content Include="assets\css\GitHub2.css" />
     <Content Include="assets\css\markdown.css" />
     <Content Include="assets\img\glyphicons-halflings-white.png" />
     <Content Include="assets\img\glyphicons-halflings.png" />
-    <Content Include="assets\js\application.js" />
-    <Content Include="assets\js\bootstrap.js" />
+    <Content Include="assets\js\app.js.d\00-application.js" />
+    <Content Include="assets\js\app.js.d\01-bootstrap.js" />
     <Content Include="Global.asax" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">

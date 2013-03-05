@@ -27,6 +27,8 @@ using TheGateService.Utilities;
  * signatures determine the type of request), it doesn't
  * appear to be possible to abstract things in that way.
  * 
+ * For more information, see the docs for CssService.cs.
+ * 
  * - Jason
  */
 
@@ -35,14 +37,9 @@ namespace TheGateService.Endpoints {
     public class Javascript { }
 
     public class JsService : Service {
-        private const string JsBasePath = "~/assets/js/";
+        private const string JsBasePath = "~/assets/js/app.js.d";
 
-        private static readonly List<string> JsFiles = new List<string> {
-            "application.js",
-            "bootstrap.js",
-        };
-
-        private static readonly Dictionary<string, DateTime> ModificationTimes = new Dictionary<string, DateTime>(JsFiles.Count);
+        private static readonly Dictionary<string, DateTime> ModificationTimes = new Dictionary<string, DateTime>();
 
         public object Get(Javascript unused) {
             Response.AddHeader("Content-Type", "text/javascript");
@@ -51,7 +48,8 @@ namespace TheGateService.Endpoints {
 
             var shouldRegenerate = false;
 
-            foreach (var file in FileHelper.GetFiles(JsFiles, JsBasePath)) {
+            var files = FileHelper.GetDirectory(JsBasePath).GetFiles("*.js");
+            foreach (var file in files) {
                 DateTime mtime;
                 ModificationTimes.TryGetValue(file.Name, out mtime);
 
@@ -63,18 +61,18 @@ namespace TheGateService.Endpoints {
             }
 
             if (shouldRegenerate) {
-                Cache.Set("js", GetJs(false));
-                Cache.Set("js-mini", GetJs(true));
+                Cache.Set("js", GetJs(files, false));
+                Cache.Set("js-mini", GetJs(files, true));
             }
 
             return Cache.Get<string>("js" + (minify ? "-mini" : ""));
         }
 
-        private string GetJs(bool minify) {
+        private string GetJs(IEnumerable<FileInfo> files, bool minify) {
             Global.Log.Debug("Rebuilding{0}Javascript.".F(minify ? " minified " : " "));
             var js = new StringBuilder();
 
-            foreach (var file in FileHelper.GetFiles(JsFiles, JsBasePath)) {
+            foreach (var file in files) {
                 using (var stream = file.Open(FileMode.Open)) {
                     using (var reader = new StreamReader(stream)) {
                         if (!minify) js.Append("\n/********\n * {0}  \n */\n\n".F(file.Name));
