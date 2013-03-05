@@ -1,87 +1,87 @@
-CREATE DATABASE IF NOT EXISTS `thegate`;
+CREATE DATABASE IF NOT EXISTS thegate;
 
-USE `thegate`;
+USE thegate;
 
 SET autocommit=0;
 START TRANSACTION;
 
-DROP TABLE IF EXISTS `order_product`;
-DROP TABLE IF EXISTS `product_shipment`;
-DROP TABLE IF EXISTS `product`;
-DROP TABLE IF EXISTS `shipment`;
-DROP TABLE IF EXISTS `shipment_method`;
-DROP TABLE IF EXISTS `orders`;
-DROP TABLE IF EXISTS `order_status`;
-DROP TABLE IF EXISTS `order_type`;
-DROP TABLE IF EXISTS `customer`;
+DROP TABLE IF EXISTS OrderProduct;
+DROP TABLE IF EXISTS ProductShipment;
+DROP TABLE IF EXISTS Product;
+DROP TABLE IF EXISTS Shipment;
+DROP TABLE IF EXISTS ShipmentMethod;
+DROP TABLE IF EXISTS Orders;
+DROP TABLE IF EXISTS OrderStatus;
+DROP TABLE IF EXISTS OrderType;
+DROP TABLE IF EXISTS Customer;
 
-CREATE TABLE `customer`(
-customer_id BIGINT PRIMARY KEY AUTO_INCREMENT,
-first_name VARCHAR(30) NOT NULL,
-last_name VARCHAR(30) NOT NULL,
-address VARCHAR(256),
-email varchar(128),
-password CHAR(64)
+CREATE TABLE Customer(
+CustomerId BIGINT PRIMARY KEY AUTO_INCREMENT,
+FirstName VARCHAR(30) NOT NULL,
+LastName VARCHAR(30) NOT NULL,
+Address VARCHAR(256),
+Email varchar(128),
+Password CHAR(64) NOT NULL,
 );
 
-CREATE TABLE `order_type`(
-type_id INT PRIMARY KEY NOT NULL,
-name VARCHAR(64) NOT NULL
+CREATE TABLE OrderType(
+TypeId INT PRIMARY KEY NOT NULL,
+Name VARCHAR(64) NOT NULL
 );
 
-CREATE TABLE `order_status`(
-orderstatus_id INT PRIMARY KEY NOT NULL,
-name VARCHAR(64) NOT NULL
+CREATE TABLE OrderStatus(
+OrderStatusId INT PRIMARY KEY NOT NULL,
+Name VARCHAR(64) NOT NULL
 );
 
-CREATE TABLE `orders`(
-order_id BIGINT PRIMARY KEY NOT NULL,
-customer_id BIGINT NOT NULL,
-order_type INT NOT NULL,
-order_status INT NOT NULL,
-FOREIGN KEY (customer_id) REFERENCES `customer`(customer_id),
-FOREIGN KEY (order_status) REFERENCES `order_status`(orderstatus_id),
-FOREIGN KEY (order_type) REFERENCES `order_type`(type_id)
+CREATE TABLE Orders(
+OrderId BIGINT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+CustomerId BIGINT NOT NULL,
+OrderType INT NOT NULL,
+OrderStatus INT NOT NULL,
+FOREIGN KEY (CustomerId) REFERENCES Customer(CustomerId),
+FOREIGN KEY (OrderStatus) REFERENCES OrderStatus(OrderstatusId),
+FOREIGN KEY (OrderType) REFERENCES OrderType(TypeId)
 );
 
-CREATE TABLE `shipment_method`(
-method_id INT PRIMARY KEY NOT NULL,
-name VARCHAR(64)
+CREATE TABLE ShipmentMethod(
+MethodId INT PRIMARY KEY NOT NULL,
+Name VARCHAR(64)
 );
 
-CREATE TABLE `shipment`(
-shipment_id BIGINT PRIMARY KEY NOT NULL,
-order_id BIGINT NOT NULL,
-shipment_method INT NOT NULL,
-shipment_date DATETIME NOT NULL,
-FOREIGN KEY (order_id) REFERENCES `orders`(order_id),
-FOREIGN KEY (shipment_method) REFERENCES `shipment_method`(method_id)
+CREATE TABLE Shipment(
+ShipmentId BIGINT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+OrderId BIGINT NOT NULL,
+ShipmentMethod INT NOT NULL,
+ShipmentDate DATETIME NOT NULL,
+FOREIGN KEY (OrderId) REFERENCES Orders(OrderId),
+FOREIGN KEY (ShipmentMethod) REFERENCES ShipmentMethod(MethodId)
 );
 
-CREATE TABLE `product`(
-product_id BIGINT PRIMARY KEY NOT NULL,
-name VARCHAR(256) NOT NULL,
-description TEXT,
-quantity INT,
-price REAL
+CREATE TABLE Product(
+ProductId BIGINT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+Name VARCHAR(256) NOT NULL,
+Description TEXT,
+Quantity INT,
+Price REAL
 );
 
-CREATE TABLE `product_shipment`(
-product_id BIGINT NOT NULL,
-shipment_id BIGINT NOT NULL,
-quantity INT,
-PRIMARY KEY (product_id, shipment_id),
-FOREIGN KEY (product_id) REFERENCES `product`(product_id),
-FOREIGN KEY (shipment_id) REFERENCES `shipment`(shipment_id)
+CREATE TABLE ProductShipment(
+ProductId BIGINT NOT NULL,
+ShipmentId BIGINT NOT NULL,
+Quantity INT,
+PRIMARY KEY (ProductId, ShipmentId),
+FOREIGN KEY (ProductId) REFERENCES Product(ProductId),
+FOREIGN KEY (ShipmentId) REFERENCES Shipment(ShipmentId)
 );
 
-CREATE TABLE `order_product`(
-order_id BIGINT NOT NULL,
-product_id BIGINT NOT NULL,
-quantity INT,
-PRIMARY KEY (order_id, product_id),
-FOREIGN KEY (order_id) REFERENCES `orders`(order_id),
-FOREIGN KEY (product_id) REFERENCES `product`(product_id)
+CREATE TABLE OrderProduct(
+OrderId BIGINT NOT NULL,
+ProductId BIGINT NOT NULL,
+Quantity INT,
+PRIMARY KEY (OrderId, ProductId),
+FOREIGN KEY (OrderId) REFERENCES Orders(OrderId),
+FOREIGN KEY (ProductId) REFERENCES Product(ProductId)
 );
 
 COMMIT;
