@@ -10,12 +10,12 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Web;
 
 using ServiceStack.ServiceHost;
 using ServiceStack.ServiceInterface;
 
 using TheGateService.Extensions;
+using TheGateService.Utilities;
 
 namespace TheGateService.Endpoints {
     [Route("/assets/css/app.css")]
@@ -49,7 +49,7 @@ namespace TheGateService.Endpoints {
             var shouldRegenerate = false;
             // Check modification times of each file, and if one has changed,
             // we should regenerate the CSS to send
-            foreach (var file in CssFiles.Select(f => new FileInfo(HttpContext.Current.Server.MapPath(CssBasePath + f)))) {
+            foreach (var file in FileHelper.GetFiles(CssFiles, CssBasePath)) {
                 DateTime mtime;
                 ModificationTimes.TryGetValue(file.Name, out mtime);
                 // If mtime is not set, or the current file is newer than what we have
@@ -73,7 +73,7 @@ namespace TheGateService.Endpoints {
             var css = new StringBuilder();
 
             // All of these files will be included in the css output, in this order
-            foreach (var file in CssFiles.Select(f => new FileInfo(HttpContext.Current.Server.MapPath(CssBasePath + f)))) {
+            foreach (var file in FileHelper.GetFiles(CssFiles, CssBasePath)) {
                 using (var stream = file.Open(FileMode.Open)) {
                     using (var reader = new StreamReader(stream)) {
                         // Append a little comment with the filename separating each file for clarity
