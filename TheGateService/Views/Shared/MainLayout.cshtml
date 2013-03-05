@@ -6,6 +6,7 @@
 <html lang="en">
     <head>
         <title>@ViewBag.Title</title>
+        <meta http-equiv="Content-Type" charset="utf-8" content="text/html"/>
         <link href="@Url.Content("~/assets/css/app.css")" rel="stylesheet"></link>
         <script src="http://code.jquery.com/jquery-1.9.1.min.js"> </script>
 @*        <style type="text/css">*@
@@ -20,10 +21,10 @@
         <div class="container">
             <div class="row">
                 @Html.Partial("Header")
-                <div id="sidebar" class="span3">
+                <div id="sidebar" class="span2">
                     @Html.Partial("Sidebar")
                 </div>
-                <div id="body" class="span9">
+                <div id="body" class="span10">
                     <div id="content">
                         @RenderBody()
                     </div>
@@ -31,7 +32,6 @@
             </div>
         </div>
         @Html.Partial("Footer")
-        @RenderSection("ScriptFooter", required: false)
         <script src="@Url.Content("~/assets/js/app.js")"> </script>
     </body>
 </html>
