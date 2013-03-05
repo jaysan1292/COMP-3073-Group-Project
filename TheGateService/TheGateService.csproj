@@ -142,24 +142,24 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Endpoints\CssService.cs" />
-    <Compile Include="Utilities\FileHelper.cs" />
-    <Compile Include="Endpoints\JsService.cs" />
-    <Compile Include="Responses\HomePageResponse.cs" />
-    <Compile Include="Endpoints\HomePageService.cs" />
-    <Compile Include="Endpoints\ProductsService.cs" />
-    <Compile Include="Extensions\GeneralExtensions.cs" />
+    <Compile Include="Sources\Endpoints\CssService.cs" />
+    <Compile Include="Sources\Utilities\FileHelper.cs" />
+    <Compile Include="Sources\Endpoints\JsService.cs" />
+    <Compile Include="Sources\Responses\HomePageResponse.cs" />
+    <Compile Include="Sources\Endpoints\HomePageService.cs" />
+    <Compile Include="Sources\Endpoints\ProductsService.cs" />
+    <Compile Include="Sources\Extensions\GeneralExtensions.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Types\HomePage.cs" />
+    <Compile Include="Sources\Types\HomePage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Types\Entity.cs" />
-    <Compile Include="Types\Product.cs" />
-    <Compile Include="Responses\ProductResponse.cs" />
-    <Compile Include="Responses\ProductsResponse.cs" />
-    <Compile Include="Types\ResponseBase.cs" />
-    <Compile Include="Utilities\WhitespaceFilter.cs" />
+    <Compile Include="Sources\Types\Entity.cs" />
+    <Compile Include="Sources\Types\Product.cs" />
+    <Compile Include="Sources\Responses\ProductResponse.cs" />
+    <Compile Include="Sources\Responses\ProductsResponse.cs" />
+    <Compile Include="Sources\Types\ResponseBase.cs" />
+    <Compile Include="Sources\Utilities\WhitespaceFilter.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
