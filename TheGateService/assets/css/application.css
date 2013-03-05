@@ -34,3 +34,11 @@ footer {
 }
 
 .product-price h4 { padding-right: 10px; }
+
+.home-product-info {
+    height: 175px;
+}
+
+.home-product-info img {
+    padding-right: 10px;
+}
