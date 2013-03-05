@@ -17,6 +17,7 @@ using ServiceStack.ServiceInterface;
 using TheGateService.Extensions;
 using TheGateService.Utilities;
 
+//TODO: Compile CSS/JS in Linux/Ubuntu /etc/motd.d style, i.e., all files in a directory are concatenated, ordered by numeric prefix (00-file1, 01-file2, etc)
 namespace TheGateService.Endpoints {
     [Route("/assets/css/app.css")]
     public class Css { }

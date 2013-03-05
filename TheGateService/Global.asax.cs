@@ -4,6 +4,9 @@
 // Author: Jason Recillo
 
 using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using System.Web;
 
 using Funq;
@@ -19,6 +22,8 @@ using ServiceStack.ServiceHost;
 using ServiceStack.Text;
 using ServiceStack.WebHost.Endpoints;
 
+using TheGateService.Utilities;
+
 namespace TheGateService {
     public class GateServiceHost : AppHostBase {
         public GateServiceHost()
@@ -31,7 +36,16 @@ namespace TheGateService {
                 EnableFeatures = Feature.All.Remove(Feature.Soap),
                 DefaultContentType = ContentType.Json,
                 DebugMode = true,
-                DefaultRedirectPath = "/home"
+                DefaultRedirectPath = "/home",
+            });
+
+            // TODO: Minify HTML output :p (except <pre> and <code> tags)
+            ResponseFilters.Add((request, response, dto) => {
+                if (response.ContentType.Contains("html")) {
+                    var originalResponse = response.OriginalResponse as HttpResponse;
+                    if (originalResponse != null) 
+                        originalResponse.Filter = new WhitespaceFilter(originalResponse.Filter);
+                }
             });
 
             Plugins.Add(new RazorFormat());
