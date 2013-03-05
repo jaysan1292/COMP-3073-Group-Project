@@ -159,6 +159,7 @@
     <Compile Include="Responses\ProductResponse.cs" />
     <Compile Include="Responses\ProductsResponse.cs" />
     <Compile Include="Types\ResponseBase.cs" />
+    <Compile Include="Utilities\WhitespaceFilter.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
