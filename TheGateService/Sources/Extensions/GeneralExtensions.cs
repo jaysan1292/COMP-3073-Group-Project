@@ -30,7 +30,7 @@ namespace TheGateService.Extensions {
             var items = enumerable.Shuffle().ToArray();
             var total = items.Length;
 
-            for (var i = 0; i < count && i < total; i++) 
+            for (var i = 0; i < count && i < total; i++)
                 yield return items[i];
         }
 
