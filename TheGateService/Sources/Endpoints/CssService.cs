@@ -17,6 +17,8 @@ using ServiceStack.ServiceInterface;
 using TheGateService.Extensions;
 using TheGateService.Utilities;
 
+using dotless.Core;
+
 namespace TheGateService.Endpoints {
     [Route("/assets/css/app.css")]
     public class CSS { }
@@ -53,7 +55,7 @@ namespace TheGateService.Endpoints {
 
             // Check modification times of each file, and if one has changed,
             // we should regenerate the CSS to send
-            var files = FileHelper.GetDirectory(CssBasePath).GetFiles("*.css");
+            var files = FileHelper.GetDirectory(CssBasePath).GetFiles(".css", ".less");
             foreach (var file in files) {
                 DateTime mtime;
                 ModificationTimes.TryGetValue(file.Name, out mtime);
@@ -83,7 +85,14 @@ namespace TheGateService.Endpoints {
                     using (var reader = new StreamReader(stream)) {
                         // Append a little comment with the filename separating each file for clarity
                         if (!minify) css.Append("\n/********\n * {0}  \n */\n\n".F(file.Name));
-                        css.Append(reader.ReadToEnd());
+                        switch (file.Extension) {
+                            case ".css":
+                                css.Append(reader.ReadToEnd());
+                                break;
+                            case ".less":
+                                css.Append(Less.Parse(reader.ReadToEnd()));
+                                break;
+                        }
                     }
                 }
             }

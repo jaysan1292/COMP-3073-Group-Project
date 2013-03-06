@@ -7,6 +7,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 
 using JetBrains.Annotations;
@@ -31,6 +32,14 @@ namespace TheGateService.Extensions {
 
             for (var i = 0; i < count && i < total; i++) 
                 yield return items[i];
+        }
+
+        // http://stackoverflow.com/questions/3527203/getfiles-with-multiple-extentions
+        [DebuggerHidden]
+        public static FileInfo[] GetFiles(this DirectoryInfo dir, params string[] extensions) {
+            if (extensions == null) throw new ArgumentNullException("extensions");
+            var files = dir.EnumerateFiles();
+            return files.Where(f => extensions.Contains(f.Extension)).ToArray();
         }
 
         [DebuggerHidden, StringFormatMethod("str")]
