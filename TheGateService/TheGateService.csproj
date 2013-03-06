@@ -142,6 +142,9 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Sources\Database\BaseDbProvider.cs" />
+    <Compile Include="Sources\Database\DbHelper.cs" />
+    <Compile Include="Sources\Interfaces\IDbProvider.cs" />
     <Compile Include="Sources\Endpoints\CssService.cs" />
     <Compile Include="Sources\Utilities\FileHelper.cs" />
     <Compile Include="Sources\Endpoints\JsService.cs" />
@@ -184,6 +187,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Shared\Footer.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Metadata\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
