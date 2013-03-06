@@ -61,27 +61,30 @@ namespace TheGateService.Endpoints {
             }
 
             if (shouldRegenerate) {
-                Cache.Set("js", GetJs(files, false));
-                Cache.Set("js-mini", GetJs(files, true));
+                string js, jsmini;
+                GetJs(files, out js, out jsmini);
+                Cache.Set("js", js);
+                Cache.Set("js-mini", jsmini);
             }
 
             return Cache.Get<string>("js" + (minify ? "-mini" : ""));
         }
 
-        private string GetJs(IEnumerable<FileInfo> files, bool minify) {
-            Global.Log.Debug("Rebuilding{0}Javascript.".F(minify ? " minified " : " "));
-            var js = new StringBuilder();
+        private void GetJs(IEnumerable<FileInfo> files, out string js, out string jsmini) {
+            Global.Log.Debug("Rebuilding Javascript.");
+            var output = new StringBuilder("/* Generated on {0} */\n".F(DateTime.Now));
 
             foreach (var file in files) {
                 using (var stream = file.Open(FileMode.Open)) {
                     using (var reader = new StreamReader(stream)) {
-                        if (!minify) js.Append("\n/********\n * {0}  \n */\n\n".F(file.Name));
-                        js.Append(reader.ReadToEnd());
+                        output.Append("\n/********\n * {0}  \n */\n\n".F(file.Name));
+                        output.Append(reader.ReadToEnd());
                     }
                 }
             }
 
-            return minify ? Compress(js.ToString()) : js.ToString();
+            js = output.ToString();
+            jsmini = Compress(output.ToString());
         }
 
         // This method is the only one that really differs

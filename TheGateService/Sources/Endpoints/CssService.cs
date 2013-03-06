@@ -69,34 +69,38 @@ namespace TheGateService.Endpoints {
 
             // If any files have changed, regenerate the css and its minified version
             if (shouldRegenerate) {
-                Cache.Set("css", GetCss(files, false));
-                Cache.Set("css-mini", GetCss(files, true));
+                string css, cssmini;
+                GetCss(files, out css, out cssmini);
+                Cache.Set("css", css);
+                Cache.Set("css-mini", cssmini);
             }
 
             return Cache.Get<string>("css" + (minify ? "-mini" : ""));
         }
 
-        private string GetCss(IEnumerable<FileInfo> files, bool minify) {
-            Global.Log.Debug("Rebuilding{0}CSS.".F(minify ? " minified " : " "));
-            var css = new StringBuilder();
+        private void GetCss(IEnumerable<FileInfo> files, out string css, out string cssmini) {
+            Global.Log.Debug("Rebuilding CSS.");
+            var output = new StringBuilder("/* Generated on {0} */\n".F(DateTime.Now));
 
             foreach (var file in files) {
                 using (var stream = file.Open(FileMode.Open)) {
                     using (var reader = new StreamReader(stream)) {
                         // Append a little comment with the filename separating each file for clarity
-                        if (!minify) css.Append("\n/********\n * {0}  \n */\n\n".F(file.Name));
+                        output.Append("\n/********\n * {0}  \n */\n\n".F(file.Name));
                         switch (file.Extension) {
                             case ".css":
-                                css.Append(reader.ReadToEnd());
+                                output.Append(reader.ReadToEnd());
                                 break;
                             case ".less":
-                                css.Append(Less.Parse(reader.ReadToEnd()));
+                                output.Append(Less.Parse(reader.ReadToEnd()));
                                 break;
                         }
                     }
                 }
             }
-            return minify ? Compress(css.ToString()) : css.ToString();
+
+            css = output.ToString();
+            cssmini = Compress(output.ToString());
         }
 
         private static string Compress(string css) {
