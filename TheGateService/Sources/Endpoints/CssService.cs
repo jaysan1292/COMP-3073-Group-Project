@@ -12,10 +12,10 @@ using System.Text;
 using System.Text.RegularExpressions;
 
 using ServiceStack.ServiceHost;
-using ServiceStack.ServiceInterface;
 
 using TheGateService.Extensions;
-using TheGateService.Utilities;
+
+using dotless.Core;
 
 namespace TheGateService.Endpoints {
     [Route("/assets/css/app.css")]
@@ -36,12 +36,9 @@ namespace TheGateService.Endpoints {
     /// follows: 00-file2.css, 01-file1.css. This will result in file2 appearing before
     /// file1 in the output.
     /// </remarks>
-    public class CssService : Service {
-        // The base path where all of the CSS files are stored
-        private const string CssBasePath = "~/assets/css/app.css.d";
-
-        // Modification times for all of the files in the above directory
-        private static readonly Dictionary<string, DateTime> ModificationTimes = new Dictionary<string, DateTime>();
+    public class CssService : MinifierServiceBase {
+        public CssService()
+            : base("~/assets/css/app.css.d", GetCss, ".css", ".less") { }
 
         public object Get(CSS unused) {
             Response.AddHeader("Content-Type", "text/css");
@@ -49,45 +46,32 @@ namespace TheGateService.Endpoints {
             // version of the CSS; default value will be 'true' if it isn't there
             var minify = int.Parse(Request.QueryString.Get("minify") ?? "1") == 1;
 
-            var shouldRegenerate = false;
-
-            // Check modification times of each file, and if one has changed,
-            // we should regenerate the CSS to send
-            var files = FileHelper.GetDirectory(CssBasePath).GetFiles("*.css");
-            foreach (var file in files) {
-                DateTime mtime;
-                ModificationTimes.TryGetValue(file.Name, out mtime);
-                // If mtime is not set, or the current file is newer than what we have, regenerate the CSS
-                if ((mtime == default(DateTime)) || (mtime < file.LastWriteTime)) {
-                    ModificationTimes[file.Name] = file.LastWriteTime;
-                    shouldRegenerate = true;
-                    break;
-                }
-            }
-
-            // If any files have changed, regenerate the css and its minified version
-            if (shouldRegenerate) {
-                Cache.Set("css", GetCss(files, false));
-                Cache.Set("css-mini", GetCss(files, true));
-            }
-
-            return Cache.Get<string>("css" + (minify ? "-mini" : ""));
+            return GenerateFile("css", minify);
         }
 
-        private string GetCss(IEnumerable<FileInfo> files, bool minify) {
-            Global.Log.Debug("Rebuilding{0}CSS.".F(minify ? " minified " : " "));
-            var css = new StringBuilder();
+        private static void GetCss(IEnumerable<FileInfo> files, out string css, out string cssmini) {
+            Global.Log.Debug("Rebuilding CSS.");
+            var output = new StringBuilder("/* Generated on {0} */\n".F(DateTime.Now));
 
             foreach (var file in files) {
                 using (var stream = file.Open(FileMode.Open)) {
                     using (var reader = new StreamReader(stream)) {
                         // Append a little comment with the filename separating each file for clarity
-                        if (!minify) css.Append("\n/********\n * {0}  \n */\n\n".F(file.Name));
-                        css.Append(reader.ReadToEnd());
+                        output.Append("\n/********\n * {0}  \n */\n\n".F(file.Name));
+                        switch (file.Extension) {
+                            case ".css":
+                                output.Append(reader.ReadToEnd());
+                                break;
+                            case ".less":
+                                output.Append(Less.Parse(reader.ReadToEnd()));
+                                break;
+                        }
                     }
                 }
             }
-            return minify ? Compress(css.ToString()) : css.ToString();
+
+            css = output.ToString();
+            cssmini = Compress(output.ToString());
         }
 
         private static string Compress(string css) {

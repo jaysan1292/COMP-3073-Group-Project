@@ -12,81 +12,58 @@ using System.Text;
 using System.Text.RegularExpressions;
 
 using ServiceStack.ServiceHost;
-using ServiceStack.ServiceInterface;
 
 using TheGateService.Extensions;
-using TheGateService.Utilities;
-
-/*
- * Everything in this file is pretty much a direct copy of
- * CssService.cs, except this file deals with Javascript.
- * 
- * Normally, I would abstract this functionality into an
- * abstract class to avoid duplicating too much code, but 
- * due to the nature of ServiceStack's API (i.e., method 
- * signatures determine the type of request), it doesn't
- * appear to be possible to abstract things in that way.
- * 
- * For more information, see the docs for CssService.cs.
- * 
- * - Jason
- */
 
 namespace TheGateService.Endpoints {
     [Route("/assets/js/app.js")]
     public class Javascript { }
 
-    public class JsService : Service {
-        private const string JsBasePath = "~/assets/js/app.js.d";
-
-        private static readonly Dictionary<string, DateTime> ModificationTimes = new Dictionary<string, DateTime>();
+    /// <summary>
+    /// Concatenates Javascript files together and minifies/compresses them. The minified 
+    /// output can be reached at ~/assets/js/app.js. To return non-minified 
+    /// output, append '?minify=0' to the end of the request URL. 
+    /// (i.e., http://localhost:3073/assets/js/app.js?minify=0)
+    /// </summary>
+    /// <remarks>
+    /// Files will be added to the output in alphabetical order by filename. To
+    /// customize the order of the added files, prepend a number to the beginning
+    /// of the filename, denoting the order you wish to sort the output.
+    /// For example, if the files are file1.js and file2.js, the order they would
+    /// be concatenated is file1.js, file2.js. To switch the order, rename them as
+    /// follows: 00-file2.js, 01-file1.js. This will result in file2 appearing before
+    /// file1 in the output.
+    /// </remarks>
+    public class JsService : MinifierServiceBase {
+        public JsService()
+            : base("~/assets/js/app.js.d", GetJs, ".js") { }
 
         public object Get(Javascript unused) {
             Response.AddHeader("Content-Type", "text/javascript");
 
+            // Check the query string to see if we should return the minified version 
+            // of the javascript; default value will be 'true' if it isn't there
             var minify = int.Parse(Request.QueryString.Get("minify") ?? "1") == 1;
-
-            var shouldRegenerate = false;
-
-            var files = FileHelper.GetDirectory(JsBasePath).GetFiles("*.js");
-            foreach (var file in files) {
-                DateTime mtime;
-                ModificationTimes.TryGetValue(file.Name, out mtime);
-
-                if ((mtime == default(DateTime)) || (mtime < file.LastWriteTime)) {
-                    ModificationTimes[file.Name] = file.LastWriteTime;
-                    shouldRegenerate = true;
-                    break;
-                }
-            }
-
-            if (shouldRegenerate) {
-                Cache.Set("js", GetJs(files, false));
-                Cache.Set("js-mini", GetJs(files, true));
-            }
-
-            return Cache.Get<string>("js" + (minify ? "-mini" : ""));
+            return GenerateFile("js", minify);
         }
 
-        private string GetJs(IEnumerable<FileInfo> files, bool minify) {
-            Global.Log.Debug("Rebuilding{0}Javascript.".F(minify ? " minified " : " "));
-            var js = new StringBuilder();
+        private static void GetJs(IEnumerable<FileInfo> files, out string js, out string jsmini) {
+            Global.Log.Debug("Rebuilding Javascript.");
+            var output = new StringBuilder("/* Generated on {0} */\n".F(DateTime.Now));
 
             foreach (var file in files) {
                 using (var stream = file.Open(FileMode.Open)) {
                     using (var reader = new StreamReader(stream)) {
-                        if (!minify) js.Append("\n/********\n * {0}  \n */\n\n".F(file.Name));
-                        js.Append(reader.ReadToEnd());
+                        output.Append("\n/********\n * {0}  \n */\n\n".F(file.Name));
+                        output.Append(reader.ReadToEnd());
                     }
                 }
             }
 
-            return minify ? Compress(js.ToString()) : js.ToString();
+            js = output.ToString();
+            jsmini = Compress(output.ToString());
         }
 
-        // This method is the only one that really differs
-        // CssService.Compress(), as this one is tailored 
-        // towards Javascript (obviously).
         private static string Compress(string js) {
             // TODO: Proper Javascript minification (i.e., removing all comments and unnecessary whitespace)
 
