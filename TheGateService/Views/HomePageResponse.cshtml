@@ -24,7 +24,7 @@
         @{ var showcase = products.GetRange(0, 3); }
         @foreach (var p in showcase) {
             <div class="item @(showcase.IndexOf(p) == 0 ? "active" : "")">
-                <a href="@Url.Content("~/products/{0}".F(p.Id))"><img src="http://placehold.it/780x580" alt=""/></a>
+                <a href="@Url.Content("~/products/{0}".F(p.Id))"><img src="http://placehold.it/780x580" alt="" width="780" height="580"/></a>
                 <div class="carousel-caption">
                     <h4>@p.Name</h4>
                     <p>
