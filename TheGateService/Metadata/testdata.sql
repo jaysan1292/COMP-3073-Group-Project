@@ -31,6 +31,7 @@ INSERT INTO Customer (FirstName,LastName,Address,Email,Password) VALUES
     ('Melissa','Owens','4287 Silver Circle','mowens@example.com','8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92'),
     ('Phượng','Nguyen','5879 Emerald Arbor','phungu@example.com','8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92'),
     ('Marian','Kipling','24 Fallen Edge','mkipling@example.com','8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92'),
+    ('John','Smith','123 Addressable Edge','jsmith@example.com','8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92'),
     ('EunJung','Kang','3318 Rustic Way','kkangju@example.kr','8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92');
 
 -- TODO: I totally don't remember what was supposed to go in this table
