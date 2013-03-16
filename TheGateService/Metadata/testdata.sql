@@ -35,8 +35,12 @@ INSERT INTO Customer (FirstName,LastName,Address,Email,Password) VALUES
     ('EunJung','Kang','3318 Rustic Way','kkangju@example.kr','8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92');
 
 -- TODO: I totally don't remember what was supposed to go in this table
+-- If I am unsure of this function by my next run through this, I will remove it. - James
 INSERT INTO OrderType VALUES
-    (1);
+    (1),
+    (2),
+    (3),
+    (4);
 
 INSERT INTO OrderStatus VALUES
     (1, 'Pending'),
@@ -44,7 +48,15 @@ INSERT INTO OrderStatus VALUES
     (3, 'Delivered'),
     (4, 'Lost');
 
--- INSERT INTO Orders (CustomerId,OrderType,OrderStatus) VALUES
+INSERT INTO Orders (CustomerId,OrderType,OrderStatus) VALUES
+    (1,1,2),
+    (1,3,4),
+    (2,2,3),
+    (8,1,2),
+    (4,3,3),
+    (9,4,1),
+    (7,2,1),
+    (5,4,1);
 
 INSERT INTO ShipmentMethod VALUES
     (1, 'Courier'),
@@ -52,13 +64,50 @@ INSERT INTO ShipmentMethod VALUES
     (3, 'Post'),
     (4, 'EMS');
 
+-- forgot how to do date values
+-- (orderID, shipmentMethod, shipmentDate)
 -- INSERT INTO Shipment VALUES
+--     (1,3,),
+--     (2,4,),
+--     (3,1,),
+--     (4,3,),
+--     (5,4,),
+--     (6,2,),
+--     (7,2,),
+--     (8,2,);
 
--- TODO: What were we selling again?
--- INSERT INTO Product(Name,Description,Quantity,Price) VALUES
 
--- INSERT INTO ProductShipment VALUES
+-- I will improve this later, just shit text data. - James
 
+INSERT INTO Product(Name,Description,Quantity,Price) VALUES
+    ('Video Card', 'Video card for PC', 37, $159.99),
+    ('MB','Motherboard',15,),
+    ('Case','Computer Case',44,),
+    ('Monitor','Computer Monitor',1,),
+    ('PS','Power Supply',6,),
+    ('KB','Keyboard',29,),
+    ('Mouse','Mouse',31,);
+
+-- (productID, ShipmentID, quantity)
+INSERT INTO ProductShipment VALUES
+    (1,1,5),
+    (7,2,12),
+    (3,3,1),
+    (5,4,3),
+    (1,5,7),
+    (2,6,2),
+    (6,7,4),
+    (4,8,9);
+
+-- (orderId, productID, quantity)
 -- INSERT INTO OrderProduct VALUES
+    (1,1,5),
+    (2,7,12),
+    (3,3,1),
+    (4,5,3),
+    (5,1,7),
+    (6,2,2),
+    (7,6,4),
+    (8,4,9);
 
 COMMIT;
