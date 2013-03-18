@@ -1,4 +1,4 @@
-﻿SET autocommit=0;
+SET autocommit=0;
 START TRANSACTION;
 
 -- Drop everything from all tables
@@ -64,29 +64,28 @@ INSERT INTO ShipmentMethod VALUES
     (4, 'EMS');
 
 -- (orderID, shipmentMethod, shipmentDate)
- INSERT INTO Shipment VALUES
-     (1,3,23/03/2013 12:39:00),
-     (2,4,17/12/2012 08:14:00),
-     (3,1,29/02/2013 04:57:00),
-     (4,3,12/01/2013 21:42:00),
-     (5,4,09/03/2013 17:18:00),
-     (6,2,17/11/2012 07:27:00),
-     (7,2,18/02/2013 15:49:00),
-     (8,2,23/01/2013 14:28:00);
+ INSERT INTO Shipment (OrderId, ShipmentMethod, ShipmentDate) VALUES
+     (1,3,'2013-03-23 12:39:00'),
+     (2,4,'2012-12-17 08:14:00'),
+     (3,1,'2013-02-28 04:57:00'),
+     (4,3,'2013-01-12 21:42:00'),
+     (5,4,'2013-03-09 17:18:00'),
+     (6,2,'2012-11-17 07:27:00'),
+     (7,2,'2013-02-18 15:49:00'),
+     (8,2,'2013-01-23 14:28:00');
 
 
 -- I will improve this later, just shit text data. - James
 
 INSERT INTO Product(Name,Description,Quantity,Price) VALUES
-    ('Video Card', 'Video card for PC', 37, $159.99),
-    ('MB','Motherboard',15,),
-    ('Case','Computer Case',44,),
-    ('Monitor','Computer Monitor',1,),
-    ('PS','Power Supply',6,),
-    ('KB','Keyboard',29,),
-    ('Mouse','Mouse',31,);
+    ('Video Card', 'Video card for PC', 37, 159.99),
+    ('MB','Motherboard',15,89.99),
+    ('Case','Computer Case',44,59.99),
+    ('Monitor','Computer Monitor',1,99.99),
+    ('PS','Power Supply',6,39.99),
+    ('KB','Keyboard',29,24.99),
+    ('Mouse','Mouse',31,59.99);
 
--- (productID, ShipmentID, quantity)
 INSERT INTO ProductShipment VALUES
     (1,1,5),
     (7,2,12),
@@ -97,8 +96,7 @@ INSERT INTO ProductShipment VALUES
     (6,7,4),
     (4,8,9);
 
--- (orderId, productID, quantity)
--- INSERT INTO OrderProduct VALUES
+INSERT INTO OrderProduct VALUES
     (1,1,5),
     (2,7,12),
     (3,3,1),
