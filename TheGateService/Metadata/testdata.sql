@@ -10,29 +10,36 @@ DELETE FROM `ShipmentMethod`;
 DELETE FROM `Orders`;
 DELETE FROM `OrderStatus`;
 DELETE FROM `OrderType`;
-DELETE FROM `Customer`;
+DELETE FROM `User`;
+DELETE FROM `UserType`;
 
 -- Reset auto-increment counters
-ALTER TABLE `Customer`  AUTO_INCREMENT=0;
+ALTER TABLE `User`  AUTO_INCREMENT=0;
 ALTER TABLE `Orders`    AUTO_INCREMENT=0;
 ALTER TABLE `Shipment`  AUTO_INCREMENT=0;
 ALTER TABLE `Product`   AUTO_INCREMENT=0;
+
+INSERT INTO UserType VALUES
+    (1, 'User'),
+    (2, 'BasicEmployee'),
+    (3, 'Shipping'),
+    (4, 'Administrator');
 
 -- Insert the actual data
 
 -- Random name generator: http://www.behindthename.com/random/, http://names.igopaygo.com/people
 -- Random address generator: http://names.igopaygo.com/street/north_american_address
 -- Passwords are '123456' SHA256 hashed
-INSERT INTO Customer (FirstName,LastName,Address,Email,Password) VALUES
-    ('Jian','Nakano',NULL,'jnakano@example.com','8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92'),
-    ('Veda','Votaw','4586 Dusty Village','vvotaw@example.com','8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92'),
-    ('Josh','Percival','1432 Rocky Zephyr Corner',NULL,'8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92'),
-    ('Daisuke','Kato',NULL,'dkato@example.jp','8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92'),
-    ('Melissa','Owens','4287 Silver Circle','mowens@example.com','8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92'),
-    ('Phượng','Nguyen','5879 Emerald Arbor','phungu@example.com','8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92'),
-    ('Marian','Kipling','24 Fallen Edge','mkipling@example.com','8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92'),
-    ('John','Smith','123 Addressable Edge','jsmith@example.com','8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92'),
-    ('EunJung','Kang','3318 Rustic Way','kkangju@example.kr','8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92');
+INSERT INTO User (Type,FirstName,LastName,Address,Email,Password) VALUES
+    (1,'Jian','Nakano',NULL,'jnakano@example.com','8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92'),
+    (1,'Veda','Votaw','4586 Dusty Village','vvotaw@example.com','8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92'),
+    (2,'Josh','Percival','1432 Rocky Zephyr Corner',NULL,'8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92'),
+    (1,'Daisuke','Kato',NULL,'dkato@example.jp','8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92'),
+    (2,'Melissa','Owens','4287 Silver Circle','mowens@example.com','8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92'),
+    (1,'Phượng','Nguyen','5879 Emerald Arbor','phungu@example.com','8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92'),
+    (1,'Marian','Kipling','24 Fallen Edge','mkipling@example.com','8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92'),
+    (4,'John','Smith','123 Addressable Edge','jsmith@example.com','8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92'),
+    (1,'EunJung','Kang','3318 Rustic Way','kkangju@example.kr','8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92');
 
 -- If I am unsure of this function by my next run through this, I will remove it. - James
 INSERT INTO OrderType VALUES
@@ -42,12 +49,12 @@ INSERT INTO OrderType VALUES
     (4);
 
 INSERT INTO OrderStatus VALUES
-    (1, 'Pending'),
-    (2, 'Shipped'),
-    (3, 'Delivered'),
-    (4, 'Lost');
+    (1,'Pending'),
+    (2,'Shipped'),
+    (3,'Delivered'),
+    (4,'Lost');
 
-INSERT INTO Orders (CustomerId,OrderType,OrderStatus) VALUES
+INSERT INTO Orders (UserId,OrderType,OrderStatus) VALUES
     (1,1,2),
     (1,3,4),
     (2,2,3),
@@ -64,7 +71,7 @@ INSERT INTO ShipmentMethod VALUES
     (4, 'EMS');
 
 -- (orderID, shipmentMethod, shipmentDate)
- INSERT INTO Shipment (OrderId, ShipmentMethod, ShipmentDate) VALUES
+ INSERT INTO Shipment (OrderId,ShipmentMethod,ShipmentDate) VALUES
      (1,3,'2013-03-23 12:39:00'),
      (2,4,'2012-12-17 08:14:00'),
      (3,1,'2013-02-28 04:57:00'),
