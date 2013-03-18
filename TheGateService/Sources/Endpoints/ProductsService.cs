@@ -10,11 +10,13 @@ using System.Linq;
 
 using ServiceStack.ServiceInterface;
 
+using TheGateService.Database;
 using TheGateService.Responses;
 using TheGateService.Types;
 
 namespace TheGateService.Endpoints {
     public class ProductService : Service {
+        private static ProductDbProvider _provider = new ProductDbProvider();
         public static List<Product> SampleProducts = new List<Product> {
             new Product { Id = 1, Name = "Product 1", Description = "Product 1 Description", Price = (decimal) 57.99 },
             new Product { Id = 2, Name = "Product 2", Description = "Product 2 Description", Price = (decimal) 99.99 },
@@ -28,7 +30,8 @@ namespace TheGateService.Endpoints {
         };
 
         public object Get(Product request) {
-            return new ProductResponse { Product = SampleProducts[(int) request.Id - 1] };
+            return new ProductResponse { Product = _provider.Get(request.Id) };
+            //            return new ProductResponse { Product = SampleProducts[(int) request.Id - 1] };
         }
 
         public object Get(Products request) {
