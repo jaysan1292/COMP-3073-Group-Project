@@ -1,5 +1,5 @@
 # Build Folders (you can keep bin if you'd like, to store dlls and pdbs)
-[Bb]in/
+#[Bb]in/
 [Oo]bj/
 
 ## Ignore Visual Studio temporary files, build results, and
@@ -20,7 +20,7 @@ x64/
 *.meta
 *.obj
 *.pch
-*.pdb
+#*.pdb
 *.pgc
 *.pgd
 *.rsp
@@ -59,7 +59,7 @@ _ReSharper*
 *.ncrunch*
 .*crunch*.local.xml
 
-# Installshield output folder 
+# Installshield output folder
 [Ee]xpress
 
 # DocProject is a documentation generator add-in
@@ -111,9 +111,10 @@ Thumbs.db
 *.exe
 *.bak
 *.cache
-[Bb]in
+#[Bb]in
 [Dd]ebug*/
 *.lib
 obj/
 [Rr]elease*/
 _ReSharper*/
+*.orig

@@ -19,6 +19,12 @@ ALTER TABLE `Orders`    AUTO_INCREMENT=0;
 ALTER TABLE `Shipment`  AUTO_INCREMENT=0;
 ALTER TABLE `Product`   AUTO_INCREMENT=0;
 
+INSERT INTO UserType VALUES
+    (1, 'User'),
+    (2, 'BasicEmployee'),
+    (3, 'Shipping'),
+    (4, 'Administrator');
+
 -- Insert the actual data
 
 INSERT INTO UserType VALUES
@@ -74,16 +80,15 @@ INSERT INTO ShipmentMethod VALUES
     (3, 'Post'),
     (4, 'EMS');
 
--- (orderID, shipmentMethod, shipmentDate)
- INSERT INTO Shipment (OrderId,ShipmentMethod,ShipmentDate) VALUES
-     (1,3,'2013-03-23 12:39:00'),
-     (2,4,'2012-12-17 08:14:00'),
-     (3,1,'2013-02-28 04:57:00'),
-     (4,3,'2013-01-12 21:42:00'),
-     (5,4,'2013-03-09 17:18:00'),
-     (6,2,'2012-11-17 07:27:00'),
-     (7,2,'2013-02-18 15:49:00'),
-     (8,2,'2013-01-23 14:28:00');
+INSERT INTO Shipment (OrderId,ShipmentMethod,ShipmentDate) VALUES
+    (1,3,'2013-03-23 12:39:00'),
+    (2,4,'2012-12-17 08:14:00'),
+    (3,1,'2013-02-28 04:57:00'),
+    (4,3,'2013-01-12 21:42:00'),
+    (5,4,'2013-03-09 17:18:00'),
+    (6,2,'2012-11-17 07:27:00'),
+    (7,2,'2013-02-18 15:49:00'),
+    (8,2,'2013-01-23 14:28:00');
 
 
 -- I will improve this later, just shit text data. - James
