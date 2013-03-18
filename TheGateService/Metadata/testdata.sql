@@ -34,7 +34,6 @@ INSERT INTO Customer (FirstName,LastName,Address,Email,Password) VALUES
     ('John','Smith','123 Addressable Edge','jsmith@example.com','8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92'),
     ('EunJung','Kang','3318 Rustic Way','kkangju@example.kr','8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92');
 
--- TODO: I totally don't remember what was supposed to go in this table
 -- If I am unsure of this function by my next run through this, I will remove it. - James
 INSERT INTO OrderType VALUES
     (1),
@@ -64,17 +63,16 @@ INSERT INTO ShipmentMethod VALUES
     (3, 'Post'),
     (4, 'EMS');
 
--- forgot how to do date values
 -- (orderID, shipmentMethod, shipmentDate)
--- INSERT INTO Shipment VALUES
---     (1,3,),
---     (2,4,),
---     (3,1,),
---     (4,3,),
---     (5,4,),
---     (6,2,),
---     (7,2,),
---     (8,2,);
+ INSERT INTO Shipment VALUES
+     (1,3,23/03/2013 12:39:00),
+     (2,4,17/12/2012 08:14:00),
+     (3,1,29/02/2013 04:57:00),
+     (4,3,12/01/2013 21:42:00),
+     (5,4,09/03/2013 17:18:00),
+     (6,2,17/11/2012 07:27:00),
+     (7,2,18/02/2013 15:49:00),
+     (8,2,23/01/2013 14:28:00);
 
 
 -- I will improve this later, just shit text data. - James
