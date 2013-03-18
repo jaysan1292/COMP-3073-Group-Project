@@ -1,10 +1,14 @@
-﻿<header>
-    <div id="header" class="navbar">
-        <div class="navbar-inner">
-            <a class="brand" href='@Url.Content("~/home")'>The Gate</a>
-            <form class="navbar-search pull-right">
-                <input type="text" class="search-query" placeholder="Search"/>
-            </form>
-        </div>
+﻿<header id="header" class="navbar">
+    <div class="navbar-inner">
+        <a class="brand" href='@Url.Content("~/home")'>The Gate</a>
+        <form class="navbar-search pull-right">
+            <input type="text" class="search-query" placeholder="Search"/>
+        </form>
+        <!-- TODO: When logged in, show 'logout' button -->
+        <form id="login" class="navbar-form pull-right" action='@Url.Content("~/login")' method="POST">
+          <input name="username" type="text" placeholder="Username"/>
+          <input name="password" type="password" placeholder="Password"/>
+          <input type="submit"/>
+        </form>
     </div>
 </header>

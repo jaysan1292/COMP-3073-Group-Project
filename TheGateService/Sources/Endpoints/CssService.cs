@@ -75,6 +75,7 @@ namespace TheGateService.Endpoints {
         }
 
         private static string Compress(string css) {
+            //TODO: YUI Compressor minifier
             // Remove css comments /* i.e., everything in a block such as this */
             css = Regex.Replace(css, @"/\*(.*?)\*/", "", RegexOptions.Singleline);
 

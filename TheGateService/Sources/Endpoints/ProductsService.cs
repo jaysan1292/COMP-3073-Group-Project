@@ -32,6 +32,7 @@ namespace TheGateService.Endpoints {
         }
 
         public object Get(Products request) {
+
             return new ProductsResponse { Results = SampleProducts };
         }
     }
