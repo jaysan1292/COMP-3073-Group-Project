@@ -117,3 +117,6 @@ Thumbs.db
 obj/
 [Rr]elease*/
 _ReSharper*/
+
+# Nuget packages (Enable Package Restore in Nuget)
+packages/
