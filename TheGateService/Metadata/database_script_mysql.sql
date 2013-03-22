@@ -24,6 +24,7 @@ Email varchar(128),
 Password CHAR(64) NOT NULL
 );
 
+-- Fuck this shit
 CREATE TABLE OrderType(
 TypeId INT PRIMARY KEY NOT NULL
 -- Name VARCHAR(64) NOT NULL
@@ -42,6 +43,14 @@ OrderStatus INT NOT NULL,
 FOREIGN KEY (CustomerId) REFERENCES Customer(CustomerId),
 FOREIGN KEY (OrderStatus) REFERENCES OrderStatus(OrderstatusId),
 FOREIGN KEY (OrderType) REFERENCES OrderType(TypeId)
+);
+
+CREATE TABLE ShoppingCart(
+CartId BIGINT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+CustomerId BIGINT NOT NULL,
+ProductId BIGINT NOT NULL,
+FOREIGN KEY (CustomerId) REFERENCES Customer(CustomerId),
+FOREIGN KEY (ProductId) REFERENCES Product(ProductId)
 );
 
 CREATE TABLE ShipmentMethod(
