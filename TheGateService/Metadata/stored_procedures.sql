@@ -2,7 +2,7 @@
 
 -- gets order data for a given customer
 
--- CREATE PROCEDURE getOrders @CustomerID BIGINT INPUT AS
+-- CREATE PROCEDURE getOrders @UserID BIGINT INPUT AS
 -- SELECT  Product.Name AS 'Product', OrderProduct.Quantity, OrderStatus.Name AS 'Status', Shipment.ShipmentDate AS 'Date Shipped', ShipmentMethod.Name AS 'Shipment Method'
 -- FROM User LEFT JOIN Orders ON User.UserID = Orders.UserID
 -- JOIN OrderStatus ON Orders.OrderStatus = OrderStatus.OrderStatusID
@@ -20,12 +20,12 @@
 
 -- View data
 
--- CREATE PROCEDURE viewCart @CustomerID BIGINT INPUT AS
+-- CREATE PROCEDURE viewCart @UserID BIGINT INPUT AS
 -- SELECT  Product.Name AS 'Product', ShoppingCart.Quantity, Product.Price
 -- FROM User LEFT JOIN Orders ON User.UserID = Orders.UserID
 -- JOIN OrderStatus ON Orders.OrderStatus = OrderStatus.OrderStatusID
 -- JOIN Product ON OrderProduct.ProductID = Product.ProductID
--- WHERE CustomerId = @CustomerID;
+-- WHERE UserId = @UserID;
 
 
 -- Update Quantity
@@ -110,16 +110,16 @@
 
 -- Add New User
 
--- CREATE PROCEDURE addUser @FirstName VARCHAR(30) INPUT, @LastName VARCHAR(30) INPUT, @Email VARCHAR(128) INPUT, @Password CHAR(64) INPUT, @Address VARCHAR(256) INPUT AS
--- INSERT INTO User (FirstName, LastName, Address, Email, Password)
--- VALUES (@FirstName, @LastName, @Address, @Email, @Password)
+-- CREATE PROCEDURE addUser @Type INT INPUT, @FirstName VARCHAR(30) INPUT, @LastName VARCHAR(30) INPUT, @Email VARCHAR(128) INPUT, @Password CHAR(64) INPUT, @Address VARCHAR(256) INPUT AS
+-- INSERT INTO User (Type, FirstName, LastName, Address, Email, Password)
+-- VALUES (@Type, @FirstName, @LastName, @Address, @Email, @Password)
 
 
 -- Update User
 
--- CREATE PROCEDURE updateUser @UserID BIGINT INPUT, @FirstName VARCHAR(30) INPUT, @LastName VARCHAR(30) INPUT, @Email VARCHAR(128) INPUT, @Password CHAR(64) INPUT, @Address VARCHAR(256) INPUT AS
+-- CREATE PROCEDURE updateUser @Type INT INPUT, @UserID BIGINT INPUT, @FirstName VARCHAR(30) INPUT, @LastName VARCHAR(30) INPUT, @Email VARCHAR(128) INPUT, @Password CHAR(64) INPUT, @Address VARCHAR(256) INPUT AS
 -- UPDATE User
--- SET FirstName = @FirstName, LastName = @LastName, Address = @Address, Email = @Email
+-- SET Type = @Type, FirstName = @FirstName, LastName = @LastName, Address = @Address, Email = @Email
 -- WHERE UserId = @UserID
 
 
