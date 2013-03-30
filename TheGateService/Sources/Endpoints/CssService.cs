@@ -1,9 +1,4 @@
-﻿// Project: TheGateService
-// Filename: CssService.cs
-// 
-// Author: Jason Recillo
-
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -14,6 +9,8 @@ using System.Text.RegularExpressions;
 using ServiceStack.ServiceHost;
 
 using TheGateService.Extensions;
+
+using Yahoo.Yui.Compressor;
 
 using dotless.Core;
 
@@ -75,13 +72,10 @@ namespace TheGateService.Endpoints {
         }
 
         private static string Compress(string css) {
-            //TODO: YUI Compressor minifier
-            // Remove css comments /* i.e., everything in a block such as this */
-            css = Regex.Replace(css, @"/\*(.*?)\*/", "", RegexOptions.Singleline);
-
-            // Remove all extra whitespace
-            css = Regex.Replace(css, @"\s+", " ");
-            return css.Trim();
+            return new CssCompressor {
+                RemoveComments = true,
+                CompressionType = CompressionType.Standard,
+            }.Compress(css);
         }
     }
 }

@@ -118,3 +118,5 @@ obj/
 [Rr]elease*/
 _ReSharper*/
 *.orig
+# Nuget packages (Enable Package Restore in Nuget)
+packages/

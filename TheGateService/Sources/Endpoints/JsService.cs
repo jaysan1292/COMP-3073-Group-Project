@@ -1,19 +1,15 @@
-﻿// Project: TheGateService
-// Filename: JsService.cs
-// 
-// Author: Jason Recillo
-
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Text.RegularExpressions;
 
 using ServiceStack.ServiceHost;
 
 using TheGateService.Extensions;
+
+using Yahoo.Yui.Compressor;
 
 namespace TheGateService.Endpoints {
     [Route("/assets/js/app.js")]
@@ -65,17 +61,12 @@ namespace TheGateService.Endpoints {
         }
 
         private static string Compress(string js) {
-            // TODO: Proper Javascript minification (i.e., removing all comments and unnecessary whitespace)
-
-            // Remove /* block comments */
-            js = Regex.Replace(js, @"/\*(.*?)\*/", "", RegexOptions.Singleline);
-
-            // Remove line comments
-            js = Regex.Replace(js, @"(?<="".*"".*)//.*$|(?<!"".*)//.*$", "", RegexOptions.Multiline);
-
-            // Remove blank lines
-            js = Regex.Replace(js, @"^\s*$[\r\n]*", "", RegexOptions.Multiline);
-            return js.Trim();
+            return new JavaScriptCompressor {
+                CompressionType = CompressionType.Standard,
+                DisableOptimizations = true,
+                Encoding = Encoding.UTF8,
+                ObfuscateJavascript = true,
+            }.Compress(js);
         }
     }
 }
