@@ -59,10 +59,10 @@ INSERT INTO OrderType VALUES
     (4);
 
 INSERT INTO OrderStatus VALUES
-    (1,'Pending'),
-    (2,'Shipped'),
-    (3,'Delivered'),
-    (4,'Lost');
+    (1, 'Pending'),
+    (2, 'Shipped'),
+    (3, 'Delivered'),
+    (4, 'Lost');
 
 INSERT INTO Orders (UserId,OrderType,OrderStatus) VALUES
     (1,1,2),
@@ -80,6 +80,7 @@ INSERT INTO ShipmentMethod VALUES
     (3, 'Post'),
     (4, 'EMS');
 
+-- (orderID, shipmentMethod, shipmentDate)
 INSERT INTO Shipment (OrderId,ShipmentMethod,ShipmentDate) VALUES
     (1,3,'2013-03-23 12:39:00'),
     (2,4,'2012-12-17 08:14:00'),

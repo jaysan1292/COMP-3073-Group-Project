@@ -5,6 +5,7 @@ USE thegate;
 SET autocommit=0;
 START TRANSACTION;
 
+DROP TABLE IF EXISTS ShoppingCart;
 DROP TABLE IF EXISTS OrderProduct;
 DROP TABLE IF EXISTS ProductShipment;
 DROP TABLE IF EXISTS Product;
@@ -32,6 +33,7 @@ Password CHAR(64) NOT NULL,
 FOREIGN KEY (Type) REFERENCES UserType(TypeId)
 );
 
+-- Fuck this shit
 CREATE TABLE OrderType(
 TypeId INT PRIMARY KEY NOT NULL,
 Name VARCHAR(64) NOT NULL
@@ -50,6 +52,15 @@ OrderStatus INT NOT NULL,
 FOREIGN KEY (UserId) REFERENCES User(UserId),
 FOREIGN KEY (OrderStatus) REFERENCES OrderStatus(OrderstatusId),
 FOREIGN KEY (OrderType) REFERENCES OrderType(TypeId)
+);
+
+CREATE TABLE ShoppingCart(
+CartId BIGINT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+CustomerId BIGINT NOT NULL,
+ProductId BIGINT NOT NULL,
+Quantity INT,
+FOREIGN KEY (CustomerId) REFERENCES Customer(CustomerId),
+FOREIGN KEY (ProductId) REFERENCES Product(ProductId)
 );
 
 CREATE TABLE ShipmentMethod(
