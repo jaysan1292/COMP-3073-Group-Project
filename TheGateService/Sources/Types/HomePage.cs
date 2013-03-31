@@ -10,6 +10,7 @@ using System.Linq;
 
 using ServiceStack.ServiceHost;
 
+using TheGateService.Database;
 using TheGateService.Endpoints;
 using TheGateService.Extensions;
 
@@ -19,10 +20,11 @@ namespace TheGateService.Types {
         public static List<Product> FeaturedItems { get; set; }
 
         static HomePage() {
+            var prods = new ProductDbProvider().GetAll();
             FeaturedItems = new List<Product>();
             // Get 3 random items from the All Products list
             Product temp;
-            while (!FeaturedItems.Contains((temp = ProductService.SampleProducts.GetRandom())) &&
+            while (!FeaturedItems.Contains((temp = prods.GetRandom())) &&
                    FeaturedItems.Count < 3)
                 FeaturedItems.Add(temp);
         }
