@@ -74,7 +74,8 @@ Name        VARCHAR(256) NOT NULL,
 Description TEXT,
 Quantity    INT,
 Price       REAL,
-Featured    BOOLEAN
+Featured    BOOLEAN,
+Showcase    BOOLEAN
 );
 
 CREATE TABLE ProductShipment(
