@@ -207,7 +207,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Metadata\" />
-    <Folder Include="Tests\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="assets\css\app.css.d\01-application.less" />
