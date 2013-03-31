@@ -7,6 +7,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web;
 
 using Funq;
@@ -37,6 +38,9 @@ namespace TheGateService {
                 DefaultContentType = ContentType.Json,
                 DebugMode = true,
                 DefaultRedirectPath = "/home",
+                CustomHttpHandlers = {
+                    { HttpStatusCode.NotFound, new RazorHandler("/notfound") }
+                }
             });
 
             // TODO: Minify HTML output :p (except <pre> and <code> tags)

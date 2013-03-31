@@ -1,0 +1,12 @@
+﻿@{
+    Layout = "MainLayout";
+    ViewBag.Title = "Not Found";
+}
+<div class="row-fluid">
+    <h1>404 Not Found</h1>
+    <p>@Model.ResponseStatus.ErrorCode</p>
+    <p>
+        Sorry, you must have clicked a bad link or mistyped the URL. Either way, <i>this is probably not what you are looking for</i>.
+    </p>
+    <a href="@Url.Content("~/home")">Go Home &raquo;</a>
+</div>

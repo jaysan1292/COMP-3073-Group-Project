@@ -211,6 +211,9 @@
   <ItemGroup>
     <Content Include="assets\css\app.css.d\01-application.less" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="NotFound.cshtml" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
   <ProjectExtensions>
