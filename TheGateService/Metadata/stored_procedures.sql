@@ -1,4 +1,11 @@
+SET autocommit=0;
+START TRANSACTION;
+
+DELIMITER //
+
+-- ----------------------
 -- CUSTOMER ORDER HISTORY
+-- ----------------------
 
 -- gets order data for a given customer
 
@@ -13,10 +20,9 @@
 -- JOIN ShipmentMethod ON Shipment.ShipmentMethod = ShipmentMethod.MethodID
 -- WHERE User.UserId = @UserID
 
-
-
-
-		-- SHOPPING CART
+-- -------------
+-- SHOPPING CART
+-- -------------
 
 -- View data
 
@@ -52,48 +58,84 @@
 
 -- ****FOR LATER**** - Remove product from cart and add information to orders and orderproduct tables
 
-
-
-
-		-- PRODUCT TABLE MANIPULATION
+-- --------------------------
+-- PRODUCT TABLE MANIPULATION
+-- --------------------------
 
 -- Add product
-
--- CREATE PROCEDURE addProduct @Name VARCHAR(256) INPUT, @Desc TEXT INPUT, @Quantity INT INPUT, @Price REAL INPUT AS
--- INSERT INTO Product (Name, Description, Quantity, Price)
--- VALUES (@Name, @Desc, @Quantity, @Price);
-
+DROP PROCEDURE IF EXISTS AddProduct;
+CREATE PROCEDURE AddProduct (IN ProdName VARCHAR(256), IN ProdDesc TEXT,
+                             IN ProdQuantity INT, IN ProdPrice REAL,
+                             IN ProdFeatured BOOLEAN, IN ProdShowcase BOOLEAN)
+BEGIN
+    INSERT INTO Product (Name, Description, Quantity, Price, Featured, Showcase) VALUES
+        (ProdName, ProdDesc, ProdQuantity, ProdPrice, ProdFeatured, ProdShowcase);
+END //
 
 -- Delete product
+DROP PROCEDURE IF EXISTS DeleteProduct;
+CREATE PROCEDURE DeleteProduct (ProdId BIGINT)
+BEGIN
+    DELETE FROM Product
+    WHERE ProductId = ProdId;
+END //
 
--- CREATE PROCEDURE deleteProduct @VariableID BIGINT INPUT AS
--- DELETE FROM Product
--- WHERE productID = @VariableID
+-- Get product by ID
+DROP PROCEDURE IF EXISTS GetProductById;
+CREATE PROCEDURE GetProductById (ProdID BIGINT)
+BEGIN
+    SELECT ProductId, Name, Description, Quantity, Price, Featured, Showcase
+    FROM Product
+    WHERE ProductId = ProdID;
+END //
 
+-- Get all products
+DROP PROCEDURE IF EXISTS GetAllProducts;
+CREATE PROCEDURE GetAllProducts ()
+BEGIN
+    SELECT ProductId, Name, Description, Quantity, Price, Featured, Showcase
+    FROM Product;
+END //
 
--- View product by ID
+-- Get featured products
+DROP PROCEDURE IF EXISTS GetFeaturedProducts;
+CREATE PROCEDURE GetFeaturedProducts ()
+BEGIN
+    SELECT ProductId, Name, Description, Quantity, Price, Featured, Showcase
+    FROM Product
+    WHERE Featured = 1;
+END //
 
--- CREATE PROCEDURE viewProductById @ProductID BIGINT INPUT AS
--- SELECT Product, Name, Description, Quantity, Price FROM Product
--- WHERE productID = @ProductID;
-
-
--- View all products
-
--- CREATE PROCEDURE viewAllProducts AS
--- SELECT Product, Name, Description, Quantity, Price FROM Product
-
+-- Get showcase products
+DROP PROCEDURE IF EXISTS GetShowcaseProducts;
+CREATE PROCEDURE GetShowcaseProducts ()
+BEGIN
+    SELECT ProductId, Name, Description, Quantity, Price, Featured, Showcase
+    FROM Product
+    WHERE Showcase = 1;
+END //
 
 -- Update Product
+DROP PROCEDURE IF EXISTS UpdateProduct;
+CREATE PROCEDURE UpdateProduct(IN ProdId BIGINT, IN ProdName VARCHAR(256),
+                               IN ProdDesc TEXT, IN ProdQuantity INT, IN ProdPrice REAL,
+                               IN ProdFeatured BOOLEAN, IN ProdShowcase BOOLEAN)
+BEGIN
+    UPDATE Product
+    SET
+        Name        = ProdName,
+        Quantity    = ProdQuantity,
+        Description = ProdDesc,
+        Price       = ProdPrice,
+        Featured    = ProdFeatured,
+        Showcase    = ProdShowcase
+    WHERE
+        ProductId = ProdId;
+END //
 
--- CREATE PROCEDURE UpdateProduct @ProductID BIGINT INPUT, @Name VARCHAR(256) INPUT, @Desc TEXT INPUT, @Quantity INT INPUT, @Price REAL INPUT AS
--- UPDATE Product
--- SET Name = @Name, Quantity = @Quantity, Description = @Desc, Price = @Price
--- WHERE ProductId = @ProductID
-
-
-
-		-- USER INFORMATION
+-- ----------------
+-- USER INFORMATION
+-- ----------------
 
 -- Get password, FirstName, and LastName
 
@@ -137,3 +179,7 @@
 -- JOIN OrderStatus ON Orders.OrderStatus = OrderStatus.OrderStatusID
 -- JOIN OrderType ON Orders.OrderType = OrderType.TypeID
 -- WHERE Orderstatus = 1 AND Orders.OrderID = OrderVariable;
+
+DELIMITER ;
+
+COMMIT;
