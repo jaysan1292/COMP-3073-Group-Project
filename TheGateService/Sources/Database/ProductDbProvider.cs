@@ -10,6 +10,10 @@ using TheGateService.Types;
 namespace TheGateService.Database {
     public class ProductDbProvider : BaseDbProvider<Product> {
         private const string Query = "SELECT * FROM Product WHERE ProductId=@id";
+
+        public ProductDbProvider()
+            : base("Product") { }
+
         protected override Product BuildObject(MySqlDataReader reader) {
             if (!reader.Read()) return null;
             return new Product {
