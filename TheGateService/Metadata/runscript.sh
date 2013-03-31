@@ -6,9 +6,7 @@
 # Get the directory this script is located in
 DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-CREATE=database_script_mysql.sql
-PROCEDURES=stored_procedures.sql
-TESTDATA=testdata.sql
+FILES="database_script_mysql stored_procedures testdata"
 
 USER=thegate
 
@@ -26,13 +24,10 @@ checkfile() {
     fi
 }
 
-checkfile "$DIR/$CREATE"
-checkfile "$DIR/$PROCEDURES"
-checkfile "$DIR/$TESTDATA"
-
-cat "$DIR/$CREATE" > "$filename"
-cat "$DIR/$PROCEDURES" >> "$filename"
-cat "$DIR/$TESTDATA" >> "$filename"
+for i in $FILES; do
+    checkfile "$DIR/$i.sql"
+    cat "$DIR/$i.sql" >> "$filename"
+done
 
 while [[ -z $pass ]]; do
     echo Enter database password for user '"'$USER'"':

@@ -38,9 +38,9 @@
 
 -- Add Product to Cart
 
--- CREATE PROCEDURE addCart @Quantity INT INPUT, @ProductID BIGINT INPUT, @CustomerID BIGINT INPUT AS
--- INSERT INTO ShoppingCart(CustomerId, ProductId, Quantity)
--- VALUES (@CustomerID, @ProductID, @Quantity)
+-- CREATE PROCEDURE addCart @Quantity INT INPUT, @ProductID BIGINT INPUT, @UserID BIGINT INPUT AS
+-- INSERT INTO ShoppingCart(UserId, ProductId, Quantity)
+-- VALUES (@UserID, @ProductID, @Quantity)
 
 
 -- Remove Product from Cart
@@ -93,7 +93,7 @@
 
 
 
-		--USER INFORMATION
+		-- USER INFORMATION
 
 -- Get password, FirstName, and LastName
 
