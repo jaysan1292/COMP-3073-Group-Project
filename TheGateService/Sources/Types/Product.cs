@@ -14,7 +14,7 @@ using TheGateService.Responses;
 
 namespace TheGateService.Types {
     [Route("/products")]
-    public class Products {
+    public class Products: IReturn<ProductsResponse> {
         public List<Product> Results { get; set; }
     }
 
@@ -60,7 +60,9 @@ namespace TheGateService.Types {
         protected override bool _Equals(Product other) {
             return Name == other.Name &&
                    Description == other.Description &&
-                   Price == other.Price;
+                   Price == other.Price &&
+                   Featured == other.Featured &&
+                   Showcase == other.Showcase;
         }
 
         public override int GetHashCode() {
@@ -69,6 +71,8 @@ namespace TheGateService.Types {
                 hashCode = (hashCode * 397) ^ (Name != null ? Name.GetHashCode() : 0);
                 hashCode = (hashCode * 397) ^ (Description != null ? Description.GetHashCode() : 0);
                 hashCode = (hashCode * 397) ^ Price.GetHashCode();
+                hashCode = (hashCode * 397) ^ Featured.GetHashCode();
+                hashCode = (hashCode * 397) ^ Showcase.GetHashCode();
                 return hashCode;
             }
         }
