@@ -11,7 +11,7 @@ FILES="database_script_mysql stored_procedures testdata"
 USER=thegate
 
 if [[ -z $(which mysql) ]]; then
-    echo MySQL is not installed, or is not in your PATH.
+    echo MySQL is not installed, or is not in your PATH. >&2
     exit 1
 fi
 
