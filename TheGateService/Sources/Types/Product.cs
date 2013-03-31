@@ -10,6 +10,8 @@ using System.Linq;
 
 using ServiceStack.ServiceHost;
 
+using TheGateService.Responses;
+
 namespace TheGateService.Types {
     [Route("/products")]
     public class Products {
@@ -17,33 +19,39 @@ namespace TheGateService.Types {
     }
 
     [Route("/products/{Id}")]
-    public class Product : Entity<Product> {
+    public class Product : Entity<Product>, IReturn<ProductResponse> {
         #region Properties
 
         public string Name { get; set; }
         public string Description { get; set; }
         public decimal Price { get; set; }
         public int Quantity { get; set; }
+        public bool Featured { get; set; }
+        public bool Showcase { get; set; }
 
         #endregion
 
         #region Constructors
 
         public Product()
-            : this(-1, "", "", 0) { }
+            : this(-1, "", "", 0, false, false) { }
 
-        public Product(long id, string name, string description, decimal price)
+        public Product(long id, string name, string description, decimal price, bool featured, bool showcase)
             : base(id) {
             Name = name;
             Description = description;
             Price = price;
+            Featured = featured;
+            Showcase = showcase;
         }
 
         public Product(Product other)
             : this(other.Id,
                    other.Name,
                    other.Description,
-                   other.Price) { }
+                   other.Price,
+                   other.Featured,
+                   other.Showcase) { }
 
         #endregion
 
