@@ -79,14 +79,14 @@ INSERT INTO Shipment (OrderId,ShipmentMethod,ShipmentDate) VALUES
     (8, 2, '2013-01-23 14:28:00');
 
 -- I will improve this later, just shit text data. - James
-INSERT INTO Product (Name,Description,Quantity,Price) VALUES
-    ('Video Card',  'Video card for PC',    37, 159.99),
-    ('MB',          'Motherboard',          15, 89.99),
-    ('Case',        'Computer Case',        44, 59.99),
-    ('Monitor',     'Computer Monitor',     1,  99.99),
-    ('PS',          'Power Supply',         6,  39.99),
-    ('KB',          'Keyboard',             29, 24.99),
-    ('Mouse',       'Mouse',                31, 59.99);
+INSERT INTO Product (Name,Description,Quantity,Price,Featured,Showcase) VALUES
+    ('Video Card',  'Video card for PC',    37, 159.99, 1, 1),
+    ('MB',          'Motherboard',          15, 89.99,  1, 0),
+    ('Case',        'Computer Case',        44, 59.99,  1, 1),
+    ('Monitor',     'Computer Monitor',     1,  99.99,  1, 1),
+    ('PS',          'Power Supply',         6,  39.99,  0, 0),
+    ('KB',          'Keyboard',             29, 24.99,  1, 0),
+    ('Mouse',       'Mouse',                31, 59.99,  1, 0);
 
 INSERT INTO ProductShipment (ProductId,ShipmentId,Quantity) VALUES
     (1, 1, 5),
