@@ -139,12 +139,24 @@ END //
 -- USER INFORMATION
 -- ----------------
 
+-- Get User info
+DROP PROCEDURE IF EXISTS GetUserInfo;
+CREATE PROCEDURE GetUserInfo (IN UserId BIGINT)
+BEGIN
+    SELECT UserId, FirstName, LastName, Address, Email, Type
+    FROM User
+    WHERE User.UserId = UserId;
+END //
+
 -- Get password, FirstName, and LastName
 
--- CREATE PROCEDURE getUser @Email Varchar(128) INPUT AS
--- SELECT password, FirstName, LastName FROM User
--- WHERE email = @Email;
-
+DROP PROCEDURE IF EXISTS GetUserPassword;
+CREATE PROCEDURE GetUserPassword (IN Email VARCHAR(128))
+BEGIN
+    SELECT Password
+    FROM User
+    WHERE User.Email = Email;
+END //
 
 -- Get user credentials
 

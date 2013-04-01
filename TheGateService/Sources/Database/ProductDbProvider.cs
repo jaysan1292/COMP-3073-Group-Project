@@ -15,19 +15,6 @@ namespace TheGateService.Database {
         public ProductDbProvider()
             : base("Product") { }
 
-        protected override Product BuildObject(MySqlDataReader reader) {
-            if (!reader.Read()) return null;
-            return new Product {
-                Id = reader.GetInt64("ProductId"),
-                Name = reader.GetString("Name"),
-                Description = reader.GetString("Description"),
-                Quantity = reader.GetInt32("Quantity"),
-                Price = reader.GetDecimal("Price"),
-                Featured = reader.GetBoolean("Featured"),
-                Showcase = reader.GetBoolean("Showcase"),
-            };
-        }
-
         protected override Product Get(long id, MySqlConnection conn) {
             var cmd = new MySqlCommand {
                 Connection = conn,
@@ -39,9 +26,7 @@ namespace TheGateService.Database {
             var product = BuildObject(reader);
             reader.Close();
 
-            if (product == null) return null;
-
-            return product;
+            return product; // Product will be null if not found
         }
 
         protected override long Create(Product obj, MySqlConnection conn) {
@@ -97,6 +82,19 @@ namespace TheGateService.Database {
             var rows = cmd.ExecuteNonQuery();
 
             if (rows != 1) throw new ApplicationException("Could not delete product {0}.".Fmt(id));
+        }
+
+        protected override Product BuildObject(MySqlDataReader reader) {
+            if (!reader.Read()) return null;
+            return new Product {
+                Id = reader.GetInt64("ProductId"),
+                Name = reader.GetString("Name"),
+                Description = reader.GetString("Description"),
+                Quantity = reader.GetInt32("Quantity"),
+                Price = reader.GetDecimal("Price"),
+                Featured = reader.GetBoolean("Featured"),
+                Showcase = reader.GetBoolean("Showcase"),
+            };
         }
     }
 }
