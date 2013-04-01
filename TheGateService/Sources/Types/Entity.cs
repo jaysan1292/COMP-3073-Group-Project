@@ -61,15 +61,19 @@ namespace TheGateService.Types {
 
         #region Constructors
 
+        [DebuggerHidden]
         public Entity()
             : this(-1) { }
 
+        [DebuggerHidden]
         public Entity(long id)
             : base(id) { }
 
+        [DebuggerHidden]
         public Entity(T other)
             : this((Entity) other) { }
 
+        [DebuggerHidden]
         public Entity(Entity other)
             : this(other.Id) { }
 
