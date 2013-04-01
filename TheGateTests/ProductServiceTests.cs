@@ -1,6 +1,7 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 
@@ -34,14 +35,14 @@ namespace TheGateTests {
 
         // Use TestInitialize to run code before running each test 
         [TestInitialize]
-        public void TestInitialize() {
-            // Reset the database before running each test to ensure a consistent state
-            TestHelper.ResetDatabase();
-        }
+        public void TestInitialize() { }
 
         // Use TestCleanup to run code after each test has run
         [TestCleanup]
-        public void TestCleanup() { }
+        public void TestCleanup() {
+            // Reset the database before running each test to ensure a consistent state
+            TestHelper.ResetDatabase(); 
+        }
 
         #endregion
 
