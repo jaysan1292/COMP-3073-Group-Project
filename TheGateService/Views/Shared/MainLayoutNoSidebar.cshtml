@@ -1,0 +1,27 @@
+﻿@using System
+@using System.Collections
+@using System.Collections.Generic
+@using System.Linq
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>@ViewBag.Title</title>
+        <meta http-equiv="Content-Type" charset="utf-8" content="text/html"/>
+        <link href="@Url.Content("~/assets/css/app.css?minify=0")" rel="stylesheet"></link>
+        <script src="http://code.jquery.com/jquery-1.9.1.min.js"> </script>
+    </head>
+    <body>
+        <div class="container">
+            <div class="row">
+                @Html.Partial("Header")
+                <div id="body">
+                    <div id="content">
+                        @RenderBody()
+                    </div>
+                </div>
+            </div>
+        </div>
+        @Html.Partial("Footer")
+        <script src="@Url.Content("~/assets/js/app.js")"> </script>
+    </body>
+</html>

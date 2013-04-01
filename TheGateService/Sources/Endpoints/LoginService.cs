@@ -26,7 +26,8 @@ namespace TheGateService.Endpoints {
                 AuthService.Authenticate(new Auth { UserName = request.Username, Password = request.Password });
             } catch (HttpError) {
                 // Invalid username or password
-                Session.Set("Error-Message", "Incorrect username or password.");
+                var message = "{0}:{1}".Fmt(request.Username, "Incorrect username or password.");
+                Session.Set("Error-Message", message);
                 return HttpResult.Redirect(Url.Content("~/Login"));
             }
             return HttpResult.Redirect(Request.QueryString["redirect"] ?? Url.Content("~/home"));
