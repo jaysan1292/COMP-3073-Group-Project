@@ -1,26 +1,33 @@
-﻿@using TheGateService.Utilities
+@using TheGateService.Utilities
 
 @{
     var session = Html.GetAuthSession();
 }
 
 <header id="header" class="navbar">
-  <div class="navbar-inner">
-    <a class="brand" href='@Url.Content("~/home")'>The Gate</a>
-    <form class="navbar-search pull-right">
-      <input type="text" class="search-query" placeholder="Search"/>
-    </form>
-      @if (session.IsAuthenticated) {
-          <form id="login" class="navbar-form pull-right" action='@Url.Content("~/Logout")' method="POST">
-              <label class="label">@session.FirstName @session.LastName</label>
-              <input class="btn btn-info" type="submit" value="Logout"/>
-          </form>
-      } else {
-        <form id="login" class="navbar-form pull-right" action='@Url.Content("~/Login")' method="POST">
-          <input name="username" type="text" placeholder="Username"/>
-          <input name="password" type="password" placeholder="Password"/>
-          <input class="btn btn-info" type="submit" value="Login"/>
+    <div class="navbar-inner">
+        <a class="brand" href='@Url.Content("~/home")'>The Gate</a>
+        <form class="navbar-search pull-right" id="navbar-search">
+            <input type="text" class="search-query" placeholder="Search"/>
         </form>
-      }
+        @if (session.IsAuthenticated) {
+            <ul class="nav pull-right">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        Welcome, @session.FirstName!
+                        <b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href='@Url.Content("~/logout")'><i class="icon-cog"></i> Logout</a></li>
+                    </ul>
+                </li>
+            </ul>
+        } else {
+            <form id="login" class="navbar-form pull-right" action='@Url.Content("~/Login")' method="POST">
+                <input name="username" type="text" placeholder="Username"/>
+                <input name="password" type="password" placeholder="Password"/>
+                <input class="btn btn-info" type="submit" value="Login"/>
+            </form>
+        }
     </div>
 </header>
