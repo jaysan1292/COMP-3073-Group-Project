@@ -43,7 +43,6 @@ namespace TheGateService {
                 }
             });
 
-            // TODO: Minify HTML output :p (except <pre> and <code> tags)
             ResponseFilters.Add((request, response, dto) => {
                 if (response.ContentType.Contains("html")) {
                     var originalResponse = response.OriginalResponse as HttpResponse;
