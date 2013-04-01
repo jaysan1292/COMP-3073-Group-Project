@@ -1,14 +1,11 @@
-// Project: TheGateService
-// Filename: ProductsService.cs
-// 
-// Author: Jason Recillo
-
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
+using ServiceStack.Common.Web;
 using ServiceStack.ServiceInterface;
+using ServiceStack.Text;
 
 using TheGateService.Database;
 using TheGateService.Responses;

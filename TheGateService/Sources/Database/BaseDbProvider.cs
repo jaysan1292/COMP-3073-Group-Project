@@ -1,9 +1,4 @@
-﻿// Project: TheGateService
-// Filename: BaseDbProvider.cs
-// 
-// Author: Jason Recillo
-
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -20,6 +15,7 @@ namespace TheGateService.Database {
     public abstract class BaseDbProvider<T> : IDbProvider<T> where T : Entity<T> {
         protected static readonly ILog Log = LogManager.GetLogger(typeof(BaseDbProvider<T>));
         private readonly string _tableName;
+
         protected BaseDbProvider(string tableName) {
             _tableName = tableName;
         }

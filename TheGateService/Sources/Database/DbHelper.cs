@@ -1,9 +1,4 @@
-﻿// Project: TheGateService
-// Filename: DbHelper.cs
-// 
-// Author: Jason Recillo
-
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Configuration;
@@ -25,19 +20,22 @@ namespace TheGateService.Database {
             connection.Open();
             return connection;
         }
+
         [DebuggerHidden]
         public static void CloseConnection(MySqlConnection connection) {
             if (connection != null) connection.Close();
         }
+
         [DebuggerHidden]
         public static MySqlConnection OpenConnectionAndBeginTransaction(out MySqlTransaction transaction) {
             var connection = OpenConnection();
             transaction = connection.BeginTransaction();
             return connection;
         }
+
         [DebuggerHidden]
         public static void CloseConnectionAndEndTransaction(MySqlConnection connection, MySqlTransaction transaction) {
-            if (connection != null) connection.Close();
+            if (transaction != null) transaction.Commit();
             CloseConnection(connection);
         }
     }

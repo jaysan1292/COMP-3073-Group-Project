@@ -1,9 +1,4 @@
-﻿// Project: TheGateService
-// Filename: Product.cs
-// 
-// Author: Jason Recillo
-
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -15,7 +10,7 @@ using TheGateService.Responses;
 
 namespace TheGateService.Types {
     [Route("/products")]
-    public class Products: IReturn<ProductsResponse> {
+    public class Products : IReturn<ProductsResponse> {
         public List<Product> Results { get; set; }
     }
 

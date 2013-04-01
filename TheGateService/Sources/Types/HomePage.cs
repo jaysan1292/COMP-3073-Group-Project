@@ -1,9 +1,4 @@
-﻿// Project: TheGateService
-// Filename: HomePage.cs
-// 
-// Author: Jason Recillo
-
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +6,6 @@ using System.Linq;
 using ServiceStack.ServiceHost;
 
 using TheGateService.Database;
-using TheGateService.Endpoints;
 using TheGateService.Extensions;
 
 namespace TheGateService.Types {

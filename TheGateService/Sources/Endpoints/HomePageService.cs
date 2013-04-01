@@ -1,8 +1,3 @@
-// Project: TheGateService
-// Filename: HomePageService.cs
-// 
-// Author: Jason Recillo
-
 using System;
 using System.Collections;
 using System.Collections.Generic;
