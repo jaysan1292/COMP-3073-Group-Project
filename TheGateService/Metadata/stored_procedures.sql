@@ -66,10 +66,12 @@ DELIMITER //
 DROP PROCEDURE IF EXISTS AddProduct;
 CREATE PROCEDURE AddProduct (IN ProdName VARCHAR(256), IN ProdDesc TEXT,
                              IN ProdQuantity INT, IN ProdPrice REAL,
-                             IN ProdFeatured BOOLEAN, IN ProdShowcase BOOLEAN)
+                             IN ProdFeatured BOOLEAN, IN ProdShowcase BOOLEAN,
+                             OUT NewId BIGINT)
 BEGIN
     INSERT INTO Product (Name, Description, Quantity, Price, Featured, Showcase) VALUES
         (ProdName, ProdDesc, ProdQuantity, ProdPrice, ProdFeatured, ProdShowcase);
+    SET NewId = LAST_INSERT_ID();
 END //
 
 -- Delete product
