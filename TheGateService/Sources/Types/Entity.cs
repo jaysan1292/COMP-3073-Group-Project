@@ -6,6 +6,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.Serialization;
 
@@ -21,13 +22,16 @@ namespace TheGateService.Types {
 
         #region Constructors
 
+        [DebuggerHidden]
         public Entity()
             : this(-1) { }
 
+        [DebuggerHidden]
         public Entity(long id) {
             Id = id;
         }
 
+        [DebuggerHidden]
         public Entity(Entity other)
             : this(other.Id) { }
 
@@ -50,6 +54,7 @@ namespace TheGateService.Types {
 
         #endregion
 
+        [DebuggerHidden]
         public override string ToString() {
             return JsonSerializer.SerializeToString(this);
         }

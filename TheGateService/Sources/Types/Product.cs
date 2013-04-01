@@ -6,6 +6,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 using ServiceStack.ServiceHost;
@@ -33,9 +34,11 @@ namespace TheGateService.Types {
 
         #region Constructors
 
+        [DebuggerHidden]
         public Product()
             : this(-1, "", "", 0, false, false) { }
 
+        [DebuggerHidden]
         public Product(long id, string name, string description, decimal price, bool featured, bool showcase)
             : base(id) {
             Name = name;
@@ -45,6 +48,7 @@ namespace TheGateService.Types {
             Showcase = showcase;
         }
 
+        [DebuggerHidden]
         public Product(Product other)
             : this(other.Id,
                    other.Name,
