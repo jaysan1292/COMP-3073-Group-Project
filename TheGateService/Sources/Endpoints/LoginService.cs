@@ -1,18 +1,35 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Web;
 
+using ServiceStack.Common.Web;
+using ServiceStack.Html;
 using ServiceStack.ServiceInterface;
+using ServiceStack.ServiceInterface.Auth;
 using ServiceStack.Text;
 
+using TheGateService.Responses;
+using TheGateService.Security;
 using TheGateService.Types;
 
 namespace TheGateService.Endpoints {
-    public class LoginService : Service {
+    public class LoginService : GateServiceBase {
+        public object Get(Login request) {
+            return new LoginResponse();
+        }
+
         public object Post(Login request) {
-            Global.Log.Debug(request.Dump());
-            return request;
+            try {
+                AuthService.Authenticate(new Auth { UserName = request.Username, Password = request.Password });
+            } catch (HttpError) {
+                // Invalid username or password
+                Session.Set("Error-Message", "Incorrect username or password.");
+                return HttpResult.Redirect(Url.Content("~/Login"));
+            }
+            return HttpResult.Redirect(Request.QueryString["redirect"] ?? Url.Content("~/home"));
         }
     }
 }

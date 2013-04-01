@@ -63,7 +63,7 @@ DELIMITER //
 -- --------------------------
 
 -- Add product
-DROP PROCEDURE IF EXISTS AddProduct;
+DROP PROCEDURE IF EXISTS AddProduct //
 CREATE PROCEDURE AddProduct (IN ProdName VARCHAR(256), IN ProdDesc TEXT,
                              IN ProdQuantity INT, IN ProdPrice REAL,
                              IN ProdFeatured BOOLEAN, IN ProdShowcase BOOLEAN,
@@ -75,7 +75,7 @@ BEGIN
 END //
 
 -- Delete product
-DROP PROCEDURE IF EXISTS DeleteProduct;
+DROP PROCEDURE IF EXISTS DeleteProduct //
 CREATE PROCEDURE DeleteProduct (ProdId BIGINT)
 BEGIN
     DELETE FROM Product
@@ -83,7 +83,7 @@ BEGIN
 END //
 
 -- Get product by ID
-DROP PROCEDURE IF EXISTS GetProductById;
+DROP PROCEDURE IF EXISTS GetProductById //
 CREATE PROCEDURE GetProductById (ProdID BIGINT)
 BEGIN
     SELECT ProductId, Name, Description, Quantity, Price, Featured, Showcase
@@ -92,7 +92,7 @@ BEGIN
 END //
 
 -- Get all products
-DROP PROCEDURE IF EXISTS GetAllProducts;
+DROP PROCEDURE IF EXISTS GetAllProducts //
 CREATE PROCEDURE GetAllProducts ()
 BEGIN
     SELECT ProductId, Name, Description, Quantity, Price, Featured, Showcase
@@ -100,7 +100,7 @@ BEGIN
 END //
 
 -- Get featured products
-DROP PROCEDURE IF EXISTS GetFeaturedProducts;
+DROP PROCEDURE IF EXISTS GetFeaturedProducts //
 CREATE PROCEDURE GetFeaturedProducts ()
 BEGIN
     SELECT ProductId, Name, Description, Quantity, Price, Featured, Showcase
@@ -109,7 +109,7 @@ BEGIN
 END //
 
 -- Get showcase products
-DROP PROCEDURE IF EXISTS GetShowcaseProducts;
+DROP PROCEDURE IF EXISTS GetShowcaseProducts //
 CREATE PROCEDURE GetShowcaseProducts ()
 BEGIN
     SELECT ProductId, Name, Description, Quantity, Price, Featured, Showcase
@@ -118,7 +118,7 @@ BEGIN
 END //
 
 -- Update Product
-DROP PROCEDURE IF EXISTS UpdateProduct;
+DROP PROCEDURE IF EXISTS UpdateProduct //
 CREATE PROCEDURE UpdateProduct(IN ProdId BIGINT, IN ProdName VARCHAR(256),
                                IN ProdDesc TEXT, IN ProdQuantity INT, IN ProdPrice REAL,
                                IN ProdFeatured BOOLEAN, IN ProdShowcase BOOLEAN)
@@ -140,7 +140,7 @@ END //
 -- ----------------
 
 -- Get User info
-DROP PROCEDURE IF EXISTS GetUserInfo;
+DROP PROCEDURE IF EXISTS GetUserInfo //
 CREATE PROCEDURE GetUserInfo (IN UserId BIGINT)
 BEGIN
     SELECT UserId, FirstName, LastName, Address, Email, Type
@@ -150,10 +150,10 @@ END //
 
 -- Get password, FirstName, and LastName
 
-DROP PROCEDURE IF EXISTS GetUserPassword;
+DROP PROCEDURE IF EXISTS GetUserPassword //
 CREATE PROCEDURE GetUserPassword (IN Email VARCHAR(128))
 BEGIN
-    SELECT Password
+    SELECT UserId, Password
     FROM User
     WHERE User.Email = Email;
 END //

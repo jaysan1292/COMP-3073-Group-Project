@@ -1,0 +1,41 @@
+﻿@using System
+@using System.Collections
+@using System.Collections.Generic
+@using System.Linq
+
+@{
+    ViewBag.Title = "Log In";
+    Layout = "MainLayout";
+    var errmsg = Session.Get<string>("Error-Message");
+    if (errmsg != null) {
+        Session.Set("Error-Message", (object) null);
+    }
+}
+
+<div class="row">
+    <form method="POST" action="@Url.Content("~/Login?" + Request.QueryString)" class="form-horizontal">
+        @if (errmsg != null) {
+            <label class="error">@errmsg</label>
+        }
+        <div class="control-group">
+            <label class="control-label" for="userName">Username</label>
+            <div class="controls">
+                <input type="text" name="userName" placeholder="Username"/>
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="password">Password</label>
+            <div class="controls">
+                <input type="password" name="password" placeholder="Password"/>
+            </div>
+        </div>
+        <div class="control-group">
+            <div class="controls">
+                <label class="checkbox">
+                    <input type="checkbox">Remember me
+                </label>
+                <button type="submit" class="btn">Submit</button>
+            </div>
+        </div>
+    </form>
+</div>

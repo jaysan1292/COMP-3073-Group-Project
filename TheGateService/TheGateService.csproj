@@ -158,11 +158,18 @@
     <Compile Include="Sources\Database\BaseDbProvider.cs" />
     <Compile Include="Sources\Database\DbHelper.cs" />
     <Compile Include="Sources\Database\ProductDbProvider.cs" />
+    <Compile Include="Sources\Database\UserDbProvider.cs" />
+    <Compile Include="Sources\Endpoints\GateServiceBase.cs" />
     <Compile Include="Sources\Endpoints\LoginService.cs" />
+    <Compile Include="Sources\Endpoints\LogoutService.cs" />
     <Compile Include="Sources\Interfaces\IDbProvider.cs" />
     <Compile Include="Sources\Endpoints\CssService.cs" />
     <Compile Include="Sources\Endpoints\MinifierServiceBase.cs" />
+    <Compile Include="Sources\Responses\LoginResponse.cs" />
+    <Compile Include="Sources\Security\PasswordHelper.cs" />
+    <Compile Include="Sources\Security\GateAuthProvider.cs" />
     <Compile Include="Sources\Types\Login.cs" />
+    <Compile Include="Sources\Types\User.cs" />
     <Compile Include="Sources\Utilities\FileHelper.cs" />
     <Compile Include="Sources\Endpoints\JsService.cs" />
     <Compile Include="Sources\Responses\HomePageResponse.cs" />
@@ -179,6 +186,7 @@
     <Compile Include="Sources\Responses\ProductResponse.cs" />
     <Compile Include="Sources\Responses\ProductsResponse.cs" />
     <Compile Include="Sources\Types\ResponseBase.cs" />
+    <Compile Include="Sources\Utilities\HtmlHelperExtensions.cs" />
     <Compile Include="Sources\Utilities\WhitespaceFilter.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -213,6 +221,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="NotFound.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\LoginResponse.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

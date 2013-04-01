@@ -20,9 +20,12 @@ using ServiceStack.Logging.NLogger;
 using ServiceStack.MiniProfiler;
 using ServiceStack.Razor;
 using ServiceStack.ServiceHost;
+using ServiceStack.ServiceInterface;
+using ServiceStack.ServiceInterface.Auth;
 using ServiceStack.Text;
 using ServiceStack.WebHost.Endpoints;
 
+using TheGateService.Security;
 using TheGateService.Utilities;
 
 namespace TheGateService {
@@ -52,6 +55,13 @@ namespace TheGateService {
             });
 
             Plugins.Add(new RazorFormat());
+            Plugins.Add(new AuthFeature(() => new AuthUserSession(), new IAuthProvider[] { new GateAuthProvider() }) {
+                HtmlRedirect = "/login",
+                IncludeAssignRoleServices = false,
+                ServiceRoutes = new Dictionary<Type, string[]> {
+                    { typeof(AuthService), new[] { "/auth" } },
+                },
+            });
 
             JsConfig.EmitCamelCaseNames = true;
 
