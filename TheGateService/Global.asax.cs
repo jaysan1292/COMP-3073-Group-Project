@@ -1,4 +1,4 @@
-﻿// Project: TheGateService
+// Project: TheGateService
 // Filename: Global.asax.cs
 // 
 // Author: Jason Recillo
@@ -22,11 +22,13 @@ using ServiceStack.Razor;
 using ServiceStack.ServiceHost;
 using ServiceStack.ServiceInterface;
 using ServiceStack.ServiceInterface.Auth;
+using ServiceStack.ServiceInterface.Validation;
 using ServiceStack.Text;
 using ServiceStack.WebHost.Endpoints;
 
 using TheGateService.Security;
 using TheGateService.Utilities;
+using TheGateService.Validation;
 
 namespace TheGateService {
     public class GateServiceHost : AppHostBase {
@@ -62,6 +64,8 @@ namespace TheGateService {
                     { typeof(AuthService), new[] { "/auth" } },
                 },
             });
+            Plugins.Add(new ValidationFeature());
+            container.RegisterValidators(typeof(ProductValidator).Assembly);
 
             JsConfig.EmitCamelCaseNames = true;
 

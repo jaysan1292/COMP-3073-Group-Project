@@ -190,6 +190,7 @@
     <Compile Include="Sources\Utilities\GeneralExtensions.cs" />
     <Compile Include="Sources\Utilities\HtmlHelperExtensions.cs" />
     <Compile Include="Sources\Utilities\WhitespaceFilter.cs" />
+    <Compile Include="Sources\Validation\ProductValidator.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

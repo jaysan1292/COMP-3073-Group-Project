@@ -1,7 +1,6 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 
 using MySql.Data.MySqlClient;
@@ -21,8 +20,6 @@ namespace TheGateService.Database {
         }
 
         public T Get(long id) {
-            CheckIdIsValid(id);
-
             MySqlTransaction tx;
             using (var conn = DbHelper.OpenConnectionAndBeginTransaction(out tx)) {
                 try {
@@ -68,8 +65,6 @@ namespace TheGateService.Database {
         }
 
         public bool Delete(long id) {
-            CheckIdIsValid(id);
-
             MySqlTransaction tx;
             using (var conn = DbHelper.OpenConnectionAndBeginTransaction(out tx)) {
                 try {
@@ -107,10 +102,5 @@ namespace TheGateService.Database {
         protected abstract void Update(T obj, MySqlConnection conn);
         protected abstract bool Delete(long id, MySqlConnection conn);
         protected abstract T BuildObject(MySqlDataReader reader);
-
-        [DebuggerHidden]
-        protected void CheckIdIsValid(long id) {
-            if (id < 0) throw new ArgumentException("Id must be non-negative.", "id");
-        }
     }
 }
