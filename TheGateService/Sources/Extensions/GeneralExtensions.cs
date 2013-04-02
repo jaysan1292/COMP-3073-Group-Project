@@ -37,7 +37,8 @@ namespace TheGateService.Extensions {
             return files.Where(f => extensions.Contains(f.Extension)).ToArray();
         }
 
-        [DebuggerHidden, StringFormatMethod("str")]
+        [DebuggerHidden]
+        [StringFormatMethod("str")]
         public static string F(this string str, params object[] args) {
             return string.Format(str, args);
         }

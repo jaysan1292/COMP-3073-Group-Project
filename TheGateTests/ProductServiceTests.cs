@@ -1,14 +1,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Net;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using ServiceStack.Common.ServiceClient.Web;
-using ServiceStack.Common.Web;
 using ServiceStack.ServiceClient.Web;
 using ServiceStack.Text;
 
@@ -49,7 +46,7 @@ namespace TheGateTests {
         [TestCleanup]
         public void TestCleanup() {
             // Reset the database before running each test to ensure a consistent state
-            TestHelper.ResetDatabase(); 
+            TestHelper.ResetDatabase();
         }
 
         #endregion
@@ -91,7 +88,7 @@ namespace TheGateTests {
             TestContext.WriteLine("{0}", response.Dump());
             Assert.IsTrue(response.Results.Count == 8);
         }
-        
+
         [TestMethod]
         public void TestAddProduct() {
             var expected = new Product {

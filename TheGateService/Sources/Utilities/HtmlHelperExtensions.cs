@@ -2,14 +2,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 
 using ServiceStack.CacheAccess;
 using ServiceStack.Html;
 using ServiceStack.ServiceInterface;
 using ServiceStack.ServiceInterface.Auth;
 using ServiceStack.WebHost.Endpoints;
-using ServiceStack.WebHost.Endpoints.Extensions;
 
 namespace TheGateService.Utilities {
     public static class HtmlHelperExtensions {

@@ -3,11 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Security;
 
 using MySql.Data.MySqlClient;
-
-using ServiceStack.ServiceClient.Web;
 
 using TheGateService.Types;
 
