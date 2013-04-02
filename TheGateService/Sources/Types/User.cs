@@ -1,15 +1,16 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 
 namespace TheGateService.Types {
+    [Flags]
     public enum UserType {
-        User = 1,
-        BasicEmployee = 2,
-        Shipping = 3,
-        Administrator = 4
+        User = 1 << 0,
+        BasicEmployee = 1 << 1,
+        Shipping = 1 << 2,
+        Administrator = 1 << 3
     }
 
     public class User : Entity<User> {

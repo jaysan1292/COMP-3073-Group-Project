@@ -9,9 +9,13 @@ using ServiceStack.Text;
 
 using TheGateService.Database;
 using TheGateService.Responses;
+using TheGateService.Security;
 using TheGateService.Types;
 
 namespace TheGateService.Endpoints {
+    [Authenticate]
+    [RequiredPermission(ApplyTo.Put | ApplyTo.Post, Permissions.CanManageProducts)]
+    [RequiredPermission(ApplyTo.Delete, Permissions.CanDeleteProducts)]
     public class ProductService : Service {
         private static readonly ProductDbProvider Products = new ProductDbProvider();
 

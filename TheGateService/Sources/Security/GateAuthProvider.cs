@@ -3,14 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-using ServiceStack.Common;
-using ServiceStack.Html;
-using ServiceStack.ServiceHost;
 using ServiceStack.ServiceInterface;
 using ServiceStack.ServiceInterface.Auth;
 using ServiceStack.Text;
 
 using TheGateService.Database;
+using TheGateService.Types;
 
 namespace TheGateService.Security {
     public class GateAuthProvider : CredentialsAuthProvider {
@@ -32,13 +30,27 @@ namespace TheGateService.Security {
             session.Roles = new List<string> {
                 user.Type.ToString()
             };
+            var perms = new List<string>();
+            switch (user.Type) {
+                case UserType.User:
+                    // Users can view products, but so can everyone else, so they don't get a specific permission
+                    break;
+                case UserType.BasicEmployee:
+                    perms.Add(Permissions.CanCreateOrders);
+                    perms.Add(Permissions.CanManageProducts);
+                    break;
+                case UserType.Shipping:
+                    break;
+                case UserType.Administrator:
+                    // Administrators GET ALL THE PERMISSIONS
+                    perms.AddRange(typeof(Permissions).GetFields()
+                                                      .Where(x => x.FieldType == typeof(string) && x.IsLiteral)
+                                                      .ToList().Select(x => x.Name));
+                    break;
+            }
+            session.Permissions = perms;
 
             return true;
-        }
-
-        public override void OnFailedAuthentication(IAuthSession session, IHttpRequest httpReq, IHttpResponse httpRes) {
-            httpRes.AddHeader("X-Error-Message", "Incorrect username or password.");
-            httpRes.Redirect(new UrlHelper().Content("~/Login"));
         }
 
         public override void OnAuthenticated(IServiceBase authService, IAuthSession session, IOAuthTokens tokens, Dictionary<string, string> authInfo) {

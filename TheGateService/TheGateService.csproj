@@ -169,6 +169,7 @@
     <Compile Include="Sources\Security\PasswordHelper.cs" />
     <Compile Include="Sources\Security\GateAuthProvider.cs" />
     <Compile Include="Sources\Types\Login.cs" />
+    <Compile Include="Sources\Security\Permissions.cs" />
     <Compile Include="Sources\Types\User.cs" />
     <Compile Include="Sources\Utilities\FileHelper.cs" />
     <Compile Include="Sources\Endpoints\JsService.cs" />
