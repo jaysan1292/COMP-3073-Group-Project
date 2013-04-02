@@ -13,7 +13,7 @@ using TheGateService.Security;
 using TheGateService.Types;
 
 namespace TheGateService.Endpoints {
-    [Authenticate]
+    [Authenticate(ApplyTo.Put | ApplyTo.Post | ApplyTo.Delete)]
     [RequiredPermission(ApplyTo.Put | ApplyTo.Post, Permissions.CanManageProducts)]
     [RequiredPermission(ApplyTo.Delete, Permissions.CanDeleteProducts)]
     public class ProductService : Service {
