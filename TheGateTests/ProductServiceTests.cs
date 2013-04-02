@@ -72,6 +72,20 @@ namespace TheGateTests {
         }
 
         [TestMethod]
+        public void TestGetNonExistentProduct() {
+            Action<long> x = value => {
+                try {
+                    _client.Get(new Product { Id = value });
+                } catch (WebServiceException e) {
+                    Assert.IsTrue(e.Message.Is("Not Found", "Bad Request"),
+                                  "Failed accessing product {0}. Message received: {1}", value, e.Message);
+                }
+            };
+            x(9001);
+            x(-1);
+        }
+
+        [TestMethod]
         public void TestGetProducts() {
             var response = _client.Get(new Products());
             TestContext.WriteLine("{0}", response.Dump());
@@ -113,9 +127,41 @@ namespace TheGateTests {
 
         [TestMethod]
         [ExpectedException(typeof(WebServiceException))]
+        public void TestUpdateProductBadQuantity() {
+            var expected = new Product {
+                Id = 1,
+                Name = "Video Card (modified)",
+                Description = "Video card for PC",
+                Quantity = -1,
+                Price = new decimal(159.99),
+                Featured = true,
+                Showcase = false,
+            };
+            _client.Put(expected);
+        }
+
+        [TestMethod]
         public void TestDeleteProduct() {
             _client.Delete(new Product { Id = 8 });
-            _client.Get(new Product { Id = 8 });
+            try {
+                _client.Get(new Product { Id = 8 });
+            } catch (WebServiceException e) {
+                Assert.IsTrue(e.Message.Is("Not Found"));
+            }
+        }
+
+        [TestMethod]
+        public void TestDeleteNonExistentProduct() {
+            Action<long> x = value => {
+                try {
+                    _client.Delete(new Product { Id = value });
+                } catch (WebServiceException e) {
+                    Assert.IsTrue(e.Message.Is("Not Found", "Bad Request"),
+                                  "Failed deleting product {0}. Message received: {1}", value, e.Message);
+                }
+            };
+            x(9001);
+            x(-1);
         }
     }
 }

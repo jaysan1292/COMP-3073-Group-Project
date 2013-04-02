@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -35,6 +35,13 @@ namespace TheGateTests {
             } catch (Win32Exception) {
                 Debug.WriteLine(@"It looks like you don't have bash in your PATH, so we can't reset the database automatically. ¯\_(ツ)_/¯");
             }
+        }
+
+        /// <summary>
+        /// Returns true if any of <code>args</code> is equal to <code>input</code>.
+        /// </summary>
+        public static bool Is(this string input, params string[] args) {
+            return args.Any(x => string.Equals(input, x));
         }
     }
 }
