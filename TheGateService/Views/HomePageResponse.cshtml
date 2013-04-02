@@ -1,4 +1,4 @@
-﻿@using System
+@using System
 @using System.Collections
 @using System.Collections.Generic
 @using System.Linq
@@ -46,9 +46,13 @@
 }
 <div class="row-fluid">
 @foreach (var p in featured) {
+    var link = Url.Content("~/products/{0}".F(p.Id));
+
     <div class="span@(12/productsPerRow) home-product-info">
-        <img src="http://placehold.it/100x100" alt="" class="pull-left"/>
-        <h4><a href="@Url.Content("~/products/{0}".F(@p.Id))">@p.Name</a></h4>
+        <a href="@link">
+            <img src="http://placehold.it/100x100" alt="" class="pull-left"/>
+        </a>
+        <h4><a href="@link">@p.Name</a></h4>
         <h6>$@p.Price</h6>
         <p>@p.Description</p>
     </div>
