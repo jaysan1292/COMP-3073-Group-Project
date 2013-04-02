@@ -31,6 +31,6 @@ namespace TheGateService.Database {
         /// Deletes the given object from the database.
         /// </summary>
         /// <param name="id">The ID of the object to delete.</param>
-        void Delete(long id);
+        bool Delete(long id);
     }
 }

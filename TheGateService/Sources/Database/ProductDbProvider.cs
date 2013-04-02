@@ -71,7 +71,7 @@ namespace TheGateService.Database {
             if (rows != 1) throw new ApplicationException("Could not update product {0}.".Fmt(obj.Id));
         }
 
-        protected override void Delete(long id, MySqlConnection conn) {
+        protected override bool Delete(long id, MySqlConnection conn) {
             var cmd = new MySqlCommand {
                 Connection = conn,
                 CommandText = "DeleteProduct",
@@ -81,7 +81,7 @@ namespace TheGateService.Database {
 
             var rows = cmd.ExecuteNonQuery();
 
-            if (rows != 1) throw new ApplicationException("Could not delete product {0}.".Fmt(id));
+            return rows == 1; // Return true if only one row was deleted
         }
 
         protected override Product BuildObject(MySqlDataReader reader) {

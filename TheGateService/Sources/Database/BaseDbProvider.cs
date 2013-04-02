@@ -67,13 +67,13 @@ namespace TheGateService.Database {
             }
         }
 
-        public void Delete(long id) {
+        public bool Delete(long id) {
             CheckIdIsValid(id);
 
             MySqlTransaction tx;
             using (var conn = DbHelper.OpenConnectionAndBeginTransaction(out tx)) {
                 try {
-                    Delete(id, conn);
+                    return Delete(id, conn);
                 } catch (Exception e) {
                     tx.Rollback();
                     Log.Error(e.Message, e);
@@ -105,7 +105,7 @@ namespace TheGateService.Database {
         protected abstract T Get(long id, MySqlConnection conn);
         protected abstract long Create(T obj, MySqlConnection conn);
         protected abstract void Update(T obj, MySqlConnection conn);
-        protected abstract void Delete(long id, MySqlConnection conn);
+        protected abstract bool Delete(long id, MySqlConnection conn);
         protected abstract T BuildObject(MySqlDataReader reader);
 
         [DebuggerHidden]

@@ -74,7 +74,7 @@ namespace TheGateService.Database {
             throw new NotImplementedException();
         }
 
-        protected override void Delete(long id, MySqlConnection conn) {
+        protected override bool Delete(long id, MySqlConnection conn) {
             throw new NotImplementedException();
         }
 

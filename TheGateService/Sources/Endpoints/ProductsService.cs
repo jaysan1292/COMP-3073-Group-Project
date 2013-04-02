@@ -44,9 +44,10 @@ namespace TheGateService.Endpoints {
         }
 
         public object Delete(Product request) {
-            Products.Delete(request.Id);
             // TODO: return HTTP Status 200: OK
-            return null;
+            return Products.Delete(request.Id) ?
+                       null :
+                       HttpError.NotFound("Product {0} was not found, so it could not be deleted.".Fmt(request.Id));
         }
     }
 }
