@@ -7,6 +7,7 @@ using System.Net;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
+using ServiceStack.Common.ServiceClient.Web;
 using ServiceStack.Common.Web;
 using ServiceStack.ServiceClient.Web;
 using ServiceStack.Text;
@@ -26,7 +27,14 @@ namespace TheGateTests {
         // Use ClassInitialize to run code before running the first test in the class
         [ClassInitialize]
         public static void ClassInitialize(TestContext testContext) {
-            _client = new JsonServiceClient(ServiceUrl);
+            _client = new JsonServiceClient(ServiceUrl) {
+                StoreCookies = true,
+            };
+            _client.Post(new Auth {
+                UserName = "jsmith@example.com",
+                Password = "123456",
+            });
+            TestHelper.ResetDatabase();
         }
 
         // Use ClassCleanup to run code after all tests in a class have run
