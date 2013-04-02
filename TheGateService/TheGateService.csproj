@@ -186,6 +186,7 @@
     <Compile Include="Sources\Responses\ProductResponse.cs" />
     <Compile Include="Sources\Responses\ProductsResponse.cs" />
     <Compile Include="Sources\Types\ResponseBase.cs" />
+    <Compile Include="Sources\Utilities\GeneralExtensions.cs" />
     <Compile Include="Sources\Utilities\HtmlHelperExtensions.cs" />
     <Compile Include="Sources\Utilities\WhitespaceFilter.cs" />
   </ItemGroup>
