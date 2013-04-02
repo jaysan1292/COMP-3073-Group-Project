@@ -13,25 +13,19 @@ using TheGateService.Types;
 
 namespace TheGateTests {
     [TestClass]
-    public class ProductServiceTests {
-        private const string ServiceUrl = "http://localhost:3073";
-        private static JsonServiceClient _client;
-
+    public class ProductServiceTests : TestBase {
         public TestContext TestContext { get; set; }
 
         #region Additional test attributes
 
         // Use ClassInitialize to run code before running the first test in the class
         [ClassInitialize]
-        public static void ClassInitialize(TestContext testContext) {
-            _client = new JsonServiceClient(ServiceUrl) {
-                StoreCookies = true,
-            };
-            _client.Post(new Auth {
+        public new static void ClassInitialize(TestContext context) {
+            TestBase.ClassInitialize(context);
+            Client.Post(new Auth {
                 UserName = "jsmith@example.com",
                 Password = "123456",
             });
-            TestHelper.ResetDatabase();
         }
 
         // Use ClassCleanup to run code after all tests in a class have run
@@ -62,7 +56,7 @@ namespace TheGateTests {
                 Featured = true,
                 Showcase = true,
             };
-            var response = _client.Get(new Product { Id = 1 });
+            var response = Client.Get(new Product { Id = 1 });
             TestContext.WriteLine("Expected: {0}\n", expected.Dump());
             TestContext.WriteLine("Actual: {0}\n", response.Product.Dump());
             Assert.AreEqual(expected, response.Product);
@@ -72,7 +66,7 @@ namespace TheGateTests {
         public void TestGetNonExistentProduct() {
             Action<long> x = value => {
                 try {
-                    _client.Get(new Product { Id = value });
+                    Client.Get(new Product { Id = value });
                 } catch (WebServiceException e) {
                     Assert.IsTrue(e.Message.Is("Not Found", "Bad Request"),
                                   "Failed accessing product {0}. Message received: {1}", value, e.Message);
@@ -84,7 +78,7 @@ namespace TheGateTests {
 
         [TestMethod]
         public void TestGetProducts() {
-            var response = _client.Get(new Products());
+            var response = Client.Get(new Products());
             TestContext.WriteLine("{0}", response.Dump());
             Assert.IsTrue(response.Results.Count == 8);
         }
@@ -99,9 +93,9 @@ namespace TheGateTests {
                 Featured = false,
                 Showcase = false,
             };
-            var newprod = _client.Post(expected);
+            var newprod = Client.Post(expected);
             expected.Id = newprod.Product.Id;
-            var test = _client.Get(new Product { Id = expected.Id });
+            var test = Client.Get(new Product { Id = expected.Id });
             Assert.AreEqual(expected, test.Product);
         }
 
@@ -116,9 +110,9 @@ namespace TheGateTests {
                 Featured = true,
                 Showcase = false,
             };
-            _client.Put(expected);
+            Client.Put(expected);
 
-            var updated = _client.Get(new Product { Id = 1 });
+            var updated = Client.Get(new Product { Id = 1 });
             Assert.AreEqual(expected, updated.Product);
         }
 
@@ -134,14 +128,14 @@ namespace TheGateTests {
                 Featured = true,
                 Showcase = false,
             };
-            _client.Put(expected);
+            Client.Put(expected);
         }
 
         [TestMethod]
         public void TestDeleteProduct() {
-            _client.Delete(new Product { Id = 8 });
+            Client.Delete(new Product { Id = 8 });
             try {
-                _client.Get(new Product { Id = 8 });
+                Client.Get(new Product { Id = 8 });
             } catch (WebServiceException e) {
                 Assert.IsTrue(e.Message.Is("Not Found"));
             }
@@ -151,7 +145,7 @@ namespace TheGateTests {
         public void TestDeleteNonExistentProduct() {
             Action<long> x = value => {
                 try {
-                    _client.Delete(new Product { Id = value });
+                    Client.Delete(new Product { Id = value });
                 } catch (WebServiceException e) {
                     Assert.IsTrue(e.Message.Is("Not Found", "Bad Request"),
                                   "Failed deleting product {0}. Message received: {1}", value, e.Message);

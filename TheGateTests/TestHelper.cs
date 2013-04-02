@@ -43,5 +43,13 @@ namespace TheGateTests {
         public static bool Is(this string input, params string[] args) {
             return args.Any(x => string.Equals(input, x));
         }
+
+        public static bool IsNullOrWhiteSpace(this string s) {
+            return string.IsNullOrWhiteSpace(s);
+        }
+
+        public static bool IsNullOrEmpty(this string s) {
+            return string.IsNullOrEmpty(s);
+        }
     }
 }
