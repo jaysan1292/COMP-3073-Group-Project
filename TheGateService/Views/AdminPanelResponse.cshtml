@@ -11,7 +11,7 @@
     var products = new ProductDbProvider().GetAll().ToList();
 }
 <div name = "table" class = "span12">
-<table cellpadding = '5'>
+<table cellpadding = '5' border = '1'>
     <tr>
 		<th>Product Id</th>
         <th>Name</th>
@@ -20,6 +20,8 @@
 		<th>Quantity</th>
 		<th>Featured</th>
 		<th>Showcase</th>
+		<th></th>
+		<th></th>
     </tr>
     @foreach (var product in @Model.Results) {
         <tr>
@@ -30,6 +32,8 @@
             <td>@product.Quantity</td>
 			<td>@product.Featured</td>
 			<td>@product.Showcase</td>
+			<td><input type = 'button' value = 'Edit'></input></td>
+			<td><input type = 'button' value = 'Delete'></input></td>
         </tr>
     }
 </table>
