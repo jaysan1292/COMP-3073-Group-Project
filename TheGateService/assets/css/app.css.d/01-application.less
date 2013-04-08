@@ -1,5 +1,13 @@
 @import url(http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800);
 
+.box-shadow(@shadow) {
+    -webkit-box-shadow : @shadow;
+       -moz-box-shadow : @shadow;
+        -ms-box-shadow : @shadow;
+         -o-box-shadow : @shadow;
+            box-shadow : @shadow;
+}
+
 * { font-family : 'Open Sans', sans-serif; }
 
 footer {
@@ -64,4 +72,51 @@ footer {
 
 #navbar-search {
     margin-left : 10px;
+}
+
+.product-table {
+    label {
+        height     : 100%;
+        margin     : 0;
+        text-align : center;
+    }
+
+    .up,
+    .down,
+    .updown {
+        &:after {
+            content      : ' ';
+            width        : 9px;
+            display      : block;
+            float        : right;
+            height       : 11px;
+            margin-top   : 4px;
+            margin-right : 4px;
+        }
+    }
+    .updown:after { background-image : url("../img/updown.png"); }
+    .down:after   { background-image : url("../img/down.png"); }
+    .up:after     { background-image : url("../img/up.png"); }
+        
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-track {
+    .box-shadow(~'inset 0 0 2px rgba(0, 0, 0, 0.1)');
+    background: #fff;
+}
+
+::-webkit-scrollbar-thumb {
+    .box-shadow(~'inset 0 0 2px rgba(0, 0, 0, 0.2)');
+    background: #ccc;
+
+    &:active {
+        .box-shadow(~'inset 0 0 2px rgba(0, 0, 0, 0.3)');
+        background: #888;
+    }
+    &:hover { background:#aaa; }
 }
