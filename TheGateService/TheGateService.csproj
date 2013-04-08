@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -166,11 +166,11 @@
     <Compile Include="Sources\Interfaces\IDbProvider.cs" />
     <Compile Include="Sources\Endpoints\CssService.cs" />
     <Compile Include="Sources\Endpoints\MinifierServiceBase.cs" />
+    <Compile Include="Sources\Responses\AdminPanelResponse.cs" />
     <Compile Include="Sources\Responses\LoginResponse.cs" />
     <Compile Include="Sources\Security\PasswordHelper.cs" />
-    <Compile Include="Sources\Responses\AdminPanelResponse.cs" />
-    <Compile Include="Sources\Types\AdminPanel.cs" />
     <Compile Include="Sources\Security\GateAuthProvider.cs" />
+    <Compile Include="Sources\Types\AdminPanel.cs" />
     <Compile Include="Sources\Types\Login.cs" />
     <Compile Include="Sources\Security\Permissions.cs" />
     <Compile Include="Sources\Types\User.cs" />
@@ -211,9 +211,7 @@
     <Content Include="Views\HomePageResponse.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Shared\Header.cshtml">
-      <SubType>Designer</SubType>
-    </Content>
+    <Content Include="Views\Shared\Header.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Shared\Sidebar.cshtml" />
@@ -235,6 +233,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Shared\MainLayoutNoSidebar.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\AdminPanelResponse.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

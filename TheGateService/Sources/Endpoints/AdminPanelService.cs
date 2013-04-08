@@ -11,6 +11,8 @@ using TheGateService.Responses;
 using TheGateService.Database;
 
 namespace TheGateService.Endpoints {
+    [Authenticate]
+    [RequiredRole("Administrator")]
     public class AdminPanelService : Service {
         public object Get(AdminPanel request) {
             return new AdminPanelResponse { Results = new ProductDbProvider().GetAll() };
