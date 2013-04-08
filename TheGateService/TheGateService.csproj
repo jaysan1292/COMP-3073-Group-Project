@@ -159,6 +159,7 @@
     <Compile Include="Sources\Database\DbHelper.cs" />
     <Compile Include="Sources\Database\ProductDbProvider.cs" />
     <Compile Include="Sources\Database\UserDbProvider.cs" />
+    <Compile Include="Sources\Endpoints\AdminPanelService.cs" />
     <Compile Include="Sources\Endpoints\GateServiceBase.cs" />
     <Compile Include="Sources\Endpoints\LoginService.cs" />
     <Compile Include="Sources\Endpoints\LogoutService.cs" />
@@ -167,6 +168,8 @@
     <Compile Include="Sources\Endpoints\MinifierServiceBase.cs" />
     <Compile Include="Sources\Responses\LoginResponse.cs" />
     <Compile Include="Sources\Security\PasswordHelper.cs" />
+    <Compile Include="Sources\Responses\AdminPanelResponse.cs" />
+    <Compile Include="Sources\Types\AdminPanel.cs" />
     <Compile Include="Sources\Security\GateAuthProvider.cs" />
     <Compile Include="Sources\Types\Login.cs" />
     <Compile Include="Sources\Security\Permissions.cs" />
