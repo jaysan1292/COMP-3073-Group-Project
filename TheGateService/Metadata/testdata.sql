@@ -66,7 +66,16 @@ INSERT INTO Orders (UserId,OrderType,OrderStatus) VALUES
     (4, 1, 5),
     (9, 2, 1),
     (7, 1, 5),
-    (5, 2, 1);
+    (5, 2, 1),
+    (6, 2, 2),
+    (4, 1, 5),
+    (2, 2, 3),
+    (7, 1, 4),
+    (3, 2, 2),
+    (8, 1, 5),
+    (9, 1, 4),
+    (1, 1, 1),
+    (5, 2, 3);
 
 INSERT INTO Shipment (OrderId,ShipmentMethod,ShipmentDate) VALUES
     (1, 3, '2013-03-23 12:39:00'),
@@ -80,24 +89,32 @@ INSERT INTO Shipment (OrderId,ShipmentMethod,ShipmentDate) VALUES
 
 -- I will improve this later, just shit text data. - James
 INSERT INTO Product (Name,Description,Quantity,Price,Featured,Showcase) VALUES
-    ('Video Card',  'Video card for PC',                   37, 159.99, 1, 1),
-    ('MB',          'Motherboard',                         15, 89.99,  1, 0),
-    ('Case',        'Computer Case',                       44, 59.99,  1, 1),
-    ('Monitor',     'Computer Monitor',                    1,  99.99,  1, 1),
-    ('PS',          'Power Supply',                        6,  39.99,  0, 0),
-    ('KB',          'Keyboard',                            29, 24.99,  1, 0),
-    ('Mouse',       'Mouse',                               31, 59.99,  1, 0),
-    ('64GB RAM',    'High performance DDR9001 RAM module', 3,  499.99, 0, 0);
+    ('Video Card',            'Video card for PC',                                                                37,    159.99, 1, 1),
+    ('MB',                    'Motherboard',                                                                      15,     89.99, 1, 0),
+    ('Case',                  'Computer Case',                                                                    44,     59.99, 1, 1),
+    ('Monitor',               'Computer Monitor',                                                                 1,      99.99, 1, 1),
+    ('PS',                    'Power Supply',                                                                     6,      39.99, 0, 0),
+    ('KB',                    'Keyboard',                                                                         29,     24.99, 1, 0),
+    ('Mouse',                 'Mouse',                                                                            31,     59.99, 1, 0),
+    ('64GB RAM',              'High performance DDR9001 RAM module',                                              3,     499.99, 0, 0),
+    ('NVidia Something 8008', 'It''s a friggin'' video card, 500MHz.',                                            43,    123.62, 0, 0),
+    ('AMD 53243',             '900MHz card, 2 DVI Ports, blah, blah, blah',                                       4,    1100.81, 0, 0),
+    ('9001 GeForce',          'It''s over 9000!!!',                                                               12,    100.19, 1, 0),
+    ('RAT 75',                'We''ve run out of ideas so it hovers and has a microwave in it',                   9,    5479.11, 0, 0),
+    ('435 MB Galactico',      '1333Mhz DDR3 Supported, 16x PCIx ...',                                             1,     549.72, 0, 1),
+    ('95 inch Monitor',       'When 94 just isn''t enough. Features a never-before-seen 40960x23040 resolution!', 10,  24400.28, 1, 0),
+    ('200 MW PS',             'When you need to run your super computer, 200 MegaWatts are the answer',           14, 204674.65, 1, 1);
+
 
 INSERT INTO ProductShipment (ProductId,ShipmentId,Quantity) VALUES
     (1, 1, 5),
-    (7, 2, 12),
-    (3, 3, 1),
-    (5, 4, 3),
     (1, 5, 7),
     (2, 6, 2),
+    (3, 3, 1),
+    (4, 8, 9),
+    (5, 4, 3),
     (6, 7, 4),
-    (4, 8, 9);
+    (7, 2, 12);
 
 INSERT INTO OrderProduct (OrderId,ProductId,Quantity) VALUES
     (1, 1, 5),
