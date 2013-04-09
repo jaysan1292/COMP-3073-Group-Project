@@ -15,6 +15,40 @@ namespace TheGateService.Database {
         public ProductDbProvider()
             : base("Product") { }
 
+        public List<Product> Search(string query) {
+            MySqlTransaction tx;
+            using (var conn = DbHelper.OpenConnectionAndBeginTransaction(out tx)) {
+                try {
+                    var cmd = new MySqlCommand {
+                        Connection = conn,
+                        CommandText = "TypeaheadSearch",
+                        CommandType = CommandType.StoredProcedure
+                    };
+                    cmd.Parameters.AddWithValue("Query", query);
+
+                    var reader = cmd.ExecuteReader();
+                    var results = new List<Product>();
+                    Product p;
+                    do {
+                        p = BuildObject(reader);
+                        results.Add(p);
+                    } while (p != null);
+
+                    reader.Close();
+
+                    results.RemoveAll(x => x == null);
+
+                    return results;
+                } catch (Exception e) {
+                    tx.Rollback();
+                    Log.Error(e.Message, e);
+                    throw;
+                } finally {
+                    DbHelper.CloseConnectionAndEndTransaction(conn, tx);
+                }
+            }
+        } 
+
         protected override Product Get(long id, MySqlConnection conn) {
             var cmd = new MySqlCommand {
                 Connection = conn,

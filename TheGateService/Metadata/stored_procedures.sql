@@ -135,6 +135,15 @@ BEGIN
         ProductId = ProdId;
 END //
 
+-- Typeahead Search
+DROP PROCEDURE IF EXISTS TypeaheadSearch //
+CREATE PROCEDURE TypeaheadSearch(IN Query TEXT)
+BEGIN
+    SELECT *
+    FROM Product
+    WHERE Name LIKE CONCAT('%', Query, '%');
+END //
+
 -- ----------------
 -- USER INFORMATION
 -- ----------------

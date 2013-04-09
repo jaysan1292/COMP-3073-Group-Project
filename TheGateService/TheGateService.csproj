@@ -164,6 +164,7 @@
     <Compile Include="Sources\Endpoints\GateServiceBase.cs" />
     <Compile Include="Sources\Endpoints\LoginService.cs" />
     <Compile Include="Sources\Endpoints\LogoutService.cs" />
+    <Compile Include="Sources\Endpoints\TypeaheadService.cs" />
     <Compile Include="Sources\Interfaces\IDbProvider.cs" />
     <Compile Include="Sources\Endpoints\CssService.cs" />
     <Compile Include="Sources\Endpoints\MinifierServiceBase.cs" />
