@@ -27,9 +27,21 @@ namespace TheGateService.Security {
             session.FirstName = user.FirstName;
             session.LastName = user.LastName;
             session.Email = user.Email;
-            session.Roles = new List<string> {
-                user.Type.ToString()
-            };
+            session.Roles = new List<string>();
+            switch (user.Type) {
+                case UserType.Administrator:
+                    session.Roles.Add(UserType.Administrator.ToString());
+                    goto case UserType.BasicEmployee; // Administrator is also an Employee
+                case UserType.Shipping:
+                    session.Roles.Add(UserType.Shipping.ToString());
+                    break;
+                case UserType.BasicEmployee:
+                    session.Roles.Add(UserType.BasicEmployee.ToString());
+                    goto case UserType.User; // BasicEmployees are also regular Users
+                case UserType.User:
+                    session.Roles.Add(UserType.User.ToString());
+                    break;
+            }
             var perms = new List<string>();
             switch (user.Type) {
                 case UserType.User:
