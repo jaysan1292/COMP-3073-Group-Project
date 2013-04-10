@@ -18,10 +18,16 @@
                         <b class="caret"></b>
                     </a>
                     <ul class="dropdown-menu">
-                        @if (session.HasRole(UserType.Administrator.ToString())) {
-                            <li><a href='@Url.Content("~/admin")'>Product Management</a></li>
+                        @if (session.HasRole(UserType.User.ToString())) {
+                            // TODO: add number of items in shopping cart to label
+                            <li><a href='@Url.Content("~/cart")'><i class="icon-shopping-cart"></i> Shopping Cart</a></li>
+                            <li class="divider"></li>
                         }
-                        <li><a href='@Url.Content("~/logout")'><i class="icon-cog"></i> Logout</a></li>
+                        @if (session.HasRole(UserType.Administrator.ToString())) {
+                            <li><a href='@Url.Content("~/admin")'><i class="icon-list-alt"></i> Product Management</a></li>
+                            <li class="divider"></li>
+                        } 
+                        <li><a href='@Url.Content("~/logout")'><i class="icon-lock"></i> Logout</a></li>
                     </ul>
                 </li>
             </ul>
