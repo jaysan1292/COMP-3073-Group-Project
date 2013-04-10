@@ -1,0 +1,78 @@
+﻿@using System
+@using System.Collections
+@using System.Collections.Generic
+@using System.Linq
+@using TheGateService.Endpoints
+@using TheGateService.Extensions
+@inherits ViewPage<ShoppingCartResponse>
+
+@{
+    ViewBag.Title = "Your Cart";
+    Layout = "MainLayoutNoSidebar";
+}
+@*
+<script type="text/javascript">
+    $(document).ready(function () {
+        $.tablesorter.addParser({
+            id: 'booleans',
+            is: function (b) {
+                return false;
+            },
+            format: function (s) {
+                return s.replace(/[Tt]rue/, 1).replace(/[Ff]alse/, 0);
+            },
+            type: 'numeric'
+        });
+
+        $('.product-table').tablesorter({
+            //            debug   : true,
+            headers: {
+                5: { sorter: 'booleans' },
+                6: { sorter: 'booleans' },
+                7: { sorter: false }
+            },
+            cssHeader: 'updown',
+            cssAsc: 'down',
+            cssDesc: 'up'
+        });
+
+        $('.featured, .showcase').click(function (e) {
+            // Get the numeric ID of the hidden label (in the format 'hidden-(featured|showcase)-{id}')
+            var id = $(e.target).parent().children('[id]').attr('id').split('-')[2];
+            switch (e.target.value.toLowerCase()) {
+                case 'featured': $('#hidden-featured-'+id).text(e.target.checked); break;
+                case 'showcase': $('#hidden-showcase-'+id).text(e.target.checked); break;
+            }
+            $('.product-table').trigger('update');
+
+            // TODO: Update the product's featured/showcase status using AJAX call
+        });
+    });
+</script>*@
+<h1>Your Cart</h1>
+@if (Model.Cart.Items.Count > 0) {
+    <table class="table table-striped table-bordered product-table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+                @foreach (ShoppingCart.ShoppingCartItem p in @Model.Cart.Items) {
+                    <tr>
+                        <td>@p.Product.Name</td>
+                        <td title="@p.Product.Description">@p.Product.Description.LimitWords(30)</td>
+                        <td>$@p.Product.Price</td>
+                        <td>@p.Quantity</td>
+                        <td><input class="btn btn-danger" type="button" value="Remove" /></td>
+                    </tr>
+                }
+        </tbody>
+    </table>
+} else {
+    <h4>There's nothing here!</h4>
+}

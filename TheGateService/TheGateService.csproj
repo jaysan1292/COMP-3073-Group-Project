@@ -164,6 +164,9 @@
     <Compile Include="Sources\Endpoints\GateServiceBase.cs" />
     <Compile Include="Sources\Endpoints\LoginService.cs" />
     <Compile Include="Sources\Endpoints\LogoutService.cs" />
+    <Compile Include="Sources\Types\ShoppingCart.cs" />
+    <Compile Include="Sources\Responses\ShoppingCartResponse.cs" />
+    <Compile Include="Sources\Endpoints\ShoppingCartService.cs" />
     <Compile Include="Sources\Endpoints\TypeaheadService.cs" />
     <Compile Include="Sources\Interfaces\IDbProvider.cs" />
     <Compile Include="Sources\Endpoints\CssService.cs" />
@@ -237,6 +240,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\AdminPanelResponse.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\ShoppingCartResponse.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
