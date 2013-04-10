@@ -25,36 +25,56 @@ DELIMITER //
 -- -------------
 
 -- View data
-
--- CREATE PROCEDURE viewCart @UserID BIGINT INPUT AS
--- SELECT  Product.Name AS 'Product', ShoppingCart.Quantity, Product.Price
--- FROM User LEFT JOIN Orders ON User.UserID = Orders.UserID
--- JOIN OrderStatus ON Orders.OrderStatus = OrderStatus.OrderStatusID
--- JOIN Product ON OrderProduct.ProductID = Product.ProductID
--- WHERE UserId = @UserID;
-
+DROP PROCEDURE IF EXISTS GetCart //
+CREATE PROCEDURE GetCart (IN UserId BIGINT)
+BEGIN
+    SELECT
+        Product.ProductId,
+        Product.Name,
+        Product.Price,
+        ShoppingCart.Quantity
+    FROM
+        ShoppingCart INNER JOIN Product ON ShoppingCart.ProductId = Product.ProductId
+    WHERE
+        ShoppingCart.UserId = UserId;
+END //
 
 -- Update Quantity
-
--- CREATE PROCEDURE updateCart @Quantity INT INPUT, @CartID BIGINT INPUT AS
--- UPDATE ShoppingCart
--- SET quantity = @Quantity
--- WHERE CartId = @CartID
-
+DROP PROCEDURE IF EXISTS UpdateCart //
+CREATE PROCEDURE UpdateCart (IN UserId BIGINT, IN ProductId BIGINT, IN NewQuantity INT)
+BEGIN
+    -- If the new quantity is 0, just remove it from the shopping cart.
+    if (NewQuantity = 0) then
+        CALL RemoveFromCart(UserId, ProductId);
+    else
+        UPDATE ShoppingCart
+        SET Quantity = NewQuantity
+        WHERE ShoppingCart.UserId = UserId AND ShoppingCart.ProductId = ProductId;
+    end if;
+END //
 
 -- Add Product to Cart
-
--- CREATE PROCEDURE addCart @Quantity INT INPUT, @ProductID BIGINT INPUT, @UserID BIGINT INPUT AS
--- INSERT INTO ShoppingCart(UserId, ProductId, Quantity)
--- VALUES (@UserID, @ProductID, @Quantity)
-
+DROP PROCEDURE IF EXISTS AddToCart //
+CREATE PROCEDURE AddToCart (IN UserId BIGINT, IN ProductId BIGINT, IN Quantity INT)
+BEGIN
+    INSERT INTO ShoppingCart VALUES (UserId, ProductId, Quantity);
+END //
 
 -- Remove Product from Cart
+DROP PROCEDURE IF EXISTS RemoveFromCart //
+CREATE PROCEDURE RemoveFromCart (IN UserId BIGINT, IN ProductId BIGINT)
+BEGIN
+    DELETE FROM ShoppingCart WHERE ShoppingCart.UserId = UserId AND ShoppingCart.ProductId = ProductId;
+END //
 
--- CREATE PROCEDURE removeCart @CartID BIGINT INPUT AS
--- DELETE FROM ShoppingCart
--- WHERE CartId = @CartID
-
+-- Get the number of items in the shopping cart
+DROP PROCEDURE IF EXISTS GetCartItemCount //
+CREATE PROCEDURE GetCartItemCount (IN UserId BIGINT)
+BEGIN
+    SELECT COUNT(*) AS ItemsInCart
+    FROM ShoppingCart
+    WHERE ShoppingCart.UserId = UserId;
+END //
 
 -- ****FOR LATER**** - Remove product from cart and add information to orders and orderproduct tables
 

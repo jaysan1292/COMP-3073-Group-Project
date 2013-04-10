@@ -97,12 +97,12 @@ FOREIGN KEY (ProductId) REFERENCES Product(ProductId)
 );
 
 CREATE TABLE ShoppingCart(
-CartId    BIGINT PRIMARY KEY NOT NULL AUTO_INCREMENT,
 UserId    BIGINT NOT NULL,
 ProductId BIGINT NOT NULL,
 Quantity  INT,
 FOREIGN KEY (UserId) REFERENCES User(UserId),
-FOREIGN KEY (ProductId) REFERENCES Product(ProductId)
+FOREIGN KEY (ProductId) REFERENCES Product(ProductId),
+PRIMARY KEY (UserId, ProductId)
 );
 
 COMMIT;
