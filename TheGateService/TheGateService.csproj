@@ -159,6 +159,7 @@
     <Compile Include="Sources\Database\BaseDbProvider.cs" />
     <Compile Include="Sources\Database\DbHelper.cs" />
     <Compile Include="Sources\Database\ProductDbProvider.cs" />
+    <Compile Include="Sources\Database\ShoppingCartDbProvider.cs" />
     <Compile Include="Sources\Database\UserDbProvider.cs" />
     <Compile Include="Sources\Endpoints\AdminPanelService.cs" />
     <Compile Include="Sources\Endpoints\GateServiceBase.cs" />

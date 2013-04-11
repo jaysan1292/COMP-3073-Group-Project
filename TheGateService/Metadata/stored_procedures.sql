@@ -31,6 +31,7 @@ BEGIN
     SELECT
         Product.ProductId,
         Product.Name,
+        Product.Description,
         Product.Price,
         ShoppingCart.Quantity
     FROM
