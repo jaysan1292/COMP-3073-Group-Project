@@ -63,28 +63,77 @@
     </thead>
     <tbody>
         @foreach (Product p in @Model.Results) {
-            <tr>
-                <td>@p.Id</td>
-                <td>@p.Name</td>
-                <td title="@p.Description">@p.Description.LimitWords(30)</td>
-                <td>$@p.Price</td>
-                <td>@p.Quantity</td>
+            <tr id="product-@p.Id">
+                <td class="product-id">@p.Id</td>
+                <td class="product-name">@p.Name</td>
+                <td class="product-desc" title="@p.Description">@p.Description.LimitWords(30)</td>
+                <td class="product-price">$@p.Price</td>
+                <td class="product-quantity">@p.Quantity</td>
                 @* The two spans with class "hide" are used with the jQuery sorting plugin seen above. *@
-                <td>
+                <td class="product-featured">
                     <label>
                         <input type="checkbox" class="checkbox featured" @(p.Featured ? "checked" : "") value="Featured"/>
                         <span id="hidden-featured-@(p.Id)" class="hide">@p.Featured</span>
                     </label>
                 </td>
-                <td>
+                <td class="product-showcase">
                     <label>
                         <input type="checkbox" class="checkbox showcase" @(p.Showcase ? "checked" : "") value="Showcase"/>
                         <span id="hidden-showcase-@(p.Id)" class="hide">@p.Showcase</span>
                     </label>
                 </td>
-                <td><input class="btn" type="button" value="Edit" /></td>
-                <td><input class="btn btn-danger" type="button" value="Delete" /></td>
+                <td><input class="btn announce" type="button" value="Edit" data-pid="@p.Id" data-name="@p.Name" data-desc="@p.Description" data-price="@p.Price" data-quantity="@p.Quantity" data-feat="@p.Featured" data-show="@p.Showcase" /></td>
+                <td><input class="btn btn-danger delete" type="button" value="Delete" data-pid="@p.Id" /></td>
             </tr>
         }
     </tbody>
 </table>
+
+<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="myModalLabel">Modal header</h3>
+    </div>
+<div class="modal-body">
+    <p id="productId"></p>
+    <p id="productName"></p>
+    <p id="productDesc"></p>
+    <p id="productPrice"></p>
+    <p id="productQuantity"></p>
+    <p id="productFeat"></p>
+    <!-- <p id="productShow"></p> -->
+    <label id="productShow">
+        <input type="checkbox" class="checkbox showcase" value="Showcase"/>
+        <span id="hidden-showcase-)" class="hide">productShow</span>
+    </label>
+</div>
+<div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+    <button class="btn btn-primary">Save changes</button>
+</div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){
+   $(".announce").click(function(){ // Click to only happen on announce links
+     $("#productId").text($(this).data('pid'));
+     $("#productName").text($(this).data('name'));
+     $("#productDesc").text($(this).data('desc'));
+     $("#productPrice").text($(this).data('price'));
+     $("#productQuantity").text($(this).data('quantity'));
+     $("#productFeat").text($(this).data('feat'));
+     if($(this).data('show').toLowerCase() == 'true') {
+         $("#productShow input").attr('checked', '');
+     }
+     $('#myModal').modal('show');
+   });
+   $('.delete').click(function() {
+     var id = $(this).data('pid');
+     $.ajax({
+        type:'delete',
+        url:'/admin',
+        data:'id='+id,
+        success:function(data){$('#product-'+id).fadeOut({duration:500,complete:function(){$(this).remove()}})}
+     });
+   });
+});
+</script>
