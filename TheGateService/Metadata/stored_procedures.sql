@@ -58,7 +58,36 @@ END //
 DROP PROCEDURE IF EXISTS AddToCart //
 CREATE PROCEDURE AddToCart (IN UserId BIGINT, IN ProductId BIGINT, IN Quantity INT)
 BEGIN
-    INSERT INTO ShoppingCart VALUES (UserId, ProductId, Quantity);
+    DECLARE Exist INT;
+    DECLARE NewQuantity INT;
+
+    -- Check if the product already exists in this user's shopping cart
+    SELECT COUNT(*) INTO Exist FROM ShoppingCart s WHERE s.UserId = UserId AND s.ProductId = ProductId;
+
+    if(Exist = 0) then
+        -- This product doesn't yet exist in the user's shopping cart.
+        -- But first, check if we're putting in a negative quantity, and if so, don't do anything.
+        if(Quantity > 0) then
+            INSERT INTO ShoppingCart VALUES (UserId, ProductId, Quantity);
+        end if;
+    else
+        -- This product already exists in the user's shopping cart.
+        -- Check how many of this item will be in the shopping cart after updating (Yes, quantity can be negative)
+        -- If it is less than zero, remove the item from the cart, otherwise update the quantity
+        SELECT s.Quantity INTO NewQuantity FROM ShoppingCart s WHERE s.UserId = UserId AND s.ProductId = ProductId;
+
+        -- Right now, NewQuantity == the current quantity of this product currently in the cart.
+        -- Increment it by the amount to add.
+        SET NewQuantity = NewQuantity + Quantity;
+
+        if(NewQuantity <= 0) then
+            CALL RemoveFromCart(UserId, ProductId);
+        else
+            UPDATE ShoppingCart s
+            SET s.Quantity = NewQuantity
+            WHERE s.UserId = UserId AND s.ProductId = ProductId;
+        end if;
+    end if;
 END //
 
 -- Remove Product from Cart
