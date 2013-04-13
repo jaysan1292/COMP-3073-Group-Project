@@ -8,7 +8,9 @@
             box-shadow : @shadow;
 }
 
-* { font-family : 'Open Sans', sans-serif; }
+@main-font: 'Open Sans', sans-serif;
+
+* { font-family : @main-font; }
 
 footer {
     background-color : #eeeeee;
@@ -17,6 +19,10 @@ footer {
     margin-top       : 25px;
     padding-top      : 10px;
     text-align       : center;
+}
+
+textarea {
+    font-family : @main-font;
 }
 
 .all-products-row {

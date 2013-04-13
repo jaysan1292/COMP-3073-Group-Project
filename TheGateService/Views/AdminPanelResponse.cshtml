@@ -82,74 +82,135 @@
                         <span id="hidden-showcase-@(p.Id)" class="hide">@p.Showcase</span>
                     </label>
                 </td>
-                <td><input class="btn announce" type="button" value="Edit" data-pid="@p.Id" data-name="@p.Name" data-desc="@p.Description" data-price="@p.Price" data-quantity="@p.Quantity" data-feat="@p.Featured" data-show="@p.Showcase" /></td>
-                <td><input class="btn btn-danger delete" type="button" value="Delete" data-pid="@p.Id" /></td>
+                <td>
+                    <input class="btn edit-button" 
+                           type="button" 
+                           value="Edit" />
+                </td>
+                <td>
+                    <input class="btn btn-danger delete-button" 
+                           type="button" 
+                           value="Delete" />
+                </td>
             </tr>
         }
     </tbody>
 </table>
-
-<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div id="edit-modal" class="modal hide fade">
     <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-        <h3 id="myModalLabel">Modal header</h3>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3>Editing <span id="modal-header-product-name"></span></h3>
     </div>
-<div class="modal-body">
-    <p id="productId"></p>
-    <p id="productName"></p>
-    <p id="productDesc"></p>
-    <p id="productPrice"></p>
-    <p id="productQuantity"></p>
-    <p id="productFeat"></p>
-    <!-- <p id="productShow"></p> -->
-    <label id="productShow">
-        <input type="checkbox" class="checkbox showcase" value="Showcase"/>
-        <span id="hidden-showcase-)" class="hide">productShow</span>
-    </label>
-</div>
-<div class="modal-footer">
-    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-    <button class="btn btn-primary save">Save changes</button>
-</div>
+    <div class="modal-body">
+        <!-- quantity,featured,showcase -->
+        <form id="product-form" class="form-horizontal">
+            <div class="control-group">
+                <label class="control-label">Name</label>
+                <div class="controls">
+                    <input type="text" id="modal-product-name" placeholder="Product Name"/>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">Description</label>
+                <div class="controls">
+                    <textarea id="modal-product-desc" rows="5" placeholder="Description"></textarea>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">Price</label>
+                <div class="controls input-prepend" style="margin-top: -50px;">
+                    <span class="add-on">$</span>
+                    <input type="text" id="modal-product-price" placeholder="Product Price" style="width: 180px;"/>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">Quantity</label>
+                <div class="controls">
+                    <input type="number" id="modal-product-quantity" placeholder="Product Quantity"/>
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="controls">
+                    <label class="checkbox">
+                        <input id="modal-product-featured" type="checkbox"/> Featured
+                    </label>
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="controls">
+                    <label class="checkbox">
+                        <input id="modal-product-showcase" type="checkbox"/> Showcase
+                    </label>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <a href="javascript:void(0)" class="btn" data-dismiss="modal">Cancel</a>
+        <a href="javascript:void(0)" class="btn btn-primary">Save Changes</a>
+    </div>
 </div>
 <script type="text/javascript">
-    $(document).ready(function () {
-        $(".announce").click(function () {
-            $("#productId").text($(this).data('pid'));
-            $("#productName").text($(this).data('name'));
-            $("#productDesc").text($(this).data('desc'));
-            $("#productPrice").text($(this).data('price'));
-            $("#productQuantity").text($(this).data('quantity'));
-            $("#productFeat").text($(this).data('feat'));
-            if ($(this).data('show').toLowerCase() == 'true') {
-                $("#productShow input").attr('checked', '');
-            }
-            $('#myModal').modal('show');
-        });
-        $('.delete').click(function () {
-            var id = $(this).data('pid');
-            $.ajax({
-                type: 'delete',
-                url: '/admin',
-                data: 'id=' + id,
-                success: function (data) { $('#product-' + id).fadeOut({ duration: 500, complete: function () { $(this).remove() } }) }
-            });
-        });
-        /*$('.save').click(function () {
-            var id = $(this).data('pid');
-            var name = $(this).data('name');
-            var desc = $(this).data('desc');
-            var price = $(this).data('price');
-            var quantity = $(this).data('quantity');
-            var feat = $(this).data('feat');
-            var show = $(this).data('show');
-            var Products = {(id,name,desc,price,quantity,feat,show)};
+    // Globals
+    var modified = false;
 
-            /*$.ajax({
-                type: 'post',
-                url: '/admin',
-                data: JSON.stringify(Products)
-            });*/
-        });*/
+    function getProductFromRow(id) {
+        var prefix = '#product-' + id + ' ';
+        var product = {
+            id: id,
+            name: $(prefix + '.product-name').text(),
+            desc: $(prefix + '.product-desc').attr('title'),
+            price: parseFloat($(prefix + '.product-price').text().substr(1)), // remove the leading $
+            quantity: parseInt($(prefix + '.product-quantity').text()),
+            featured: $(prefix + '.product-featured input').is(':checked'),
+            showcase: $(prefix + '.product-showcase input').is(':checked'),
+        };
+
+        return product;
+    }
+
+    function getProductFromForm() {
+        var product = {
+            
+        };
+        return product;
+    }
+
+    function hasProductBeenEdited() {
+        return getProductFromModal() == getProductFromForm();
+    }
+
+    function getProductFromModal() {
+        return $('#edit-modal').data('product-original-value');
+    }
+
+    $(document).ready(function() {
+        $('.edit-button').click(function() {
+            // Get the product ID, which is stored in the parent <tr> attribute in the format "product-{id}"
+            var id = $(this).closest('tr').attr('id').split('-')[1];
+            var product = getProductFromRow(id);
+
+            // Insert the product values
+            $('#modal-header-product-name').text(product.name);
+            $('#modal-product-name').val(product.name);
+            $('#modal-product-desc').text(product.desc);
+            $('#modal-product-price').val(product.price);
+            $('#modal-product-quantity').val(product.quantity);
+            $('#modal-product-featured').prop('checked', product.featured);
+            $('#modal-product-showcase').prop('checked', product.showcase);
+
+            // Save the original value, which will be used later to check if the product has not been saved
+            $('#edit-modal')
+                .data('product-original-value', product)
+                .modal('show')
+                .on('hidePrevented', function() {
+                    if (confirm('You have unsaved changes on "' + product.name + '". Are you sure you want to stop editing?')) {
+                        $('#edit-modal')
+                            .modal('unlock') // First unlock the modal so it can be hidden
+                            .modal('hide') // then hide it
+                            .unbind('hidePrevented'); // then unbind this handler to prevent it from "stacking" when other products are edited
+                    }
+                });
+        });
     });
 </script>
