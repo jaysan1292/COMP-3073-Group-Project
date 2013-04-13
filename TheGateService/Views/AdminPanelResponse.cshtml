@@ -109,31 +109,47 @@
 </div>
 <div class="modal-footer">
     <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-    <button class="btn btn-primary">Save changes</button>
+    <button class="btn btn-primary save">Save changes</button>
 </div>
 </div>
 <script type="text/javascript">
-$(document).ready(function(){
-   $(".announce").click(function(){ // Click to only happen on announce links
-     $("#productId").text($(this).data('pid'));
-     $("#productName").text($(this).data('name'));
-     $("#productDesc").text($(this).data('desc'));
-     $("#productPrice").text($(this).data('price'));
-     $("#productQuantity").text($(this).data('quantity'));
-     $("#productFeat").text($(this).data('feat'));
-     if($(this).data('show').toLowerCase() == 'true') {
-         $("#productShow input").attr('checked', '');
-     }
-     $('#myModal').modal('show');
-   });
-   $('.delete').click(function() {
-     var id = $(this).data('pid');
-     $.ajax({
-        type:'delete',
-        url:'/admin',
-        data:'id='+id,
-        success:function(data){$('#product-'+id).fadeOut({duration:500,complete:function(){$(this).remove()}})}
-     });
-   });
-});
+    $(document).ready(function () {
+        $(".announce").click(function () {
+            $("#productId").text($(this).data('pid'));
+            $("#productName").text($(this).data('name'));
+            $("#productDesc").text($(this).data('desc'));
+            $("#productPrice").text($(this).data('price'));
+            $("#productQuantity").text($(this).data('quantity'));
+            $("#productFeat").text($(this).data('feat'));
+            if ($(this).data('show').toLowerCase() == 'true') {
+                $("#productShow input").attr('checked', '');
+            }
+            $('#myModal').modal('show');
+        });
+        $('.delete').click(function () {
+            var id = $(this).data('pid');
+            $.ajax({
+                type: 'delete',
+                url: '/admin',
+                data: 'id=' + id,
+                success: function (data) { $('#product-' + id).fadeOut({ duration: 500, complete: function () { $(this).remove() } }) }
+            });
+        });
+        /*$('.save').click(function () {
+            var id = $(this).data('pid');
+            var name = $(this).data('name');
+            var desc = $(this).data('desc');
+            var price = $(this).data('price');
+            var quantity = $(this).data('quantity');
+            var feat = $(this).data('feat');
+            var show = $(this).data('show');
+            var Products = {(id,name,desc,price,quantity,feat,show)};
+
+            /*$.ajax({
+                type: 'post',
+                url: '/admin',
+                data: JSON.stringify(Products)
+            });*/
+        });*/
+    });
 </script>
