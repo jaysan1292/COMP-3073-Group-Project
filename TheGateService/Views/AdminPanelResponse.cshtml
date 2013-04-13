@@ -71,25 +71,25 @@
                 <td class="product-quantity">@p.Quantity</td>
                 @* The two spans with class "hide" are used with the jQuery sorting plugin seen above. *@
                 <td class="product-featured">
-                    <label>
-                        <input type="checkbox" class="checkbox featured" @(p.Featured ? "checked" : "") value="Featured"/>
+                    <label style="cursor: default;">
+                        <input type="checkbox" disabled class="checkbox featured" @(p.Featured ? "checked" : "") value="Featured" style="cursor: default;"/>
                         <span id="hidden-featured-@(p.Id)" class="hide">@p.Featured</span>
                     </label>
                 </td>
                 <td class="product-showcase">
-                    <label>
-                        <input type="checkbox" class="checkbox showcase" @(p.Showcase ? "checked" : "") value="Showcase"/>
+                    <label style="cursor: default;">
+                        <input type="checkbox" disabled class="checkbox showcase" @(p.Showcase ? "checked" : "") value="Showcase" style="cursor: default;"/>
                         <span id="hidden-showcase-@(p.Id)" class="hide">@p.Showcase</span>
                     </label>
                 </td>
                 <td>
-                    <input class="btn edit-button" 
-                           type="button" 
+                    <input class="btn edit-button"
+                           type="button"
                            value="Edit" />
                 </td>
                 <td>
-                    <input class="btn btn-danger delete-button" 
-                           type="button" 
+                    <input class="btn btn-danger delete-button"
+                           type="button"
                            value="Delete" />
                 </td>
             </tr>
@@ -146,6 +146,6 @@
     </div>
     <div class="modal-footer">
         <a href="javascript:void(0)" class="btn" data-dismiss="modal">Cancel</a>
-        <a href="javascript:void(0)" class="btn btn-primary">Save Changes</a>
+        <a id="save-button" href="javascript:void(0)" class="btn btn-primary">Save Changes</a>
     </div>
 </div>

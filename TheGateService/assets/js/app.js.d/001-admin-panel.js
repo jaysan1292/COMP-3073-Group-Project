@@ -1,4 +1,4 @@
-﻿(function($){
+﻿(function($) {
     'use strict';
 
     // Globals
@@ -30,12 +30,12 @@
     function getProductFromForm() {
         var product = {
             id: getOriginalProduct().id,
-            name: $('#modal-product-name').text(),
-            description: $('#modal-product-description').text(),
-            price: parseFloat($('#modal-product-price').val()),
-            quantity: parseInt($('#modal-product-quantity').val(), 10),
-            featured: $('#modal-product-featured').is(':checked'),
-            showcase: $('#modal-product-showcase').is(':checked')
+            name: getFieldValue($('#modal-product-name')[0]),
+            description: getFieldValue($('#modal-product-description')[0]),
+            price: parseFloat(getFieldValue($('#modal-product-price')[0])),
+            quantity: parseInt(getFieldValue($('#modal-product-quantity')[0]), 10),
+            featured: getFieldValue($('#modal-product-featured')[0]),
+            showcase: getFieldValue($('#modal-product-showcase')[0])
         };
         return product;
     }
@@ -49,6 +49,16 @@
 
     function getOriginalProduct() {
         return $('#edit-modal').data('product-original-value');
+    }
+
+    function getFieldValue(element) {
+        var value;
+        if (/text(area)?|number/.test(element.type)) { // Regex check for 'text', 'textarea', or 'number'
+            value = element.value;
+        } else if (element.type == 'checkbox') {
+            value = $(element).is(':checked');
+        }
+        return value;
     }
 
     $(document).ready(function() {
@@ -68,18 +78,12 @@
 
             $('#product-form input, #product-form textarea').change(function(e) {
                 var prop = $(this).attr('id').split('-')[2];
-                var value;
-                if (/text(area)?|number/.test(e.target.type)) { // Regex check for 'text', 'textarea', or 'number'
-                    value = e.target.value;
-                } else if (e.target.type == 'checkbox') {
-                    value = $(e.target).is(':checked');
-                }
+                var value = getFieldValue(e.target);
 
-                if(value !== undefined) $(this).data(prop, value);
+                if (value !== undefined) $(this).data(prop, value);
 
                 if ($(getOriginalProduct()).prop(prop) != $(this).data(prop)) {
                     $(modified).prop(prop, true);
-
                 } else {
                     $(modified).prop(prop, false);
                 }
@@ -91,6 +95,63 @@
                     $('#edit-modal').modal('unlock');
                     $('#unsaved-indicator').hide();
                 }
+            });
+
+            $('#save-button').click(function() {
+                var p = getProductFromForm();
+                var message = 'Are you sure you want to save your changes to "' + p.name + '"?';
+                if (!hasProductBeenEdited() || !window.confirm(message)) {
+                    $('#edit-modal').modal('hide');
+                    return;
+                }
+
+                // send to service, then close modal dialog
+                window.console.log(JSON.stringify(p));
+
+                $.ajax({
+                    url: '/products/' + p.id,
+                    type: 'put',
+                    data: p,
+                    success: function(data) {
+                        window.console.log('success');
+
+                        // Update the product in the list with the new values
+
+                        var prefix = '#product-' + p.id + ' ';
+                        $(prefix + '.product-name')
+                            .fadeOut()
+                            .text(p.name)
+                            .fadeIn();
+                        $(prefix + '.product-description') // TODO: Truncate this in the same way as before
+                            .fadeOut()
+                            .attr('title', p.description).text(p.description)
+                            .fadeIn();
+                        $(prefix + '.product-price')
+                            .fadeOut()
+                            .text('$' + p.price)
+                            .fadeIn();
+                        $(prefix + '.product-quantity')
+                            .fadeOut()
+                            .text(p.quantity)
+                            .fadeIn();
+                        $(prefix + '.product-featured input')
+                            .fadeOut()
+                            .prop('checked', p.featured)
+                            .fadeIn();
+                        $(prefix + '.product-showcase input')
+                            .fadeOut()
+                            .prop('checked', p.showcase)
+                            .fadeIn();
+
+                        // Hide the dialog box
+                        $('#edit-modal').modal('unlock').modal('hide');
+                    },
+                    error: function(req, status, error) {
+                        window.console.log(JSON.stringify(req));
+                        window.console.log(JSON.stringify(status));
+                        window.console.log(JSON.stringify(error));
+                    }
+                });
             });
 
             $('#edit-modal')
@@ -108,6 +169,8 @@
                     // Unbind any events we bound, to prevent "stacking" of handlers
                     $('#product-form input, #product-form textarea').unbind('change');
                     $('#edit-modal').unbind('hidePrevented').unbind('hide');
+                    $('#save-button').unbind('click');
+                    $('#unsaved-indicator').hide();
                     $('#product-form')[0].reset();
                 });
         });

@@ -65,7 +65,7 @@ namespace TheGateService {
                 },
             });
             Plugins.Add(new ValidationFeature());
-            container.RegisterValidators(typeof(ProductValidator).Assembly);
+//            container.RegisterValidators(typeof(ProductValidator).Assembly);
 
             JsConfig.EmitCamelCaseNames = true;
 
