@@ -1,4 +1,6 @@
 ﻿(function($){
+    'use strict';
+
     // Globals
     var modified = {
         id: false,
@@ -17,7 +19,7 @@
             name: $(prefix + '.product-name').text(),
             desc: $(prefix + '.product-desc').attr('title'),
             price: parseFloat($(prefix + '.product-price').text().substr(1)), // remove the leading $
-            quantity: parseInt($(prefix + '.product-quantity').text()),
+            quantity: parseInt($(prefix + '.product-quantity').text(), 10),
             featured: $(prefix + '.product-featured input').is(':checked'),
             showcase: $(prefix + '.product-showcase input').is(':checked')
         };
@@ -31,9 +33,9 @@
             name: $('#modal-product-name').text(),
             desc: $('#modal-product-desc').text(),
             price: parseFloat($('#modal-product-price').val()),
-            quantity: parseInt($('#modal-product-quantity').val()),
+            quantity: parseInt($('#modal-product-quantity').val(), 10),
             featured: $('#modal-product-featured').is(':checked'),
-            showcase: $('#modal-product-showcase').is(':checked'),
+            showcase: $('#modal-product-showcase').is(':checked')
         };
         return product;
     }
@@ -97,7 +99,7 @@
                 .modal('show')
                 .on('hidePrevented', function() {
                     if (!hasProductBeenEdited()) return;
-                    if (confirm('You have unsaved changes on "' + product.name + '". Are you sure you want to stop editing?')) {
+                    if (window.confirm('You have unsaved changes on "' + product.name + '". Are you sure you want to stop editing?')) {
                         $('#edit-modal')
                             .modal('unlock') // First unlock the modal so it can be hidden
                             .modal('hide'); // then hide it
