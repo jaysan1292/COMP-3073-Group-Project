@@ -99,10 +99,9 @@
 <div id="edit-modal" class="modal hide fade">
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h3>Editing <span id="modal-header-product-name"></span></h3>
+        <h3>Editing <span id="modal-header-product-name"></span> <i class="icon-asterisk" style="display: none;" id="unsaved-indicator"></i></h3>
     </div>
     <div class="modal-body">
-        <!-- quantity,featured,showcase -->
         <form id="product-form" class="form-horizontal">
             <div class="control-group">
                 <label class="control-label">Name</label>
@@ -152,7 +151,15 @@
 </div>
 <script type="text/javascript">
     // Globals
-    var modified = false;
+    var modified = {
+        id: false,
+        name: false,
+        desc: false,
+        price: false,
+        quantity: false,
+        featured: false,
+        showcase: false,
+    };
 
     function getProductFromRow(id) {
         var prefix = '#product-' + id + ' ';
@@ -171,16 +178,25 @@
 
     function getProductFromForm() {
         var product = {
-            
+            id: getOriginalProduct().id,
+            name: $('#modal-product-name').text(),
+            desc: $('#modal-product-desc').text(),
+            price: parseFloat($('#modal-product-price').val()), 
+            quantity: parseInt($('#modal-product-quantity').val()),
+            featured: $('#modal-product-featured').is(':checked'),
+            showcase: $('#modal-product-showcase').is(':checked'),
         };
         return product;
     }
 
     function hasProductBeenEdited() {
-        return getProductFromModal() == getProductFromForm();
+        for (var property in modified) {
+            if ($(modified).prop(property)) return true;
+        }
+        return false;
     }
 
-    function getProductFromModal() {
+    function getOriginalProduct() {
         return $('#edit-modal').data('product-original-value');
     }
 
@@ -192,24 +208,56 @@
 
             // Insert the product values
             $('#modal-header-product-name').text(product.name);
-            $('#modal-product-name').val(product.name);
-            $('#modal-product-desc').text(product.desc);
-            $('#modal-product-price').val(product.price);
-            $('#modal-product-quantity').val(product.quantity);
-            $('#modal-product-featured').prop('checked', product.featured);
-            $('#modal-product-showcase').prop('checked', product.showcase);
+            $('#modal-product-name').val(product.name).data('name', product.name);
+            $('#modal-product-desc').text(product.desc).data('desc', product.desc);
+            $('#modal-product-price').val(product.price).data('price', product.price);
+            $('#modal-product-quantity').val(product.quantity).data('quantity', product.quantity);
+            $('#modal-product-featured').prop('checked', product.featured).data('featured', product.featured);
+            $('#modal-product-showcase').prop('checked', product.showcase).data('showcase', product.showcase);
 
-            // Save the original value, which will be used later to check if the product has not been saved
+            $('#product-form input, #product-form textarea').change(function(e) {
+                var prop = $(this).attr('id').split('-')[2];
+                var value;                
+                if (/text(area)?|number/.test(e.target.type)) { // Regex check for 'text', 'textarea', or 'number'
+                    value = e.target.value;
+                } else if (e.target.type == 'checkbox') {
+                    value = $(e.target).is(':checked');
+                }
+
+                if(value !== undefined) $(this).data(prop, value);
+
+                if ($(getOriginalProduct()).prop(prop) != $(this).data(prop)) {
+                    $(modified).prop(prop, true);
+
+                } else {
+                    $(modified).prop(prop, false);
+                }
+                
+                if (hasProductBeenEdited()) {
+                    $('#edit-modal').modal('lock');
+                    $('#unsaved-indicator').show();
+                } else {
+                    $('#edit-modal').modal('unlock');
+                    $('#unsaved-indicator').hide();
+                }
+            });
+
             $('#edit-modal')
+                // Save the original value, which will be used later to check if the product has not been saved
                 .data('product-original-value', product)
                 .modal('show')
                 .on('hidePrevented', function() {
+                    if (!hasProductBeenEdited()) return;
                     if (confirm('You have unsaved changes on "' + product.name + '". Are you sure you want to stop editing?')) {
                         $('#edit-modal')
                             .modal('unlock') // First unlock the modal so it can be hidden
-                            .modal('hide') // then hide it
-                            .unbind('hidePrevented'); // then unbind this handler to prevent it from "stacking" when other products are edited
+                            .modal('hide'); // then hide it
                     }
+                }).on('hide', function() {
+                    // Unbind any events we bound, to prevent "stacking" of handlers
+                    $('#product-form input, #product-form textarea').unbind('change');
+                    $('#edit-modal').unbind('hidePrevented').unbind('hide');
+                    $('#product-form')[0].reset();
                 });
         });
     });
