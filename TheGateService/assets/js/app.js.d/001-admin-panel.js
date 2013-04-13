@@ -109,7 +109,7 @@
                 window.console.log(JSON.stringify(p));
 
                 $.ajax({
-                    url: '/products/' + p.id,
+                    url: window.site_root + '/products/' + p.id,
                     type: 'put',
                     data: p,
                     success: function(data) {

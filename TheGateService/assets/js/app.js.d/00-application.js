@@ -1,5 +1,8 @@
 ﻿(function ($) {
     $(document).ready(function () {
+        // Register global variables
+        window.site_root = $('head').data('site-root');
+
         $('#navbar-search .search-query').typeahead({
             source: function (query, process) {
                 return $.get('/typeahead', { q: query }, function (data) {
