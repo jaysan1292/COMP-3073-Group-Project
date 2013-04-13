@@ -5,7 +5,7 @@
     var modified = {
         id: false,
         name: false,
-        desc: false,
+        description: false,
         price: false,
         quantity: false,
         featured: false,
@@ -17,7 +17,7 @@
         var product = {
             id: id,
             name: $(prefix + '.product-name').text(),
-            desc: $(prefix + '.product-desc').attr('title'),
+            description: $(prefix + '.product-description').attr('title'),
             price: parseFloat($(prefix + '.product-price').text().substr(1)), // remove the leading $
             quantity: parseInt($(prefix + '.product-quantity').text(), 10),
             featured: $(prefix + '.product-featured input').is(':checked'),
@@ -31,7 +31,7 @@
         var product = {
             id: getOriginalProduct().id,
             name: $('#modal-product-name').text(),
-            desc: $('#modal-product-desc').text(),
+            description: $('#modal-product-description').text(),
             price: parseFloat($('#modal-product-price').val()),
             quantity: parseInt($('#modal-product-quantity').val(), 10),
             featured: $('#modal-product-featured').is(':checked'),
@@ -60,7 +60,7 @@
             // Insert the product values
             $('#modal-header-product-name').text(product.name);
             $('#modal-product-name').val(product.name).data('name', product.name);
-            $('#modal-product-desc').text(product.desc).data('desc', product.desc);
+            $('#modal-product-description').text(product.description).data('description', product.description);
             $('#modal-product-price').val(product.price).data('price', product.price);
             $('#modal-product-quantity').val(product.quantity).data('quantity', product.quantity);
             $('#modal-product-featured').prop('checked', product.featured).data('featured', product.featured);
