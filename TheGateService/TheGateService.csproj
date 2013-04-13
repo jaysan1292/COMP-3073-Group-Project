@@ -137,6 +137,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="assets\js\app.js.d\001-admin-panel.js" />
     <Content Include="assets\js\app.js.d\011-bootstrap-modal-lock.js" />
     <Content Include="assets\css\bootstrap-responsive.css" />
     <Content Include="assets\css\app.css.d\00-bootstrap.css" />
