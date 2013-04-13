@@ -122,3 +122,4 @@ _ReSharper*/
 # Nuget packages (Enable Package Restore in Nuget)
 packages/
 !.nuget/NuGet.exe
+TheGateService.sublime-workspace
