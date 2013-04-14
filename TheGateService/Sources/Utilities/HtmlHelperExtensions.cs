@@ -24,5 +24,13 @@ namespace TheGateService.Utilities {
 
             return session;
         }
+
+        public static bool IsRelease(this HtmlHelper html) {
+#if DEBUG
+            return false;
+#else
+            return true;
+#endif
+        }
     }
 }

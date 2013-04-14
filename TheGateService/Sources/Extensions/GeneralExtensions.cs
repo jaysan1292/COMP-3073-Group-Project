@@ -146,13 +146,5 @@ namespace TheGateService.Extensions {
 
             return str.Substring(0, characterCount - 3) + "…";
         }
-
-        public static bool IsRelease(this HtmlHelper html) {
-#if DEBUG
-            return false;
-#else
-            return true;
-#endif
-        }
     }
 }
