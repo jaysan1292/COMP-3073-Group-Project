@@ -56,9 +56,13 @@ namespace TheGateService {
                 }
             });
 
+#if !DEBUG
+            Config.WebHostUrl = "/TheGate";
+#endif
+
             Plugins.Add(new RazorFormat());
             Plugins.Add(new AuthFeature(() => new AuthUserSession(), new IAuthProvider[] { new GateAuthProvider() }) {
-                HtmlRedirect = "/login",
+                HtmlRedirect = Config.WebHostUrl + "/login",
                 IncludeAssignRoleServices = false,
                 ServiceRoutes = new Dictionary<Type, string[]> {
                     { typeof(AuthService), new[] { "/auth" } },

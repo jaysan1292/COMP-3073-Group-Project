@@ -7,6 +7,8 @@ using System.Linq;
 
 using JetBrains.Annotations;
 
+using ServiceStack.Html;
+
 namespace TheGateService.Extensions {
     public static class GeneralExtensions {
         private static readonly Random Random = new Random();
@@ -143,6 +145,14 @@ namespace TheGateService.Extensions {
                 return str.Substring(0, lastspace) + "…";
 
             return str.Substring(0, characterCount - 3) + "…";
+        }
+
+        public static bool IsRelease(this HtmlHelper html) {
+#if DEBUG
+            return false;
+#else
+            return true;
+#endif
         }
     }
 }

@@ -100,8 +100,18 @@
             $('#save-button').click(function() {
                 var p = getProductFromForm();
                 var message = 'Are you sure you want to save your changes to "' + p.name + '"?';
-                if (!hasProductBeenEdited() || !window.confirm(message)) {
-                    $('#edit-modal').modal('hide');
+                if (!hasProductBeenEdited()) {
+                    window.console.log('not edited');
+                    $('#edit-modal').modal('unlock').modal('hide');
+                    return;
+                }
+
+                // Do this as a separate check because if we do it in this way:
+                //   if(!hasProductBeenEdited() || !window.confirm(message))
+                // then if if the product has not been edited the confirmation window
+                // will pop up anyway.
+                if (!window.confirm(message)) {
+                    $('#edit-modal').modal('unlock').modal('hide');
                     return;
                 }
 

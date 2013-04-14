@@ -12,7 +12,7 @@ using TheGateService.Extensions;
 using Yahoo.Yui.Compressor;
 
 namespace TheGateService.Endpoints {
-    [Route("/assets/js/app.js")]
+    [Route("/assets/app.js")]
     public class Javascript { }
 
     /// <summary>

@@ -137,6 +137,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="assets\img\down.png" />
+    <Content Include="assets\img\up.png" />
+    <Content Include="assets\img\updown.png" />
     <Content Include="assets\js\app.js.d\001-admin-panel.js" />
     <Content Include="assets\js\app.js.d\011-bootstrap-modal-lock.js" />
     <Content Include="assets\css\bootstrap-responsive.css" />

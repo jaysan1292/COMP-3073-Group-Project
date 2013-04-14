@@ -14,7 +14,7 @@ using Yahoo.Yui.Compressor;
 using dotless.Core;
 
 namespace TheGateService.Endpoints {
-    [Route("/assets/css/app.css")]
+    [Route("/assets/app.css")]
     public class CSS { }
 
     /// <summary>

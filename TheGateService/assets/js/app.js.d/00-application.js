@@ -1,7 +1,9 @@
 ﻿(function ($) {
     $(document).ready(function () {
         // Register global variables
-        window.site_root = $('head').data('site-root');
+
+        // Get the root of the site, but remove the trailing slash, if any.
+        window.site_root = ($('head').data('site-root')).replace(/\/$/, '');
 
         $('#navbar-search .search-query').typeahead({
             source: function (query, process) {
