@@ -28,15 +28,12 @@ namespace TheGateService.Database {
 
                     var reader = cmd.ExecuteReader();
                     var results = new List<Product>();
-                    Product p;
-                    do {
-                        p = BuildObject(reader);
+                    while (true) {
+                        var p = BuildObject(reader);
+                        if (p == null) break;
                         results.Add(p);
-                    } while (p != null);
-
+                    }
                     reader.Close();
-
-                    results.RemoveAll(x => x == null);
 
                     return results;
                 } catch (Exception e) {
@@ -47,7 +44,45 @@ namespace TheGateService.Database {
                     DbHelper.CloseConnectionAndEndTransaction(conn, tx);
                 }
             }
-        } 
+        }
+
+        public List<Product> GetFeatured() {
+            return GetSpecial("GetFeaturedProducts");
+        }
+
+        public List<Product> GetShowcase() {
+            return GetSpecial("GetShowcaseProducts");
+        }
+
+        private List<Product> GetSpecial(string procname) {
+            MySqlTransaction tx;
+            using (var conn = DbHelper.OpenConnectionAndBeginTransaction(out tx)) {
+                try {
+                    var cmd = new MySqlCommand {
+                        Connection = conn,
+                        CommandText = procname,
+                        CommandType = CommandType.StoredProcedure
+                    };
+
+                    var reader = cmd.ExecuteReader();
+                    var results = new List<Product>();
+                    while (true) {
+                        var p = BuildObject(reader);
+                        if (p == null) break;
+                        results.Add(p);
+                    }
+                    reader.Close();
+
+                    return results;
+                } catch (Exception e) {
+                    tx.Rollback();
+                    Log.Error(e.Message, e);
+                    throw;
+                } finally {
+                    DbHelper.CloseConnectionAndEndTransaction(conn, tx);
+                }
+            }
+        }
 
         protected override Product Get(long id, MySqlConnection conn) {
             var cmd = new MySqlCommand {

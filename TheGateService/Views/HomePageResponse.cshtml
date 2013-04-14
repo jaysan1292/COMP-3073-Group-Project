@@ -2,29 +2,26 @@
 @using System.Collections
 @using System.Collections.Generic
 @using System.Linq
-@using TheGateService.Database
 @using TheGateService.Extensions
-@inherits ViewPage<TheGateService.Types.HomePage>
+@inherits ViewPage<TheGateService.Responses.HomePageResponse>
 
 @{
     ViewBag.Title = "The Gate";
     Layout = "MainLayout";
-    var products = new ProductDbProvider().GetAll().Shuffle().ToList();
 }
 
 <h2>What's Hot</h2>
 <div id="showcaseCarousel" class="carousel slide">
     <ol class="carousel-indicators">
-        @*TODO: This should be dynamic based on how many slides there are*@
-        <li data-target="#showcaseCarousel" data-slide-to="0" class="active"></li>
-        <li data-target="#showcaseCarousel" data-slide-to="1"></li>
-        <li data-target="#showcaseCarousel" data-slide-to="2"></li>
+        @for (var i = 0; i < Model.HomePage.Showcase.Count; i++) {
+            <li data-target="#showcaseCarousel" data-slide-to="@(i)" class="@(i != 0 ? "" : "active")"></li>
+        }
     </ol>
     @* Carousel items *@
     <div class="carousel-inner">
-        @{ var showcase = products.GetRange(0, 3); }
-        @foreach (var p in showcase) {
-            <div class="item @(showcase.IndexOf(p) == 0 ? "active" : "")">
+        @for (var i = 0; i < Model.HomePage.Showcase.Count;i++) {
+            var p = Model.HomePage.Showcase[i];
+            <div class="item @(i != 0 ? "" : "active")">
                 <a href="@Url.Content("~/products/{0}".F(p.Id))"><img src="http://placehold.it/780x580" alt="" width="780" height="580"/></a>
                 <div class="carousel-caption">
                     <h4>@p.Name</h4>
@@ -41,15 +38,13 @@
 </div>
 @{
     const int productsPerRow = 3;
-    // TODO: Get featured products from database query
-    var featured = products.GetRange(productsPerRow, products.Count - productsPerRow);
     var counter = 0;
 }
 <div class="row-fluid">
-@foreach (var p in featured) {
+@foreach (var p in Model.HomePage.Featured) {
     var link = Url.Content("~/products/{0}".F(p.Id));
 
-    <div class="span@(12/productsPerRow) home-product-info">
+    <div class="span@(12 / productsPerRow) home-product-info">
         <a href="@link">
             <img src="http://placehold.it/100x100" alt="" class="pull-left"/>
         </a>
@@ -63,19 +58,6 @@
     }
 }
 </div>
-@*@for (var i = 0; i < 2; i++) {*@
-@*    var featured = products.GetRange(3 * (i + 1), 3);*@
-@*    <div class="row-fluid">*@
-@*        @foreach (var p in featured) {*@
-@*            <div class="span4 home-product-info">*@
-@*                <img src="http://placehold.it/100x100" alt="" class="pull-left"/>*@
-@*                <h4><a href="@Url.Content("~/products/{0}".F(@p.Id))">@p.Name</a></h4>*@
-@*                <h6>$@p.Price</h6>*@
-@*                <p>@p.Description</p>*@
-@*            </div>*@
-@*        }*@
-@*    </div>*@
-@*}*@
 <script type="text/javascript">
     $(document).ready(function() {
         $('#showcaseCarousel').carousel('cycle');
