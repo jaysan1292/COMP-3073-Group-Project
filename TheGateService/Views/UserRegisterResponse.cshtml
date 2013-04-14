@@ -1,0 +1,40 @@
+﻿@{
+    ViewBag.Title = "Register";
+    Layout = "MainLayoutNoSidebar";
+}
+
+<div class="row-fluid">
+    <div class="well span6 offset3" id="login-form">
+        <legend>Register</legend>
+        <form method="POST" 
+              action="@Url.Content("~/register")" 
+              class="form-horizontal">
+            <div class="control-group">
+                <label class="control-label" for="userName">Username</label>
+
+                <div class="controls">
+                    <input id="login-username"
+                           type="text" 
+                           name="userName" 
+                           placeholder="Username"/>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="password">Password</label>
+
+                <div class="controls">
+                    <input type="password"
+                           name="password" 
+                           placeholder="Password"/>
+                    @{ writeError("Password"); }
+                </div>
+            </div>
+            <div class="form-actions">
+                <button type="submit" class="btn btn-info">Register</button>
+            </div>
+        </form>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () { $('#login-username').focus(); });
+</script>

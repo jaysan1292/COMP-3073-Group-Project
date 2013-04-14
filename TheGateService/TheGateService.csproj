@@ -170,6 +170,7 @@
     <Compile Include="Sources\Endpoints\GateServiceBase.cs" />
     <Compile Include="Sources\Endpoints\LoginService.cs" />
     <Compile Include="Sources\Endpoints\LogoutService.cs" />
+    <Compile Include="Sources\Endpoints\UserRegisterService.cs" />
     <Compile Include="Sources\Types\ShoppingCart.cs" />
     <Compile Include="Sources\Responses\ShoppingCartResponse.cs" />
     <Compile Include="Sources\Endpoints\ShoppingCartService.cs" />
@@ -203,7 +204,9 @@
     <Compile Include="Sources\Types\ResponseBase.cs" />
     <Compile Include="Sources\Utilities\HtmlHelperExtensions.cs" />
     <Compile Include="Sources\Utilities\WhitespaceFilter.cs" />
+    <Compile Include="Sources\Validation\EntityValidator.cs" />
     <Compile Include="Sources\Validation\ProductValidator.cs" />
+    <Compile Include="Sources\Validation\UserRegistrationValidator.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -252,6 +255,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Shared\HtmlHeader.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\UserRegisterResponse.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

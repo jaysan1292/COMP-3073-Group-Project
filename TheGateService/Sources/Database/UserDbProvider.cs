@@ -64,7 +64,24 @@ namespace TheGateService.Database {
         }
 
         protected override long Create(User obj, MySqlConnection conn) {
-            throw new NotImplementedException();
+            var cmd = new MySqlCommand {
+                Connection = conn,
+                CommandText = "CreateRegularUser",
+                CommandType = CommandType.StoredProcedure,
+            };
+            cmd.Parameters.AddWithValue("_FirstName", obj.FirstName);
+            cmd.Parameters.AddWithValue("_LastName", obj.LastName);
+            cmd.Parameters.AddWithValue("_Email", obj.Email);
+            cmd.Parameters.AddWithValue("_Password", obj.Password);
+            cmd.Parameters.AddWithValue("NewId", MySqlDbType.Int64);
+            cmd.Parameters["NewId"].Direction = ParameterDirection.Output;
+
+            var rows = cmd.ExecuteNonQuery();
+
+            if (rows != 1) throw new ApplicationException("Could not create new user.");
+
+            var newid = Convert.ToInt64(cmd.Parameters["NewId"].Value);
+            return newid;
         }
 
         protected override void Update(User obj, MySqlConnection conn) {

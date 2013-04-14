@@ -44,12 +44,12 @@ END //
 DROP PROCEDURE IF EXISTS UpdateCart //
 CREATE PROCEDURE UpdateCart (IN UserId BIGINT, IN ProductId BIGINT, IN NewQuantity INT)
 BEGIN
-    DECLARE Exist INT;
+    DECLARE Exist BOOLEAN;
 
     -- Check if the product already exists in this user's shopping cart
     SELECT COUNT(*) INTO Exist FROM ShoppingCart s WHERE s.UserId = UserId AND s.ProductId = ProductId;
 
-    IF Exist = 0 THEN
+    IF Exist = FALSE THEN
         -- If the product doesn't exist in the user's cart, add it
         CALL AddToCart(UserId, ProductId, NewQuantity);
     ELSEIF NewQuantity = 0 THEN
@@ -67,13 +67,13 @@ END //
 DROP PROCEDURE IF EXISTS AddToCart //
 CREATE PROCEDURE AddToCart (IN UserId BIGINT, IN ProductId BIGINT, IN Quantity INT)
 BEGIN
-    DECLARE Exist INT;
+    DECLARE Exist BOOLEAN;
     DECLARE NewQuantity INT;
 
     -- Check if the product already exists in this user's shopping cart
     SELECT COUNT(*) INTO Exist FROM ShoppingCart s WHERE s.UserId = UserId AND s.ProductId = ProductId;
 
-    IF Exist = 0 THEN
+    IF Exist = FALSE THEN
         -- This product doesn't yet exist in the user's shopping cart.
         -- But first, check if we're putting in a negative quantity, and if so, don't do anything.
         IF Quantity > 0 THEN
@@ -233,7 +233,23 @@ END //
 
 
 -- Add New User
+DROP PROCEDURE IF EXISTS CreateRegularUser //
+CREATE PROCEDURE CreateRegularUser (IN _FirstName VARCHAR(30), IN _LastName VARCHAR(30),
+                                    IN _Email VARCHAR(128), IN _Password CHAR(64))
+BEGIN
+    DECLARE Exist BOOLEAN;
 
+    -- Check if the given email exists, and throw an error if it does
+    SELECT COUNT(Email) INTO Exist FROM User WHERE Email = _Email;
+
+    IF Exist = TRUE THEN
+        SIGNAL SQLSTATE '45000'
+            SET MESSAGE_TEXT = 'A user with the given email already exists in the database.';
+    END IF;
+
+    INSERT INTO User (FirstName, LastName, Email, Password, Type) VALUES
+        (_FirstName, _LastName, _Email, _Password, 1);
+END //
 -- CREATE PROCEDURE addUser @Type INT INPUT, @FirstName VARCHAR(30) INPUT, @LastName VARCHAR(30) INPUT, @Email VARCHAR(128) INPUT, @Password CHAR(64) INPUT, @Address VARCHAR(256) INPUT AS
 -- INSERT INTO User (Type, FirstName, LastName, Address, Email, Password)
 -- VALUES (@Type, @FirstName, @LastName, @Address, @Email, @Password)

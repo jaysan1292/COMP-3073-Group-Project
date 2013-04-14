@@ -21,6 +21,7 @@ namespace TheGateService.Types {
         public string LastName { get; set; }
         public string Address { get; set; }
         public string Email { get; set; }
+        public string Password { get; set; } // Will be null 99% of the time, except when creating a new user
 
         #endregion
 
