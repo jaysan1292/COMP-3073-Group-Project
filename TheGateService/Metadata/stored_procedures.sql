@@ -44,10 +44,19 @@ END //
 DROP PROCEDURE IF EXISTS UpdateCart //
 CREATE PROCEDURE UpdateCart (IN UserId BIGINT, IN ProductId BIGINT, IN NewQuantity INT)
 BEGIN
-    -- If the new quantity is 0, just remove it from the shopping cart.
-    if (NewQuantity = 0) then
+    DECLARE Exist INT;
+
+    -- Check if the product already exists in this user's shopping cart
+    SELECT COUNT(*) INTO Exist FROM ShoppingCart s WHERE s.UserId = UserId AND s.ProductId = ProductId;
+
+    IF Exist = 0 THEN
+        -- If the product doesn't exist in the user's cart, add it
+        CALL AddToCart(UserId, ProductId, NewQuantity);
+    ELSEIF NewQuantity = 0 THEN
+        -- If the new quantity is 0, just remove it from the shopping cart.
         CALL RemoveFromCart(UserId, ProductId);
     ELSE
+        -- Just update the existing product in the cart
         UPDATE ShoppingCart
         SET Quantity = NewQuantity
         WHERE ShoppingCart.UserId = UserId AND ShoppingCart.ProductId = ProductId;
