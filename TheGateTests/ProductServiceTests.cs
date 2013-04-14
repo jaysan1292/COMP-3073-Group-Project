@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -80,7 +81,7 @@ namespace TheGateTests {
         public void TestGetProducts() {
             var response = Client.Get(new Products());
             TestContext.WriteLine("{0}", response.Dump());
-            Assert.IsTrue(response.Results.Count == 8);
+            Assert.IsTrue(response.Results.Count == 15);
         }
 
         [TestMethod]
@@ -110,7 +111,12 @@ namespace TheGateTests {
                 Featured = true,
                 Showcase = false,
             };
-            Client.Put(expected);
+            try {
+                Client.Put(expected);
+            } catch (SerializationException) {
+                // The server will return "No Content", which the JsonServiceClient above doesn't expect.
+                // However, the server returning "No Content" is intended, so ignore this exception.
+            }
 
             var updated = Client.Get(new Product { Id = 1 });
             Assert.AreEqual(expected, updated.Product);
@@ -133,9 +139,9 @@ namespace TheGateTests {
 
         [TestMethod]
         public void TestDeleteProduct() {
-            Client.Delete(new Product { Id = 8 });
+            Client.Delete(new Product { Id = 9 });
             try {
-                Client.Get(new Product { Id = 8 });
+                Client.Get(new Product { Id = 9 });
             } catch (WebServiceException e) {
                 Assert.IsTrue(e.Message.Is("Not Found"));
             }

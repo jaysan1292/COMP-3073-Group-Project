@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 
 using ServiceStack.Common.Web;
 using ServiceStack.ServiceInterface;
@@ -33,20 +34,17 @@ namespace TheGateService.Endpoints {
             var id = Products.Create(request);
             request.Id = id;
 
-            // TODO: return HTTP Status 201: Created
-            return new ProductResponse { Product = request };
+            return new HttpResult(new ProductResponse { Product = request }, HttpStatusCode.Created);
         }
 
         public object Put(Product request) {
             Products.Update(request);
-            // TODO: return HTTP Status 204: No Content
-            return null;
+            return new HttpResult(HttpStatusCode.NoContent);
         }
 
         public object Delete(Product request) {
-            // TODO: return HTTP Status 200: OK
             return Products.Delete(request.Id) ?
-                       null :
+                       (object) new HttpResult(HttpStatusCode.OK, "") :
                        HttpError.NotFound("Product {0} was not found, so it could not be deleted.".Fmt(request.Id));
         }
     }
