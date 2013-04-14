@@ -56,7 +56,7 @@ INSERT INTO User (Type,FirstName,LastName,Address,Email,Password) VALUES
     (1, 'Phuong',    'Nguyen',   '5879 Emerald Arbor',       'phungu@example.com',   '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92'),
     (1, 'Marian',    'Kipling',  '24 Fallen Edge',           'mkipling@example.com', '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92'),
     (4, 'John',      'Smith',    '123 Addressable Edge',     'jsmith@example.com',   '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92'),
-    (1, 'EunJung',   'Kang',     '3318 Rustic Way',          'kkangju@example.kr',   '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92');
+    (1, 'Jiyong',    'Kwon',     '3318 Rustic Way',          'jiyong@example.kr',    '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92');
 
 INSERT INTO Orders (UserId,OrderType,OrderStatus) VALUES
     (1, 1, 5),
