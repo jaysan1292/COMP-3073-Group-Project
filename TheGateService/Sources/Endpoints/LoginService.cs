@@ -23,7 +23,11 @@ namespace TheGateService.Endpoints {
                 // Invalid username or password
                 var message = "{0}:{1}".Fmt(request.Username, "Incorrect username or password.");
                 Session.Set("Error-Message", message);
-                return HttpResult.Redirect(Url.Content("~/Login"));
+
+                var redirectTo = "";
+                if (Request.QueryString["redirect"] != null) redirectTo = "?redirect=" + Request.QueryString["redirect"].UrlEncode();
+
+                return HttpResult.Redirect(Url.Content("~/Login") + redirectTo);
             }
             return HttpResult.Redirect(Request.QueryString["redirect"] ?? Url.Content("~/home"));
         }
