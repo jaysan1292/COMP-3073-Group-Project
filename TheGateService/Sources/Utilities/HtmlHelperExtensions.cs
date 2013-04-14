@@ -32,5 +32,9 @@ namespace TheGateService.Utilities {
             return true;
 #endif
         }
+
+        public static long GetUserId(this HtmlHelper html) {
+            return Convert.ToInt64(html.GetAuthSession().UserAuthId);
+        }
     }
 }

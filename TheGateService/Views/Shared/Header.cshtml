@@ -1,3 +1,5 @@
+@using TheGateService.Database
+@using TheGateService.Endpoints
 @using TheGateService.Types
 @using TheGateService.Utilities
 
@@ -19,8 +21,13 @@
                     </a>
                     <ul class="dropdown-menu">
                         @if (session.HasRole(UserType.User.ToString())) {
-                            // TODO: add number of items in shopping cart to label
-                            <li><a href='@Url.Content("~/cart")'><i class="icon-shopping-cart"></i> Shopping Cart</a></li>
+                            var itemCount = (new ShoppingCartDbProvider().Get(Html.GetUserId()) ?? new ShoppingCart()).Items.Count;
+                            var itemStr = itemCount != 0 ? @" <span class=""badge badge-info"">{0}</span>".Fmt(itemCount) : "";
+                            <li>
+                                <a href='@Url.Content("~/cart")'>
+                                    <i class="icon-shopping-cart"></i> Shopping Cart @{ WriteLiteral(itemStr); }
+                                </a>
+                            </li>
                             <li class="divider"></li>
                         }
                         @if (session.HasRole(UserType.Administrator.ToString())) {

@@ -21,6 +21,17 @@ namespace TheGateService.Endpoints {
             Items = items;
         }
 
+        public int TotalQuantity { get { return Items.Aggregate(0, (amount, item) => amount + item.Quantity); } }
+
+        public decimal TotalPrice {
+            get {
+                return Items.Aggregate(new decimal(0), (amount, item) => {
+                    var itemPrice = item.Product.Price * item.Quantity;
+                    return amount + itemPrice;
+                });
+            }
+        }
+
         protected override bool _Equals(ShoppingCart other) {
             return UserId == other.UserId &&
                    Items.Equals(other.Items);
@@ -30,8 +41,8 @@ namespace TheGateService.Endpoints {
             return (Items != null ? Items.GetHashCode() : 0) ^ UserId.GetHashCode();
         }
 
+        [Route("/cart/item", "POST,DELETE")]
         public class ShoppingCartItem {
-            public decimal TotalPrice { get { return Product.Price * Quantity; } }
             public Product Product { get; set; }
             public int Quantity { get; set; }
 
@@ -39,6 +50,8 @@ namespace TheGateService.Endpoints {
                 Product = new Product();
                 Quantity = 0;
             }
+
+            public decimal TotalPrice { get { return Product.Price * Quantity; } }
 
             protected bool Equals(ShoppingCartItem other) {
                 return Product.Equals(other.Product) &&

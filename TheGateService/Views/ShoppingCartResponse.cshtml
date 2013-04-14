@@ -2,6 +2,7 @@
 @using System.Collections
 @using System.Collections.Generic
 @using System.Linq
+@using ServiceStack.ServiceInterface
 @using TheGateService.Endpoints
 @using TheGateService.Extensions
 @inherits ViewPage<ShoppingCartResponse>
@@ -10,69 +11,187 @@
     ViewBag.Title = "Your Cart";
     Layout = "MainLayoutNoSidebar";
 }
-@*
 <script type="text/javascript">
     $(document).ready(function () {
         $.tablesorter.addParser({
             id: 'booleans',
-            is: function (b) {
-                return false;
-            },
+            is: function (b) { return false; },
             format: function (s) {
                 return s.replace(/[Tt]rue/, 1).replace(/[Ff]alse/, 0);
             },
             type: 'numeric'
         });
+        $.tablesorter.addParser({
+            id: 'numselect',
+            is: function (b) { return false; },
+            format: function (s, table, cell) {
+                return $(cell).children('input').val();
+            },
+            type: 'numeric'
+        });
 
         $('.product-table').tablesorter({
-            //            debug   : true,
             headers: {
-                5: { sorter: 'booleans' },
-                6: { sorter: 'booleans' },
-                7: { sorter: false }
+                2: { sorter: 'currency' },
+                3: { sorter: 'numselect' },
+                4: { sorter: false }
             },
             cssHeader: 'updown',
             cssAsc: 'down',
             cssDesc: 'up'
         });
-
-        $('.featured, .showcase').click(function (e) {
-            // Get the numeric ID of the hidden label (in the format 'hidden-(featured|showcase)-{id}')
-            var id = $(e.target).parent().children('[id]').attr('id').split('-')[2];
-            switch (e.target.value.toLowerCase()) {
-                case 'featured': $('#hidden-featured-'+id).text(e.target.checked); break;
-                case 'showcase': $('#hidden-showcase-'+id).text(e.target.checked); break;
-            }
-            $('.product-table').trigger('update');
-
-            // TODO: Update the product's featured/showcase status using AJAX call
-        });
     });
-</script>*@
+</script>
+<style type="text/css">
+    /* All of these are !important for now because it seems as if Bootstrap's default styles overwrite these ones */
+    .price { text-align: right !important; }
+    .btn-cart { width: 100% !important; }
+    .quantity { text-align: center !important; }
+    .product-table { vertical-align: middle !important; }
+    #cart-total-str { text-align: right; }
+    .product-quantity { text-align: center !important; }
+    .product-quantity input { margin-bottom: 0;text-align: center; }
+</style>
 <h1>Your Cart</h1>
 @if (Model.Cart.Items.Count > 0) {
-    <table class="table table-striped table-bordered product-table">
+    <table class="table table-striped table-bordered product-table" data-userid="@Request.GetSession().UserAuthId">
         <thead>
             <tr>
-                <th>Name</th>
-                <th>Description</th>
-                <th>Price</th>
-                <th>Quantity</th>
-                <th></th>
+                <th width="40%">Name</th>
+                <th width="40%">Description</th>
+                <th width="10%">Quantity</th>
+                <th width="10%">Price</th>
+                <th style="width:1px;"></th>
             </tr>
         </thead>
         <tbody>
-                @foreach (ShoppingCart.ShoppingCartItem p in @Model.Cart.Items) {
-                    <tr>
-                        <td>@p.Product.Name</td>
-                        <td title="@p.Product.Description">@p.Product.Description.LimitWords(30)</td>
-                        <td>$@p.Product.Price</td>
-                        <td>@p.Quantity</td>
-                        <td><input class="btn btn-danger" type="button" value="Remove" /></td>
-                    </tr>
-                }
+            @foreach (var p in @Model.Cart.Items) {
+                <tr id="cart-product-@p.Product.Id" data-pid="@p.Product.Id">
+                    <td>@p.Product.Name</td>
+                    <td title="@p.Product.Description">@p.Product.Description.LimitWords(30)</td>
+                    <td class="product-quantity quantity">
+                        <input class="span1" type="number" value="@p.Quantity" />
+                    </td>
+                    <td class="product-price price" data-single-price="@p.Product.Price">$@p.TotalPrice</td>
+                    <td><input id="delete-cart-@p.Product.Id" class="btn btn-danger btn-cart" type="button" value="Remove" />                    </td>
+                </tr>
+            }
         </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="2" id="cart-total-str">
+                    <strong>Totals</strong>
+                </td>
+                <td class="quantity">
+                    <span id="total-quantity">@Model.Cart.TotalQuantity</span>
+                </td>
+                <td class="price">
+                    $
+                    <span id="total-price">@Model.Cart.TotalPrice</span>
+                </td>
+                <td>
+                    <input id="update-cart" class="btn btn-info btn-cart" type="button" value="Update" />
+                </td>
+            </tr>
+        </tfoot>
     </table>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            // Update all of the totals numbers on screen when a quantity is changed
+            $('.product-quantity input').change(function (e) {
+                // Don't allow negative numbers
+                if (e.target.value < 0) e.target.value = 0;
+
+                var $price = $($(e.target).closest('tr').children('.product-price')[0]);
+                var quantity = e.target.value;
+                var singleprice = $price.data('single-price');
+                var productprice = quantity * singleprice;
+
+                // Display the price on-screen
+                $price.text('$' + productprice.toFixed(2));
+
+                // Update the total quantity label
+                var totalquantity = 0;
+                $('.product-quantity input').each(function () {
+                    totalquantity += parseInt($(this).val(), 10);
+                });
+                $('#total-quantity').text(totalquantity);
+
+                // Update the total price label
+                var totalprice = 0.0;
+                $('.product-price').each(function () {
+                    totalprice += parseFloat($(this).text().substr(1));
+                });
+                $('#total-price').text(totalprice.toFixed(2));
+                $('.product-table').trigger('update');
+            });
+            $('#update-cart').click(function () {
+                var userid = $('.product-table').data('userid');
+                var items = [];
+                $('[id^=cart-product]').each(function () {
+                    var pid = $(this).data('pid');
+                    var quantity = $(this).children('.product-quantity').children('input').val();
+                    items.push({ product: { id: pid }, quantity: quantity });
+                });
+
+                var send = JSON.stringify({
+                    userId: userid,
+                    items: items
+                });
+
+                window.console.log(send);
+
+                $.ajax({
+                    url: site_root + '/cart',
+                    type: 'put',
+                    beforeSend: function (req) { req.setRequestHeader('Content-Type', 'application/json'); },
+                    data: send,
+                    success: function () {
+                        //TODO: Show a better-looking banner instead of this alert window
+                        alert('Cart updated successfully!');
+                    },
+                    error: function (req, status, error) {
+                        console.log(req);
+                        console.log(status);
+                        console.log(error);
+                        alert('Cart update failed. See JavaScript console for "details".');
+                    }
+                });
+            });
+            $('[id^=delete-cart-]').click(function (e) {
+                var userid = $('.product-table').data('userid');
+                var id = e.target.id.split('-')[2];
+                window.console.log('delete item ' + id + ' from user ' + userid + '\'s shopping cart');
+
+                $.ajax({
+                    url: site_root + '/cart/item',
+                    type: 'delete',
+                    beforeSend: function (req) { req.setRequestHeader('Content-Type', 'application/json'); },
+                    data: JSON.stringify({
+                        product: {
+                            id: id
+                        }
+                    }),
+                    success: function () {
+                        $('#cart-product-' + id).fadeOut(function () { $(this).remove(); });
+                        $('.product-quantity input').trigger('change');
+
+                        // Reload the page if there are no more items in the cart
+                        if ($('.product-table tbody').children().length == 0) window.location.reload();
+                    },
+                    error: function (req, status, error) {
+                        console.log(req);
+                        console.log(status);
+                        console.log(error);
+                    }
+                });
+            });
+        });
+    </script>
 } else {
     <h4>There's nothing here!</h4>
+    <p>
+        Why don't you <a href="@Url.Content("~/products")">shop</a> around a bit? This page will 
+        fill up as you add more items to your cart.
+    </p>
 }

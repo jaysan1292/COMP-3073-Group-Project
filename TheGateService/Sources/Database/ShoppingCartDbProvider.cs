@@ -45,6 +45,97 @@ namespace TheGateService.Database {
             }
         }
 
+        public bool Update(ShoppingCart cart) {
+            MySqlTransaction tx;
+            using (var conn = DbHelper.OpenConnectionAndBeginTransaction(out tx)) {
+                try {
+                    var success = true;
+                    foreach (var item in cart.Items) {
+                        var cmd = new MySqlCommand {
+                            Connection = conn,
+                            CommandText = "UpdateCart",
+                            CommandType = CommandType.StoredProcedure
+                        };
+                        cmd.Parameters.AddWithValue("UserId", cart.UserId);
+                        cmd.Parameters.AddWithValue("ProductId", item.Product.Id);
+                        cmd.Parameters.AddWithValue("NewQuantity", item.Quantity);
+
+                        var changed = cmd.ExecuteNonQuery();
+
+                        success &= changed != 0;
+                    }
+                    return success;
+                } catch (Exception e) {
+                    tx.Rollback();
+                    Log.Error(e.Message, e);
+                    throw;
+                } finally {
+                    DbHelper.CloseConnectionAndEndTransaction(conn, tx);
+                }
+            }
+        }
+
+        public bool AddToCart(User user, Product product, int quantity) {
+            return AddToCart(user.Id, product.Id, quantity);
+        }
+
+        public bool AddToCart(long userId, long productId, int quantity) {
+            MySqlTransaction tx;
+            using (var conn = DbHelper.OpenConnectionAndBeginTransaction(out tx)) {
+                try {
+                    var cmd = new MySqlCommand {
+                        Connection = conn,
+                        CommandText = "AddToCart",
+                        CommandType = CommandType.StoredProcedure
+                    };
+                    cmd.Parameters.AddWithValue("UserId", userId);
+                    cmd.Parameters.AddWithValue("ProductId", productId);
+                    cmd.Parameters.AddWithValue("Quantity", quantity);
+
+                    var changed = cmd.ExecuteNonQuery();
+
+                    // Return true if any rows were changed
+                    return changed != 0;
+                } catch (Exception e) {
+                    tx.Rollback();
+                    Log.Error(e.Message, e);
+                    throw;
+                } finally {
+                    DbHelper.CloseConnectionAndEndTransaction(conn, tx);
+                }
+            }
+        }
+
+        public bool RemoveFromCart(User user, Product product) {
+            return RemoveFromCart(user.Id, product.Id);
+        }
+
+        public bool RemoveFromCart(long userId, long productId) {
+            MySqlTransaction tx;
+            using (var conn = DbHelper.OpenConnectionAndBeginTransaction(out tx)) {
+                try {
+                    var cmd = new MySqlCommand {
+                        Connection = conn,
+                        CommandText = "RemoveFromCart",
+                        CommandType = CommandType.StoredProcedure
+                    };
+                    cmd.Parameters.AddWithValue("UserId", userId);
+                    cmd.Parameters.AddWithValue("ProductId", productId);
+
+                    var changed = cmd.ExecuteNonQuery();
+
+                    // Return true if any rows were changed
+                    return changed != 0;
+                } catch (Exception e) {
+                    tx.Rollback();
+                    Log.Error(e.Message, e);
+                    throw;
+                } finally {
+                    DbHelper.CloseConnectionAndEndTransaction(conn, tx);
+                }
+            }
+        }
+
         private ShoppingCart BuildObject(MySqlDataReader reader) {
             if (!reader.Read()) return null;
             var cart = new ShoppingCart();
