@@ -7,8 +7,6 @@ using System.Linq;
 
 using JetBrains.Annotations;
 
-using ServiceStack.Html;
-
 namespace TheGateService.Extensions {
     public static class GeneralExtensions {
         private static readonly Random Random = new Random();

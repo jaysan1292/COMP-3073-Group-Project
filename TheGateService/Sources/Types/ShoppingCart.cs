@@ -5,9 +5,7 @@ using System.Linq;
 
 using ServiceStack.ServiceHost;
 
-using TheGateService.Types;
-
-namespace TheGateService.Endpoints {
+namespace TheGateService.Types {
     [Route("/cart")]
     public class ShoppingCart : Entity<ShoppingCart> {
         public List<ShoppingCartItem> Items { get; set; }

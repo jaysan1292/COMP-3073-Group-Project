@@ -6,14 +6,15 @@ using System.Net;
 
 using ServiceStack.Common.Web;
 using ServiceStack.ServiceInterface;
-using ServiceStack.ServiceInterface.Auth;
 
 using TheGateService.Database;
+using TheGateService.Responses;
+using TheGateService.Types;
 
 namespace TheGateService.Endpoints {
     [Authenticate]
     [RequiredRole("User")]
-    public class ShoppingCartService : Service {
+    public class ShoppingCartService : GateServiceBase {
         private static readonly ShoppingCartDbProvider ShoppingCarts = new ShoppingCartDbProvider();
 
         private long UserId { get { return Convert.ToInt64(this.GetSession().UserAuthId); } }

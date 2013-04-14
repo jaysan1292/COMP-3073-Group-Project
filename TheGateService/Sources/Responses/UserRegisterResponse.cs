@@ -6,7 +6,5 @@ using System.Linq;
 using TheGateService.Types;
 
 namespace TheGateService.Responses {
-    public class ShoppingCartResponse : ResponseBase {
-        public ShoppingCart Cart;
-    }
+    public class UserRegisterResponse : ResponseBase { }
 }

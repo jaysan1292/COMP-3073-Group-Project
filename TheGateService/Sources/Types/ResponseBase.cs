@@ -6,7 +6,7 @@ using System.Linq;
 using ServiceStack.ServiceInterface.ServiceModel;
 
 namespace TheGateService.Types {
-    public class ResponseBase {
+    public class ResponseBase : IHasResponseStatus {
         public ResponseStatus ResponseStatus { get; set; }
     }
 }

@@ -17,7 +17,7 @@ namespace TheGateService.Endpoints {
     [Authenticate(ApplyTo.Put | ApplyTo.Post | ApplyTo.Delete)]
     [RequiredPermission(ApplyTo.Put | ApplyTo.Post, Permissions.CanManageProducts)]
     [RequiredPermission(ApplyTo.Delete, Permissions.CanDeleteProducts)]
-    public class ProductService : Service {
+    public class ProductService : GateServiceBase {
         private static readonly ProductDbProvider Products = new ProductDbProvider();
 
         public object Get(Product request) {

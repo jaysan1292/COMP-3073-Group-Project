@@ -1,8 +1,3 @@
-// Project: TheGateService
-// Filename: Global.asax.cs
-// 
-// Author: Jason Recillo
-
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -22,13 +17,11 @@ using ServiceStack.Razor;
 using ServiceStack.ServiceHost;
 using ServiceStack.ServiceInterface;
 using ServiceStack.ServiceInterface.Auth;
-using ServiceStack.ServiceInterface.Validation;
 using ServiceStack.Text;
 using ServiceStack.WebHost.Endpoints;
 
 using TheGateService.Security;
 using TheGateService.Utilities;
-using TheGateService.Validation;
 
 namespace TheGateService {
     public class GateServiceHost : AppHostBase {
@@ -51,7 +44,7 @@ namespace TheGateService {
             ResponseFilters.Add((request, response, dto) => {
                 if (response.ContentType.Contains("html")) {
                     var originalResponse = response.OriginalResponse as HttpResponse;
-                    if (originalResponse != null) 
+                    if (originalResponse != null)
                         originalResponse.Filter = new WhitespaceFilter(originalResponse.Filter);
                 }
             });

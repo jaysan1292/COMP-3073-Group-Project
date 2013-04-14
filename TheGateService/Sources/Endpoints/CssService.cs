@@ -5,18 +5,14 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
-using ServiceStack.ServiceHost;
-
 using TheGateService.Extensions;
+using TheGateService.Types;
 
 using Yahoo.Yui.Compressor;
 
 using dotless.Core;
 
 namespace TheGateService.Endpoints {
-    [Route("/assets/app.css")]
-    public class CSS { }
-
     /// <summary>
     /// Concatenates CSS files together and minifies/compresses them. The minified 
     /// output can be reached at ~/assets/css/app.css. To return non-minified 

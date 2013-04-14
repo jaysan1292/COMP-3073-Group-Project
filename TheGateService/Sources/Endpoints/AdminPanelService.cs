@@ -12,7 +12,7 @@ using TheGateService.Types;
 namespace TheGateService.Endpoints {
     [Authenticate]
     [RequiredRole("Administrator")]
-    public class AdminPanelService : Service {
+    public class AdminPanelService : GateServiceBase {
         public object Get(AdminPanel request) {
             return new AdminPanelResponse { Results = new ProductDbProvider().GetAll() };
         }

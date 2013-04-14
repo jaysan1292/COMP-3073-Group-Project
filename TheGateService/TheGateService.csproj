@@ -167,9 +167,16 @@
     <Compile Include="Sources\Database\ShoppingCartDbProvider.cs" />
     <Compile Include="Sources\Database\UserDbProvider.cs" />
     <Compile Include="Sources\Endpoints\AdminPanelService.cs" />
+    <Compile Include="Sources\Types\CSS.cs" />
     <Compile Include="Sources\Endpoints\GateServiceBase.cs" />
+    <Compile Include="Sources\Types\Javascript.cs" />
     <Compile Include="Sources\Endpoints\LoginService.cs" />
+    <Compile Include="Sources\Types\Logout.cs" />
     <Compile Include="Sources\Endpoints\LogoutService.cs" />
+    <Compile Include="Sources\Types\Typeahead.cs" />
+    <Compile Include="Sources\Responses\TypeaheadResponse.cs" />
+    <Compile Include="Sources\Types\UserRegister.cs" />
+    <Compile Include="Sources\Responses\UserRegisterResponse.cs" />
     <Compile Include="Sources\Endpoints\UserRegisterService.cs" />
     <Compile Include="Sources\Types\ShoppingCart.cs" />
     <Compile Include="Sources\Responses\ShoppingCartResponse.cs" />
@@ -190,7 +197,7 @@
     <Compile Include="Sources\Endpoints\JsService.cs" />
     <Compile Include="Sources\Responses\HomePageResponse.cs" />
     <Compile Include="Sources\Endpoints\HomePageService.cs" />
-    <Compile Include="Sources\Endpoints\ProductsService.cs" />
+    <Compile Include="Sources\Endpoints\ProductService.cs" />
     <Compile Include="Sources\Extensions\GeneralExtensions.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

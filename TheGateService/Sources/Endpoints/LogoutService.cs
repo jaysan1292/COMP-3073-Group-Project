@@ -4,13 +4,11 @@ using System.Collections.Generic;
 using System.Linq;
 
 using ServiceStack.Common.Web;
-using ServiceStack.ServiceHost;
 using ServiceStack.ServiceInterface.Auth;
 
-namespace TheGateService.Endpoints {
-    [Route("/logout")]
-    public class Logout { }
+using TheGateService.Types;
 
+namespace TheGateService.Endpoints {
     public class LogoutService : GateServiceBase {
         public object Any(Logout request) {
             var authResponse = AuthService.Authenticate(new Auth { provider = "logout" });

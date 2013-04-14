@@ -4,13 +4,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-using ServiceStack.ServiceInterface;
-
 using TheGateService.Extensions;
 using TheGateService.Utilities;
 
 namespace TheGateService.Endpoints {
-    public abstract class MinifierServiceBase : Service {
+    public abstract class MinifierServiceBase : GateServiceBase {
         // The base path where all of the files to be combined are stored
         private readonly string _basePath;
 

@@ -8,7 +8,6 @@ using MySql.Data.MySqlClient;
 
 using ServiceStack.Logging;
 
-using TheGateService.Endpoints;
 using TheGateService.Types;
 
 namespace TheGateService.Database {

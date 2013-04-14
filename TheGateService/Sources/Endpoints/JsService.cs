@@ -5,16 +5,12 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
-using ServiceStack.ServiceHost;
-
 using TheGateService.Extensions;
+using TheGateService.Types;
 
 using Yahoo.Yui.Compressor;
 
 namespace TheGateService.Endpoints {
-    [Route("/assets/app.js")]
-    public class Javascript { }
-
     /// <summary>
     /// Concatenates Javascript files together and minifies/compresses them. The minified 
     /// output can be reached at ~/assets/js/app.js. To return non-minified 
