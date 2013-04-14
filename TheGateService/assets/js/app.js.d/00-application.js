@@ -5,6 +5,7 @@
         // Get the root of the site, but remove the trailing slash, if any.
         window.site_root = ($('head').data('site-root')).replace(/\/$/, '');
 
+        // Set up the navbar search auto-complete
         $('#navbar-search .search-query').typeahead({
             source: function (query, process) {
                 return $.get('/typeahead', { q: query }, function (data) {
@@ -22,7 +23,7 @@
             },
             sorter: function (items) {
                 var beginswith = [], caseSensitive = [], caseInsensitive = [], item, aItem;
-                while (aItem = items.shift()) {
+                while ((aItem = items.shift())) {
                     item = JSON.parse(aItem);
                     if (!item.name.toLowerCase().indexOf(this.query.toLowerCase)) beginswith.push(JSON.stringify(item));
                     else if (~item.name.indexOf(this.query)) caseSensitive.push(JSON.stringify(item));

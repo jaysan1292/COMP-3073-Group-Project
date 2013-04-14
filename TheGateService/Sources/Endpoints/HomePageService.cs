@@ -12,6 +12,7 @@ using TheGateService.Types;
 namespace TheGateService.Endpoints {
     public class HomePageService : Service {
         private static readonly ProductDbProvider Products = new ProductDbProvider();
+
         public object Get(HomePage request) {
             return new HomePageResponse {
                 HomePage = new HomePage {

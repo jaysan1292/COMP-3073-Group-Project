@@ -36,7 +36,7 @@ namespace TheGateService.Extensions {
 
         [DebuggerHidden]
         public static bool Contains<T>(this IEnumerable<T> enumerable, IEnumerable<T> items) {
-            return items.Aggregate(true, (b, x) => b && Enumerable.Contains<T>(enumerable, x));
+            return items.Aggregate(true, (b, x) => b && enumerable.Contains(x));
         }
 
         [DebuggerHidden]
@@ -137,7 +137,7 @@ namespace TheGateService.Extensions {
         }
 
         public static string LimitWords(this string str, int characterCount) {
-            if (characterCount < 5) return str.Limit(characterCount); 
+            if (characterCount < 5) return str.Limit(characterCount);
             if (str.Length <= characterCount - 3) return str;
 
             var lastspace = str.Substring(0, characterCount - 3).LastIndexOf(' ');

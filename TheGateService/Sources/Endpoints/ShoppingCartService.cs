@@ -14,6 +14,7 @@ namespace TheGateService.Endpoints {
     [RequiredRole("User")]
     public class ShoppingCartService : Service {
         private static readonly ShoppingCartDbProvider ShoppingCarts = new ShoppingCartDbProvider();
+
         public object Get(ShoppingCart request) {
             var session = this.GetSession();
             var id = Convert.ToInt64(session.UserAuthId);

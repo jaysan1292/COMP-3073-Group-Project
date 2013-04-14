@@ -3,13 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-using ServiceStack.ServiceHost;
 using ServiceStack.ServiceInterface;
 
+using TheGateService.Database;
 using TheGateService.Responses;
 using TheGateService.Types;
-using TheGateService.Responses;
-using TheGateService.Database;
 
 namespace TheGateService.Endpoints {
     [Authenticate]

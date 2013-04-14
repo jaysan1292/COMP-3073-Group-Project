@@ -1,7 +1,7 @@
-﻿using System.Linq;
-using System.Collections.Generic;
+﻿using System;
 using System.Collections;
-using System;
+using System.Collections.Generic;
+using System.Linq;
 
 using ServiceStack.ServiceHost;
 
@@ -9,7 +9,7 @@ using TheGateService.Types;
 
 namespace TheGateService.Endpoints {
     [Route("/cart")]
-    public class ShoppingCart:Entity<ShoppingCart> {
+    public class ShoppingCart : Entity<ShoppingCart> {
         public readonly long UserId;
         public readonly List<ShoppingCartItem> Items;
 
