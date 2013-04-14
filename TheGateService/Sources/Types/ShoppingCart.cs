@@ -10,8 +10,8 @@ using TheGateService.Types;
 namespace TheGateService.Endpoints {
     [Route("/cart")]
     public class ShoppingCart : Entity<ShoppingCart> {
-        public readonly long UserId;
-        public readonly List<ShoppingCartItem> Items;
+        public List<ShoppingCartItem> Items { get; set; }
+        public long UserId { get; set; }
 
         public ShoppingCart()
             : this(-1, new List<ShoppingCartItem>()) { }
@@ -31,9 +31,9 @@ namespace TheGateService.Endpoints {
         }
 
         public class ShoppingCartItem {
-            public Product Product;
-            public int Quantity;
             public decimal TotalPrice { get { return Product.Price * Quantity; } }
+            public Product Product { get; set; }
+            public int Quantity { get; set; }
 
             public ShoppingCartItem() {
                 Product = new Product();
