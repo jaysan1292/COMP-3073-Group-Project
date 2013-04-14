@@ -47,11 +47,11 @@ BEGIN
     -- If the new quantity is 0, just remove it from the shopping cart.
     if (NewQuantity = 0) then
         CALL RemoveFromCart(UserId, ProductId);
-    else
+    ELSE
         UPDATE ShoppingCart
         SET Quantity = NewQuantity
         WHERE ShoppingCart.UserId = UserId AND ShoppingCart.ProductId = ProductId;
-    end if;
+    end IF;
 END //
 
 -- Add Product to Cart
@@ -64,13 +64,13 @@ BEGIN
     -- Check if the product already exists in this user's shopping cart
     SELECT COUNT(*) INTO Exist FROM ShoppingCart s WHERE s.UserId = UserId AND s.ProductId = ProductId;
 
-    if(Exist = 0) then
+    IF Exist = 0 THEN
         -- This product doesn't yet exist in the user's shopping cart.
         -- But first, check if we're putting in a negative quantity, and if so, don't do anything.
-        if(Quantity > 0) then
+        IF Quantity > 0 THEN
             INSERT INTO ShoppingCart VALUES (UserId, ProductId, Quantity);
-        end if;
-    else
+        END IF;
+    ELSE
         -- This product already exists in the user's shopping cart.
         -- Check how many of this item will be in the shopping cart after updating (Yes, quantity can be negative)
         -- If it is less than zero, remove the item from the cart, otherwise update the quantity
@@ -80,14 +80,14 @@ BEGIN
         -- Increment it by the amount to add.
         SET NewQuantity = NewQuantity + Quantity;
 
-        if(NewQuantity <= 0) then
+        IF NewQuantity <= 0 THEN
             CALL RemoveFromCart(UserId, ProductId);
-        else
+        ELSE
             UPDATE ShoppingCart s
             SET s.Quantity = NewQuantity
             WHERE s.UserId = UserId AND s.ProductId = ProductId;
-        end if;
-    end if;
+        END IF;
+    END IF;
 END //
 
 -- Remove Product from Cart
