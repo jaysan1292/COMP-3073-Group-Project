@@ -34,7 +34,11 @@ namespace TheGateService {
             SetConfig(new EndpointHostConfig {
                 EnableFeatures = Feature.All.Remove(Feature.Soap),
                 DefaultContentType = ContentType.Json,
+#if DEBUG
                 DebugMode = true,
+#else
+                DebugMode = false,
+#endif
                 DefaultRedirectPath = "/home",
                 CustomHttpHandlers = {
                     { HttpStatusCode.NotFound, new RazorHandler("/notfound") }
