@@ -1,4 +1,4 @@
-﻿(function($) {
+﻿(function ($) {
     'use strict';
 
     // Globals
@@ -61,8 +61,8 @@
         return value;
     }
 
-    $(document).ready(function() {
-        $('.edit-button').click(function() {
+    $(document).ready(function () {
+        $('.edit-button').click(function () {
             // Get the product ID, which is stored in the parent <tr> attribute in the format "product-{id}"
             var id = $(this).closest('tr').attr('id').split('-')[1];
             var product = getProductFromRow(id);
@@ -76,7 +76,7 @@
             $('#modal-product-featured').prop('checked', product.featured).data('featured', product.featured);
             $('#modal-product-showcase').prop('checked', product.showcase).data('showcase', product.showcase);
 
-            $('#product-form input, #product-form textarea').change(function(e) {
+            $('#product-form input, #product-form textarea').change(function (e) {
                 var prop = $(this).attr('id').split('-')[2];
                 var value = getFieldValue(e.target);
 
@@ -97,7 +97,7 @@
                 }
             });
 
-            $('#save-button').click(function() {
+            $('#save-button').click(function () {
                 var p = getProductFromForm();
                 var message = 'Are you sure you want to save your changes to "' + p.name + '"?';
                 if (!hasProductBeenEdited()) {
@@ -122,7 +122,7 @@
                     url: window.site_root + '/products/' + p.id,
                     type: 'put',
                     data: p,
-                    success: function(data) {
+                    success: function (data) {
                         window.console.log('success');
 
                         // Update the product in the list with the new values
@@ -156,7 +156,7 @@
                         // Hide the dialog box
                         $('#edit-modal').modal('unlock').modal('hide');
                     },
-                    error: function(req, status, error) {
+                    error: function (req, status, error) {
                         window.console.log(JSON.stringify(req));
                         window.console.log(JSON.stringify(status));
                         window.console.log(JSON.stringify(error));
@@ -165,17 +165,17 @@
             });
 
             $('#edit-modal')
-                // Save the original value, which will be used later to check if the product has not been saved
+            // Save the original value, which will be used later to check if the product has not been saved
                 .data('product-original-value', product)
                 .modal('show')
-                .on('hidePrevented', function() {
+                .on('hidePrevented', function () {
                     if (!hasProductBeenEdited()) return;
                     if (window.confirm('You have unsaved changes on "' + product.name + '". Are you sure you want to stop editing?')) {
                         $('#edit-modal')
                             .modal('unlock') // First unlock the modal so it can be hidden
                             .modal('hide'); // then hide it
                     }
-                }).on('hide', function() {
+                }).on('hide', function () {
                     // Unbind any events we bound, to prevent "stacking" of handlers
                     $('#product-form input, #product-form textarea').unbind('change');
                     $('#edit-modal').unbind('hidePrevented').unbind('hide');
