@@ -98,9 +98,13 @@ namespace TheGateService.Database {
                 Id = reader.GetInt16("UserId"),
                 FirstName = reader.GetString("FirstName"),
                 LastName = reader.GetString("LastName"),
-                Address = reader.GetString("Address"),
                 Email = reader.GetString("Email"),
             };
+
+            if (!reader.IsDBNull(reader.GetOrdinal("Address"))) {
+                user.Address = reader.GetString("Address");                
+            }
+            
             switch (reader.GetInt32("Type")) {
                 case 1:
                     user.Type = UserType.User;
