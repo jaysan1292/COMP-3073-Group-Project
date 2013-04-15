@@ -8,6 +8,7 @@ using ServiceStack.Common.Web;
 using ServiceStack.ServiceInterface;
 
 using TheGateService.Database;
+using TheGateService.Extensions;
 using TheGateService.Responses;
 using TheGateService.Types;
 
@@ -31,9 +32,20 @@ namespace TheGateService.Endpoints {
         }
 
         public object Post(ShoppingCart.ShoppingCartItem request) {
+            var redirect = "";
+            if (request.Product.Id == -1) {
+                request.Product.Id = Convert.ToInt64(Request.FormData["productId"]);
+                request.Quantity = Convert.ToInt32(Request.FormData["quantity"]);
+                redirect = Request.FormData["redirectTo"];
+            }
+
             var success = ShoppingCarts.AddToCart(UserId, request.Product.Id, request.Quantity);
 
-            if (success) return new HttpResult(HttpStatusCode.Created, "");
+            if (success) {
+                return !redirect.IsNullOrWhitespace() ?
+                           HttpResult.Redirect(redirect) :
+                           new HttpResult(HttpStatusCode.Created, "");
+            }
             return new HttpError(HttpStatusCode.BadRequest, "");
         }
 

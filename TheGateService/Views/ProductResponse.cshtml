@@ -16,5 +16,11 @@
     <div class="span8">
         <h3>$@Model.Product.Price</h3>
         <p>@Model.Product.Description</p>
+	    <form id="cart-add-@Model.Product.Id" action="@Url.Content("~/cart/item")" method="POST">
+	        <input type="hidden" name="redirectTo" value="@Url.Content("~/products/{0}".Fmt(Model.Product.Id))"/>
+	        <input type="hidden" name="productId" value="@Model.Product.Id" />
+	        <input type="hidden" name="quantity" value="1" />
+	        <button class="btn btn-success" type="submit" value="Add to Cart">Add to Cart</button>
+	    </form>
     </div>
 </div>

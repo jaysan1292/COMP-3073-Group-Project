@@ -16,7 +16,15 @@
             <h4 class="product-name"><a href="@Url.Content("~/products/{0}".F(@product.Id))" class="product-link">@product.Name</a></h4>
             <p>@product.Description</p>
         </div>
-        <div class="span2 product-price"><h4>$@product.Price</h4></div>            
+        <div class="span2 product-price">
+            <h4>$@product.Price</h4>
+            <form id="cart-add-@product.Id" action="@Url.Content("~/cart/item")" method="POST">
+                <input type="hidden" name="redirectTo" value="@Url.Content("~/products")"/>
+                <input type="hidden" name="productId" value="@product.Id" />
+                <input type="hidden" name="quantity" value="1" />
+                <button class="btn btn-success" type="submit" value="Add to Cart">Add to Cart</button>
+            </form>
+        </div>
     </div>
 }
 

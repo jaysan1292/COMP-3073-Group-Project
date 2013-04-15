@@ -57,17 +57,17 @@
     <table class="table table-striped table-bordered product-table" data-userid="@Request.GetSession().UserAuthId">
         <thead>
             <tr>
-                <th width="40%">Name</th>
+                <th width="38%">Name</th>
                 <th width="40%">Description</th>
                 <th width="10%">Quantity</th>
-                <th width="10%">Price</th>
+                <th width="12%">Price</th>
                 <th style="width:1px;"></th>
             </tr>
         </thead>
         <tbody>
             @foreach (var p in @Model.Cart.Items) {
                 <tr id="cart-product-@p.Product.Id" data-pid="@p.Product.Id">
-                    <td>@p.Product.Name</td>
+                    <td><a href="@Url.Content("~/products/{0}".Fmt(p.Product.Id))">@p.Product.Name</a></td>
                     <td title="@p.Product.Description">@p.Product.Description.LimitWords(30)</td>
                     <td class="product-quantity quantity">
                         <input class="span1" type="number" value="@p.Quantity" />
@@ -191,7 +191,7 @@
 } else {
     <h4>There's nothing here!</h4>
     <p>
-        Why don't you <a href="@Url.Content("~/products")">shop</a> around a bit? This page will 
+        Why don't you <a href="@Url.Content("~/products")">shop</a> around a bit? This page will
         fill up as you add more items to your cart.
     </p>
 }
