@@ -22,12 +22,6 @@ namespace TheGateService.Extensions {
         }
 
         [DebuggerHidden]
-        [StringFormatMethod("str")]
-        public static string Fmt(this string str, params object[] args) {
-            return String.Format(str, args);
-        }
-
-        [DebuggerHidden]
         public static void ForEach<T>(this IEnumerable<T> enumerable, Action<T> action) {
             foreach (var x in enumerable) action(x);
         }
@@ -128,12 +122,14 @@ namespace TheGateService.Extensions {
             return String.Format(str, args);
         }
 
+        [DebuggerHidden]
         public static string Limit(this string str, int characterCount) {
             return str.Length <= characterCount ?
                        str :
                        str.Substring(0, characterCount).TrimEnd(' ');
         }
 
+        [DebuggerHidden]
         public static string LimitWords(this string str, int characterCount) {
             if (characterCount < 5) return str.Limit(characterCount);
             if (str.Length <= characterCount - 3) return str;
@@ -143,6 +139,16 @@ namespace TheGateService.Extensions {
                 return str.Substring(0, lastspace) + "…";
 
             return str.Substring(0, characterCount - 3) + "…";
+        }
+
+        [DebuggerHidden]
+        public static bool IsNullOrWhitespace(this string str) {
+            return string.IsNullOrWhiteSpace(str);
+        }
+
+        [DebuggerHidden]
+        public static bool IsNullOrEmpty(this string str) {
+            return string.IsNullOrEmpty(str);
         }
     }
 }
