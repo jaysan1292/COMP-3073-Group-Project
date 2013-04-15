@@ -3,12 +3,19 @@
     <title>@ViewBag.Title</title>
     <meta charset="utf-8"/>
     @if (Html.IsRelease()) {
-        <script src="http://code.jquery.com/jquery-1.9.1.min.js" type="text/javascript"> </script>
+        <script src="//ajax.aspnetcdn.com/ajax/jquery/jquery-1.9.1.min.js" type="text/javascript"> </script>
+        <script type="text/javascript">
+            window.jQuery || document.write('<' + 'script src="@Url.Content("~/assets/js/jquery-1.9.1.min.js")"><' + '/script>');
+        </script>
         <script src="@Url.Content("~/assets/app.js")" type="text/javascript"></script>
         <link href="@Url.Content("~/assets/app.css")" rel="stylesheet" />
     } else {
         <!-- Debug mode! -->
-        <script src="http://code.jquery.com/jquery-1.9.1.js" type="text/javascript"></script>
+        <script src="//ajax.aspnetcdn.com/ajax/jquery/jquery-1.9.1.js" type="text/javascript"></script>
+        <script type="text/javascript">
+            // Load our copy of jQuery if the one above fails to load
+            window.jQuery || document.write('<' + 'script src="@Url.Content("~/assets/js/jquery-1.9.1.js")"><' + '/script>');
+        </script>
         <script src="@Url.Content("~/assets/app.js?minify=0")" type="text/javascript"></script>
         <link href="@Url.Content("~/assets/app.css?minify=0")" rel="stylesheet" />
     }
