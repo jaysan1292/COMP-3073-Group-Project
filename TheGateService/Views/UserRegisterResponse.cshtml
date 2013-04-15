@@ -92,11 +92,16 @@
                            type="password"
                            name="password"
                            placeholder="Password"/>
+                    <input id="register-password-check"
+                           type="password"
+                           name="password"
+                           style="margin-top: 5px;"
+                           placeholder="Confirm Password"/>
                     @{ writeError("Password"); }
                 </div>
             </div>
             <div class="form-actions">
-                <button type="submit" class="btn btn-info">Register</button>
+                <button id="register-submit" disabled type="submit" class="btn btn-info disabled">Register</button>
             </div>
         </form>
     </div>
@@ -112,5 +117,17 @@
         } else {
             errors[0].focus();
         }
+
+        // Prevent form from sending if both passwords don't match
+        $('#register-password, #register-password-check').keyup(function (e) {
+            var p1 = $('#register-password').val();
+            var p2 = $('#register-password-check').val();
+
+            if (p1 != p2 || p1.length == 0 || p2.length == 0) {
+                $('#register-submit').addClass('disabled').prop('disabled', true);
+            } else {
+                $('#register-submit').removeClass('disabled').prop('disabled', false);
+            }
+        });
     });
 </script>
