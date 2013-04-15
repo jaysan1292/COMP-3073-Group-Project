@@ -75,7 +75,8 @@ Description TEXT,
 Quantity    INT,
 Price       REAL,
 Featured    BOOLEAN,
-Showcase    BOOLEAN
+Showcase    BOOLEAN,
+ImageUrl    TEXT
 );
 
 CREATE TABLE ProductShipment(

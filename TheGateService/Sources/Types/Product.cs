@@ -24,6 +24,7 @@ namespace TheGateService.Types {
         public int Quantity { get; set; }
         public bool Featured { get; set; }
         public bool Showcase { get; set; }
+        public string ImageUrl { get; set; }
 
         #endregion
 

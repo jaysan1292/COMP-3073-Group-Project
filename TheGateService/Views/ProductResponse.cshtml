@@ -11,7 +11,7 @@
 <h2>@Model.Product.Name</h2>
 <div class="row-fluid">
     <div class="span4">
-        <img src="http://placehold.it/400x400" alt=""/>
+        <img src="@(Model.Product.ImageUrl ?? "http://placehold.it/400x400")" alt=""/>
     </div>
     <div class="span8">
         <h3>$@Model.Product.Price</h3>

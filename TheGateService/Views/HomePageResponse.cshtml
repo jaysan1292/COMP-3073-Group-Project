@@ -22,7 +22,7 @@
         @for (var i = 0; i < Model.HomePage.Showcase.Count;i++) {
             var p = Model.HomePage.Showcase[i];
             <div class="item @(i != 0 ? "" : "active")">
-                <a href="@Url.Content("~/products/{0}".F(p.Id))"><img src="http://placehold.it/780x580" alt="" width="780" height="580"/></a>
+                <a href="@Url.Content("~/products/{0}".F(p.Id))"><img src="@(/*p.ImageUrl ?? */"http://placehold.it/780x580")" alt="" width="780" height="580"/></a>
                 <div class="carousel-caption">
                     <h4>@p.Name</h4>
                     <p>
@@ -46,7 +46,7 @@
 
     <div class="span@(12 / productsPerRow) home-product-info">
         <a href="@link">
-            <img src="http://placehold.it/100x100" alt="" class="pull-left"/>
+            <img src="@(p.ImageUrl ?? "http://placehold.it/100x100")" width="100" height="100" alt="" class="pull-left"/>
         </a>
         <h4><a href="@link">@p.Name</a></h4>
         <h6>$@p.Price</h6>

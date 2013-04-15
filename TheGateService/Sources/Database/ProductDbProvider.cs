@@ -155,7 +155,7 @@ namespace TheGateService.Database {
 
         protected override Product BuildObject(MySqlDataReader reader) {
             if (!reader.Read()) return null;
-            return new Product {
+            var product = new Product {
                 Id = reader.GetInt64("ProductId"),
                 Name = reader.GetString("Name"),
                 Description = reader.GetString("Description"),
@@ -164,6 +164,12 @@ namespace TheGateService.Database {
                 Featured = reader.GetBoolean("Featured"),
                 Showcase = reader.GetBoolean("Showcase"),
             };
+
+            if (!reader.IsDBNull(reader.GetOrdinal("ImageUrl"))) {
+                product.ImageUrl = reader.GetString("ImageUrl");
+            }
+
+            return product;
         }
     }
 }

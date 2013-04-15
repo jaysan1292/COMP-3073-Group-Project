@@ -87,24 +87,22 @@ INSERT INTO Shipment (OrderId,ShipmentMethod,ShipmentDate) VALUES
     (7, 2, '2013-02-18 15:49:00'),
     (8, 2, '2013-01-23 14:28:00');
 
--- I will improve this later, just shit text data. - James
-INSERT INTO Product (Name,Description,Quantity,Price,Featured,Showcase) VALUES
-    ('Video Card',            'Video card for PC',                                                               37,    159.99, 1, 1),
-    ('MB',                    'Motherboard',                                                                     15,     89.99, 1, 0),
-    ('Case',                  'Computer Case',                                                                   44,     59.99, 1, 1),
-    ('Monitor',               'Computer Monitor',                                                                1,      99.99, 1, 1),
-    ('PS',                    'Power Supply',                                                                    6,      39.99, 0, 0),
-    ('KB',                    'Keyboard',                                                                        29,     24.99, 1, 0),
-    ('Mouse',                 'Mouse',                                                                           31,     59.99, 1, 0),
-    ('64GB RAM',              'High performance DDR9001 RAM module',                                             3,     499.99, 0, 0),
-    ('NVidia Something 8008', "It's a friggin' video card, 500MHz.",                                             43,    123.62, 0, 0),
-    ('AMD 53243',             '900MHz card, 2 DVI Ports, blah, blah, blah.',                                     4,    1100.81, 0, 0),
-    ('9001 GeForce',          "It's over 9000!!!",                                                               12,    100.19, 1, 0),
-    ('RAT 75',                "We've run out of ideas so it hovers and has a microwave.",                        9,    5479.11, 0, 0),
-    ('435 MB Galactico',      '1333Mhz DDR3 Supported, 16x PCIx ...',                                            1,     549.72, 0, 1),
-    ('95" Monitor',           "When 94 just isn't enough. Features a never-before-seen 40960x23040 resolution!", 10,  24400.28, 1, 0),
-    ('200 MW PS',             'When you need to run your super computer, 200 MegaWatts are the answer!',         14, 204674.65, 1, 1);
-
+INSERT INTO Product (Name,Description,Quantity,Price,Featured,Showcase,ImageUrl) VALUES
+    ('Video Card',            'Video card for PC',                                                               37,    159.99, 1, 1, 'http://home.jaysan1292.com/temp/images/1.png'),
+    ('MB',                    'Motherboard',                                                                     15,     89.99, 1, 0, 'http://home.jaysan1292.com/temp/images/2.png'),
+    ('Case',                  'Computer Case',                                                                   44,     59.99, 1, 1, 'http://home.jaysan1292.com/temp/images/3.png'),
+    ('Monitor',               'Computer Monitor',                                                                1,      99.99, 1, 1, 'http://home.jaysan1292.com/temp/images/4.png'),
+    ('PS',                    'Power Supply',                                                                    6,      39.99, 0, 0, 'http://home.jaysan1292.com/temp/images/5.png'),
+    ('KB',                    'Keyboard',                                                                        29,     24.99, 1, 0, 'http://home.jaysan1292.com/temp/images/6.png'),
+    ('Mouse',                 'Mouse',                                                                           31,     59.99, 1, 0, NULL),
+    ('64GB RAM',              'High performance DDR9001 RAM module',                                             3,     499.99, 0, 0, 'http://home.jaysan1292.com/temp/images/8.png'),
+    ('NVidia Something 8008', "It's a friggin' video card, 500MHz.",                                             43,    123.62, 0, 0, 'http://home.jaysan1292.com/temp/images/9.png'),
+    ('AMD 53243',             '900MHz card, 2 DVI Ports, blah, blah, blah.',                                     4,    1100.81, 0, 0, 'http://home.jaysan1292.com/temp/images/10.png'),
+    ('9001 GeForce',          "It's over 9000!!!",                                                               12,    100.19, 1, 0, 'http://home.jaysan1292.com/temp/images/11.png'),
+    ('RAT 75',                "We've run out of ideas so it hovers and has a microwave.",                        9,    5479.11, 0, 0, 'http://home.jaysan1292.com/temp/images/12.png'),
+    ('435 MB Galactico',      '1333Mhz DDR3 Supported, 16x PCIx ...',                                            1,     549.72, 0, 1, NULL),
+    ('95" Monitor',           "When 94 just isn't enough. Features a never-before-seen 40960x23040 resolution!", 10,  24400.28, 1, 0, 'http://home.jaysan1292.com/temp/images/14.png'),
+    ('200 MW PS',             'When you need to run your super computer, 200 MegaWatts are the answer!',         14, 204674.65, 1, 1, NULL);
 
 INSERT INTO ProductShipment (ProductId,ShipmentId,Quantity) VALUES
     (1, 1, 5),

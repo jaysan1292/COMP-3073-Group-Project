@@ -145,7 +145,7 @@ END //
 DROP PROCEDURE IF EXISTS GetProductById //
 CREATE PROCEDURE GetProductById (ProdID BIGINT)
 BEGIN
-    SELECT ProductId, Name, Description, Quantity, Price, Featured, Showcase
+    SELECT ProductId, Name, Description, Quantity, Price, Featured, Showcase, ImageUrl
     FROM Product
     WHERE ProductId = ProdID;
 END //
@@ -154,7 +154,7 @@ END //
 DROP PROCEDURE IF EXISTS GetAllProducts //
 CREATE PROCEDURE GetAllProducts ()
 BEGIN
-    SELECT ProductId, Name, Description, Quantity, Price, Featured, Showcase
+    SELECT ProductId, Name, Description, Quantity, Price, Featured, Showcase, ImageUrl
     FROM Product;
 END //
 
@@ -162,7 +162,7 @@ END //
 DROP PROCEDURE IF EXISTS GetFeaturedProducts //
 CREATE PROCEDURE GetFeaturedProducts ()
 BEGIN
-    SELECT ProductId, Name, Description, Quantity, Price, Featured, Showcase
+    SELECT ProductId, Name, Description, Quantity, Price, Featured, Showcase, ImageUrl
     FROM Product
     WHERE Featured = 1;
 END //
@@ -171,7 +171,7 @@ END //
 DROP PROCEDURE IF EXISTS GetShowcaseProducts //
 CREATE PROCEDURE GetShowcaseProducts ()
 BEGIN
-    SELECT ProductId, Name, Description, Quantity, Price, Featured, Showcase
+    SELECT ProductId, Name, Description, Quantity, Price, Featured, Showcase, ImageUrl
     FROM Product
     WHERE Showcase = 1;
 END //
