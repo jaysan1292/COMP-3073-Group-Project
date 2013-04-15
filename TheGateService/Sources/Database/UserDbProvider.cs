@@ -6,6 +6,7 @@ using System.Linq;
 
 using MySql.Data.MySqlClient;
 
+using TheGateService.Security;
 using TheGateService.Types;
 
 namespace TheGateService.Database {
@@ -72,7 +73,7 @@ namespace TheGateService.Database {
             cmd.Parameters.AddWithValue("_FirstName", obj.FirstName);
             cmd.Parameters.AddWithValue("_LastName", obj.LastName);
             cmd.Parameters.AddWithValue("_Email", obj.Email);
-            cmd.Parameters.AddWithValue("_Password", obj.Password);
+            cmd.Parameters.AddWithValue("_Password", PasswordHelper.EncryptPassword(obj.Password));
             cmd.Parameters.AddWithValue("NewId", MySqlDbType.Int64);
             cmd.Parameters["NewId"].Direction = ParameterDirection.Output;
 
