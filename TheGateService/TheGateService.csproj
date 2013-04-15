@@ -151,6 +151,8 @@
     <Content Include="assets\js\app.js.d\00-application.js" />
     <Content Include="assets\js\app.js.d\01-bootstrap.js" />
     <Content Include="assets\js\app.js.d\02-jquery.tablesorter.js" />
+    <Content Include="assets\js\jquery-1.9.1.js" />
+    <Content Include="assets\js\jquery-1.9.1.min.js" />
     <Content Include="Global.asax" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
