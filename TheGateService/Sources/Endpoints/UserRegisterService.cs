@@ -9,12 +9,14 @@ using ServiceStack.ServiceHost;
 using ServiceStack.ServiceInterface;
 using ServiceStack.ServiceInterface.Validation;
 
+using TheGateService.Database;
 using TheGateService.Responses;
 using TheGateService.Types;
 using TheGateService.Validation;
 
 namespace TheGateService.Endpoints {
     public class UserRegisterService : GateServiceBase {
+        private static readonly UserDbProvider Users = new UserDbProvider();
         public object Get(UserRegister request) {
             if (this.GetSession().IsAuthenticated) return HttpResult.Redirect(Url.Content("~/home"));
             return new UserRegisterResponse();
@@ -33,7 +35,10 @@ namespace TheGateService.Endpoints {
                 return new HttpResult(response, HttpStatusCode.BadRequest);
             }
 
-            return new HttpResult(HttpStatusCode.OK, "");
+            // Add the new user to the database
+            Users.Create(request.User);
+
+            return HttpResult.Redirect(Url.Content("~/home"));
         }
     }
 }

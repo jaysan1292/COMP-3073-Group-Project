@@ -250,10 +250,15 @@ BEGIN
     INSERT INTO User (FirstName, LastName, Email, Password, Type) VALUES
         (_FirstName, _LastName, _Email, _Password, 1);
 END //
--- CREATE PROCEDURE addUser @Type INT INPUT, @FirstName VARCHAR(30) INPUT, @LastName VARCHAR(30) INPUT, @Email VARCHAR(128) INPUT, @Password CHAR(64) INPUT, @Address VARCHAR(256) INPUT AS
--- INSERT INTO User (Type, FirstName, LastName, Address, Email, Password)
--- VALUES (@Type, @FirstName, @LastName, @Address, @Email, @Password)
 
+-- Check if a user exists in the database already
+DROP PROCEDURE IF EXISTS CheckUserExists //
+CREATE PROCEDURE CheckUserExists (IN _Email VARCHAR(128))
+BEGIN
+    DECLARE Exist BOOLEAN;
+    SELECT COUNT(Email) INTO Exist FROM User WHERE Email = _Email;
+    SELECT Exist;
+END //
 
 -- Update User
 

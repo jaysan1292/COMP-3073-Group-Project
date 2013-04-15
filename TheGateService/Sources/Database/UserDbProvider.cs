@@ -14,6 +14,36 @@ namespace TheGateService.Database {
         public UserDbProvider()
             : base("User") { }
 
+        public bool UserExists(string email) {
+            MySqlTransaction tx;
+            using (var conn = DbHelper.OpenConnectionAndBeginTransaction(out tx)) {
+                try {
+                    var cmd = new MySqlCommand {
+                        Connection = conn,
+                        CommandText = "CheckUserExists",
+                        CommandType = CommandType.StoredProcedure
+                    };
+                    cmd.Parameters.AddWithValue("_Email", email);
+
+                    var reader = cmd.ExecuteReader();
+                    if (reader.Read()) {
+                        var exists = reader.GetBoolean("Exist");
+                        reader.Close();
+                        return exists;
+                    } else {
+                        reader.Close();
+                        return true;
+                    }
+                } catch (Exception e) {
+                    tx.Rollback();
+                    Log.Error(e.Message, e);
+                    throw;
+                } finally {
+                    DbHelper.CloseConnectionAndEndTransaction(conn, tx);
+                }
+            }
+        }
+
         public string GetPassword(string useremail, out long userId) {
             MySqlTransaction tx;
             MySqlDataReader reader = null;
@@ -77,12 +107,20 @@ namespace TheGateService.Database {
             cmd.Parameters.AddWithValue("NewId", MySqlDbType.Int64);
             cmd.Parameters["NewId"].Direction = ParameterDirection.Output;
 
-            var rows = cmd.ExecuteNonQuery();
 
-            if (rows != 1) throw new ApplicationException("Could not create new user.");
+            try {
+                var rows = cmd.ExecuteNonQuery();
 
-            var newid = Convert.ToInt64(cmd.Parameters["NewId"].Value);
-            return newid;
+                if (rows != 1) throw new ApplicationException("Could not create new user.");
+
+                var newid = Convert.ToInt64(cmd.Parameters["NewId"].Value);
+                return newid;
+            } catch (MySqlException e) {
+                if (e.Message == "A user with the given email already exists in the database.") {
+                    throw new ApplicationException(e.Message);
+                }
+                throw;
+            }
         }
 
         protected override void Update(User obj, MySqlConnection conn) {
