@@ -21,7 +21,19 @@ namespace TheGateService.Endpoints {
         }
 
         public object Post(UserRegister request) {
-            throw new NotImplementedException();
+            var validator = new UserRegistrationValidator();
+            var result = validator.Validate(request);
+
+            if (!result.IsValid) {
+                var ex = result.ToErrorResult().ToResponseStatus();
+                var response = new UserRegisterResponse {
+                    Request = request,
+                    ResponseStatus = ex,
+                };
+                return new HttpResult(response, HttpStatusCode.BadRequest);
+            }
+
+            return new HttpResult(HttpStatusCode.OK, "");
         }
     }
 }

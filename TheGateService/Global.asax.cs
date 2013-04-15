@@ -65,8 +65,6 @@ namespace TheGateService {
                     { typeof(AuthService), new[] { "/auth" } },
                 },
             });
-            Plugins.Add(new ValidationFeature());
-            container.RegisterValidators(typeof(EntityValidator).Assembly);
 
             JsConfig.EmitCamelCaseNames = true;
 

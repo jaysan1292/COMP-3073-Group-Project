@@ -211,7 +211,6 @@
     <Compile Include="Sources\Types\ResponseBase.cs" />
     <Compile Include="Sources\Utilities\HtmlHelperExtensions.cs" />
     <Compile Include="Sources\Utilities\WhitespaceFilter.cs" />
-    <Compile Include="Sources\Validation\EntityValidator.cs" />
     <Compile Include="Sources\Validation\ProductValidator.cs" />
     <Compile Include="Sources\Validation\UserRegistrationValidator.cs" />
   </ItemGroup>

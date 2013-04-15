@@ -1,30 +1,96 @@
-﻿@{
+﻿@using ServiceStack.ServiceInterface.ServiceModel
+@inherits ViewPage<TheGateService.Responses.UserRegisterResponse>
+
+@{
     ViewBag.Title = "Register";
     Layout = "MainLayoutNoSidebar";
-}
+    const string errorLabelTemplate = @"<span class=""help-inline"">{0}</span>";
 
+    var errorDict = new Dictionary<string, string>();
+    Action<string> writeError = name => {
+        if (errorDict.ContainsKey(name)) WriteLiteral(errorDict[name]);
+    };
+    Action<string> writeErrorClass = name => {
+        if (errorDict.ContainsKey(name)) Write("error");
+    };
+
+    string fname, lname, email;
+    fname = lname = email = "";
+    
+    if (Model.ResponseStatus != null) {
+        var errors = Model.ResponseStatus.Errors;
+        
+        Func<string, ResponseError> getError = name => errors.FirstOrDefault(x => x.FieldName == name);
+        Func<string, string> format = msg => errorLabelTemplate.Fmt(msg);
+
+        ResponseError error;
+        if ((error = getError("FirstName")) != null) {
+            errorDict["FirstName"] = format(error.Message);
+        }
+        if ((error = getError("LastName")) != null) {
+            errorDict["LastName"] = format(error.Message);
+        }
+        if ((error = getError("Email")) != null) {
+            errorDict["Email"] = format(error.Message);
+        }
+        if ((error = getError("Password")) != null) {
+            errorDict["Password"] = format(error.Message);
+        }
+
+        fname = Model.Request.FirstName;
+        lname = Model.Request.LastName;
+        email = Model.Request.Email;
+    }
+}
 <div class="row-fluid">
     <div class="well span6 offset3" id="login-form">
         <legend>Register</legend>
         <form method="POST"
               action="@Url.Content("~/register")"
               class="form-horizontal">
-            <div class="control-group">
-                <label class="control-label" for="userName">Username</label>
+            <div class="control-group @{ writeErrorClass("FirstName");}">
+                <label class="control-label" for="firstName">First Name</label>
 
                 <div class="controls">
-                    <input id="login-username"
-                           type="text" 
-                           name="userName" 
-                           placeholder="Username"/>
+                    <input id="register-firstname"
+                           type="text"
+                           name="firstName"
+                           placeholder="First Name"
+                           value="@(fname)"/>
+                    @{ writeError("FirstName"); }
                 </div>
             </div>
-            <div class="control-group">
+            <div class="control-group @{ writeErrorClass("LastName");}">
+                <label class="control-label" for="lastName">Last Name</label>
+
+                <div class="controls">
+                    <input id="register-lastname"
+                           type="text"
+                           name="lastName"
+                           placeholder="Last Name"
+                           value="@(lname)"/>
+                    @{ writeError("LastName"); }
+                </div>
+            </div>
+            <div class="control-group @{ writeErrorClass("Email");}">
+                <label class="control-label" for="email">Email</label>
+
+                <div class="controls">
+                    <input id="register-email"
+                           type="text"
+                           name="email"
+                           placeholder="Email"
+                           value="@(email)"/>
+                    @{ writeError("Email"); }
+                </div>
+            </div>
+            <div class="control-group @{ writeErrorClass("Password");}">
                 <label class="control-label" for="password">Password</label>
 
                 <div class="controls">
-                    <input type="password"
-                           name="password" 
+                    <input id="register-password"
+                           type="password"
+                           name="password"
                            placeholder="Password"/>
                     @{ writeError("Password"); }
                 </div>
@@ -36,5 +102,15 @@
     </div>
 </div>
 <script type="text/javascript">
-    $(document).ready(function () { $('#login-username').focus(); });
+    $(document).ready(function () {
+        var errors = $('form').find('.error input');
+
+        // If there are errors on the form, set focus to the first error,
+        // otherwise focus on the first name field.
+        if (errors.length == 0) {
+            $('#register-firstname').focus();
+        } else {
+            errors[0].focus();
+        }
+    });
 </script>
