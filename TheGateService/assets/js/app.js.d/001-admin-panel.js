@@ -12,6 +12,23 @@
         showcase: false
     };
 
+    String.prototype.limit = function (characterCount) {
+        return this.length <= characterCount ?
+            this :
+            this.substr(0, characterCount).trim();
+    };
+
+    String.prototype.limitWords = function (characterCount) {
+        if (characterCount < 5) return this.limit(characterCount);
+        if (this.length <= characterCount - 3) return this;
+
+        var lastspace = this.substr(0, characterCount - 3).lastIndexOf(' ');
+        if (lastspace > 0 && lastspace > characterCount - 10)
+            return this.substr(0, lastspace) + '…';
+
+        return this.substr(0, characterCount - 3) + '…';
+    };
+
     function getProductFromRow(id) {
         var prefix = '#product-' + id + ' ';
         var product = {
@@ -132,9 +149,9 @@
                             .fadeOut()
                             .text(p.name)
                             .fadeIn();
-                        $(prefix + '.product-description') // TODO: Truncate this in the same way as before
+                        $(prefix + '.product-description')
                             .fadeOut()
-                            .attr('title', p.description).text(p.description)
+                            .attr('title', p.description).text(p.description.limitWords(30))
                             .fadeIn();
                         $(prefix + '.product-price')
                             .fadeOut()
